@@ -1,0 +1,56 @@
+---
+header:
+  version: 4
+
+machine: "beaglebone"
+
+repos:
+  meta-bbb:
+    url: "https://github.com/jumpnow/meta-bbb.git"
+    refspec: 9d875b0914eb773a9abd09d20e2f52f7d3d9ed69
+  poky:
+    url: "https://git.yoctoproject.org/git/poky"
+    refspec: 1b425a8450872f915c30bd0a35b0b0df92172b70
+    layers:
+      meta:
+      meta-poky:
+  meta-openembedded:
+    url: "https://github.com/openembedded/meta-openembedded.git"
+    refspec: 50108c18e5ca21cc5c014a45b81c66c5b110fc8b
+    layers:
+      meta-oe:
+      meta-python:
+      meta-networking:
+  meta-qt5:
+    url: http://code.qt.io/yocto/meta-qt5.git
+    refspec: f4531ec860071c308725a8539ef5003da11da8a1
+  meta-socketcan:
+    url: "https://github.com/ZoranStojsavljevic/meta-socketcan.git"
+    refspec: 03da3185ba0ce8a232f8b0d5c0cfc12b381fbe2a
+
+bblayers_conf_header:
+  bbb-cip: |
+    POKY_BBLAYERS_CONF_VERSION = "2"
+    BBPATH = "${TOPDIR}"
+    BBFILES ?= ""
+local_conf_header:
+  bbb-cip: |
+    CONF_VERSION = "1"
+    PATCHRESOLVE = "noop"
+    SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+    DL_DIR ?= "${TOPDIR}/downloads"
+    TMPDIR ?= "${TOPDIR}/tmp"
+    PACKAGE_CLASSES ?= "package_rpm package_deb"
+    # mask for non-mender builds
+    BBMASK = "meta-bbb/recipes-mender"
+    BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
+    EXTRA_IMAGE_FEATURES = "debug-tweaks"
+    CORE_IMAGE_EXTRA_INSTALL_append = "openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential "
+    DISTRO_FEATURES_append = " nfs"
+    IMAGE_FSTYPES_append = " cpio.xz"
+    ## INHERIT += "extrausers"
+    ## EXTRA_USERS_PARAMS = "usermod -P root root;"
+
+    ## MACHINE ??= "beaglebone"
+    ## DISTRO ??= "poky"
+    ## BBMULTICONFIG ?= ""

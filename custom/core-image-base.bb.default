@@ -1,0 +1,17 @@
+## directory: .../beaglebone-black/yocto-sumo/poky/meta/recipes-core/images
+
+SUMMARY = "A console-only image that fully supports the target device hardware."
+
+IMAGE_FEATURES += "splash"
+
+LICENSE = "MIT"
+
+inherit core-image
+
+## IMAGE_INSTALL_append = " kernel-modules"
+IMAGE_INSTALL_append = " \
+    kernel-modules \
+    cannelloni \
+    can-utils \
+    socketcand \
+    "
