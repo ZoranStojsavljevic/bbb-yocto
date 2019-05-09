@@ -7,26 +7,31 @@ machine: "beaglebone"
 repos:
   meta-bbb:
     url: "https://github.com/jumpnow/meta-bbb.git"
-    refspec: 139ca8aeb5afeaa93f6b5c03708a902ac30afa98
+    refspec: thud
+    ## refspec: 139ca8aeb5afeaa93f6b5c03708a902ac30afa98
   poky:
     url: "https://git.yoctoproject.org/git/poky"
-    refspec: 50f33d3bfebcbfb1538d932fb487cfd789872026
+    refspec: thud-20.0.2
+    ## refspec: 50f33d3bfebcbfb1538d932fb487cfd789872026
     layers:
       meta:
       meta-poky:
   meta-openembedded:
     url: "https://github.com/openembedded/meta-openembedded.git"
-    refspec: 4cd3a39f22a2712bfa8fc657d09fe2c7765a4005
+    refspec: thud
+    ## refspec: 4cd3a39f22a2712bfa8fc657d09fe2c7765a4005
     layers:
       meta-oe:
       meta-python:
       meta-networking:
   meta-qt5:
     url: http://code.qt.io/yocto/meta-qt5.git
-    refspec: 0630018c0033c91fddda62a49f59a82ba6ec6850
+    refspec: upstream/thud
+    ## refspec: 0630018c0033c91fddda62a49f59a82ba6ec6850
   meta-socketcan:
     url: "https://github.com/ZoranStojsavljevic/meta-socketcan.git"
-    refspec: 03da3185ba0ce8a232f8b0d5c0cfc12b381fbe2a
+    refspec: master
+    ## refspec: 03da3185ba0ce8a232f8b0d5c0cfc12b381fbe2a
 
 bblayers_conf_header:
   bbb-cip: |
