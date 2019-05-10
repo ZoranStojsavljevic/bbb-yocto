@@ -8,18 +8,15 @@ repos:
   meta-bbb:
     url: "https://github.com/jumpnow/meta-bbb.git"
     refspec: warrior
-    ## refspec: 9d875b0914eb773a9abd09d20e2f52f7d3d9ed69
   poky:
     url: "https://git.yoctoproject.org/git/poky"
     refspec: warrior-21.0
-    ## refspec: 1b425a8450872f915c30bd0a35b0b0df92172b70
     layers:
       meta:
       meta-poky:
   meta-openembedded:
     url: "https://github.com/openembedded/meta-openembedded.git"
     refspec: warrior
-    ## refspec: 50108c18e5ca21cc5c014a45b81c66c5b110fc8b
     layers:
       meta-oe:
       meta-python:
@@ -27,11 +24,9 @@ repos:
   meta-qt5:
     url: http://code.qt.io/yocto/meta-qt5.git
     refspec: upstream/warrior
-    ## refspec: f4531ec860071c308725a8539ef5003da11da8a1
   meta-socketcan:
     url: "https://github.com/ZoranStojsavljevic/meta-socketcan.git"
     refspec: master
-    ## refspec: 03da3185ba0ce8a232f8b0d5c0cfc12b381fbe2a
 
 bblayers_conf_header:
   bbb-cip: |
