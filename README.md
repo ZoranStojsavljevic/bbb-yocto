@@ -16,7 +16,7 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/bbb-yocto.sh
   Step [1]: Go to bbb-releases/bbb-warrior/ directory and copy kas-bbb-warrior.yml to designated directory for build;
   Step [2]: Execute kas script as: kas build kas-bbb-warrior.yml ## KAS tool should be installed (go to kas/ for documentation).
 ```
-### The testing initramfs BBB image
+### The test initramfs BBB image description
  Part of the config-initramfs, outlining important part of defconfig (the booting is done solely from initramfs)!
 ```
   CONFIG_BLK_DEV_INITRD=y
