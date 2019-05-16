@@ -14,3 +14,6 @@ Attempt to create one generic Open Source BeagleBone Black armv7 A8 platform ref
   CONFIG_BLK_DEV_RAM_COUNT=16
   CONFIG_BLK_DEV_RAM_SIZE=16384
 ```
+### [WARNING] Only last official YOCTO Release (now warrior) is actively maintained!
+
+https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-warrior
