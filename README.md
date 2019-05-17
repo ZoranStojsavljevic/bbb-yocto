@@ -1,4 +1,4 @@
-### this repository is written to support bbb-yocto https://github.com/jumpnow/meta-bbb.git building and testing!
+### This repository is written to support mate-bbb repository: https://github.com/jumpnow/meta-bbb.git building and testing!
 Attempt to create one generic Open Source BeagleBone Black armv7 A8 platform reference and testing repository.
 The YOCTO BeagleBobe Black YOCTO repo used is described @ the following net pointer:
 
@@ -14,7 +14,7 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/bbb-yocto.sh
   Step [4]: Go to bbb-releases/bbb-warrior/ directory and copy local.conf to .../build/conf directory;
   Step [5]: Run bitbake -k core-image-minimal ## or whatever core-image-? you need
 ```
-### The KAS tool (by example: execute kas warrior script)
+### KAS tool (by example: execute kas warrior script)
 ```
   Step [1]: Go to bbb-releases/bbb-warrior/ directory and copy kas-bbb-warrior.yml to designated directory for build;
   Step [2]: Execute kas script as: kas build kas-bbb-warrior.yml ## KAS tool should be installed (go to kas/ for documentation).
