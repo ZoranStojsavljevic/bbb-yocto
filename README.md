@@ -1,4 +1,4 @@
-### This repository is written to support mate-bbb repository: https://github.com/jumpnow/meta-bbb.git building and testing!
+### This repository is written to support meta-bbb repository: https://github.com/jumpnow/meta-bbb.git building and testing!
 Attempt to create one generic Open Source BeagleBone Black armv7 A8 platform reference and testing repository.
 The YOCTO BeagleBobe Black YOCTO repo used is described @ the following net pointer:
 
