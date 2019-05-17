@@ -1,5 +1,8 @@
-### bbb-yocto
+### this repository is written to support bbb-yocto https://github.com/jumpnow/meta-bbb.git building and testing!
 Attempt to create one generic Open Source BeagleBone Black armv7 A8 platform reference and testing repository.
+The YOCTO BeagleBobe Black YOCTO repo used is described @ the following net pointer:
+
+https://jumpnowtek.com/beaglebone/BeagleBone-Systems-with-Yocto.html
 
 ### The bash script, customized for the owner's projects purposes (substitutions for the KAS tool)
 
@@ -33,3 +36,7 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/bbb-yocto.sh
 ### [WARNING] Only last official YOCTO Release (for now warrior) scripts ARE actively maintained!
 
 https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-warrior
+
+### Referent YOCTO Poky BeagleBone distro is also supported: git clone https://git.yoctoproject.org/git/poky.git
+
+git clone https://git.yoctoproject.org/git/poky.git
