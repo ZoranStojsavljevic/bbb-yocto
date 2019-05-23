@@ -15,10 +15,10 @@ Point [1] is achieved with the following local.config file:
                                 "
 
     Problem with this approach is that such a kernel makes the rootfs too big and impractical:
-    -rw-r--r--. 2 user vboxusers 101499952 May 17 14:32 core-image-minimal-beaglebone-20190517122924.rootfs.tar.xz
+    -rw-r--r--. 2 user vboxusers 101499952 May 17 14:32 core-image-minimal-beaglebone.rootfs.tar.xz
 
 The main issue is point [2]: how to achieve it?
-    The suggestion is to introcuce the new package in YOCTO kernel, called: kernel-headers
+    The suggestion is to introduce the new package in YOCTO kernel, called: kernel-headers
     The OBVIOUS benefit is that it will serve to the purpose of building modules out of the tree on the target with
     minimal mpact to rootfs!
 
