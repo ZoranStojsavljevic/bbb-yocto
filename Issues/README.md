@@ -1,6 +1,10 @@
+### Bug 13360 - kernel-dev: package full kernel source and headers for reference purposes
+
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13360
+
 ### Bug 13361 - Building Out-of-Tree Modules on the BBB Target using optional YOCTO package kernel-headers 
 
-https://bugzilla.yoctoproject.org/show_bug.cgi?id=13361#c0
+https://bugzilla.yoctoproject.org/show_bug.cgi?id=13361
 
 The problem summation:
 
