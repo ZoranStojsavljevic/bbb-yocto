@@ -1,4 +1,3 @@
-### Added packagegroup-core-tools-profile packagegroup-core-buildessential
 # bbb-cip
 CONF_VERSION = "1"
 PATCHRESOLVE = "noop"
@@ -7,10 +6,10 @@ DL_DIR ?= "${TOPDIR}/downloads"
 TMPDIR ?= "${TOPDIR}/tmp"
 PACKAGE_CLASSES ?= "package_rpm package_deb"
 ## Add systemd service
+DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
 VIRTUAL-RUNTIME_init_manager = "systemd"
 VIRTUAL-RUNTIME_dev_manager = "systemd"
-DISTRO_FEATURES_BACKFILL_CONSIDERED = "sysvinit"
-VIRTUAL-RUNTIME_initscripts = ""
+VIRTUAL-RUNTIME_initscripts = "systemd-compat-units"
 PACKAGECONFIG_append_pn-systemd = " networkd"
 ## Add kernel packages to have /usr/src/kernel/`uname -r` source code
 TOOLCHAIN_TARGET_TASK_append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
