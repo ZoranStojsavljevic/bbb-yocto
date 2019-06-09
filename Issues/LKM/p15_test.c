@@ -16,15 +16,18 @@ static int __init p15_test_init(void) {
 
 	printk(KERN_INFO "p15_Test init\n");
 	asm volatile("mrc p15, 0, %0, c0, c0, 0" : "=r"(reg_value) );
-	printk(KERN_INFO "reg_value: %x\n", reg_value);
+	printk(KERN_INFO "Main ID Register: %x\n", reg_value);
+	asm volatile("mrc p15, 0, %0, c0, c0, 1" : "=r"(reg_value) );
+	printk(KERN_INFO "Cache Type Register: %x\n", reg_value);
 	return 0;
 }
 
 static void __exit p15_test_exit(void) {
 	unsigned int reg_value = 0;
-
 	asm volatile("mrc p15, 0, %0, c0, c0, 0" : "=r"(reg_value) );
-	printk(KERN_INFO "reg_value: %x\n", reg_value);
+	printk(KERN_INFO "Main ID Register: %x\n", reg_value);
+	asm volatile("mrc p15, 0, %0, c0, c0, 1" : "=r"(reg_value) );
+	printk(KERN_INFO "Cache Type Register: %x\n", reg_value);
 	printk(KERN_INFO "p15_Test exit\n");
 }
 
