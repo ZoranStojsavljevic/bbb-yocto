@@ -29,6 +29,18 @@ static int __init cp15_test_init(void) {
 	printk(KERN_INFO "Processor Feature Register 0: 0x%08x\n", reg_value);
 	asm volatile("MRC p15, 0, %0, c0, c1, 1" : "=r"(reg_value) );
 	printk(KERN_INFO "Processor Feature Register 1: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 2" : "=r"(reg_value) );
+	printk(KERN_INFO "Debug Feature Register 0: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 3" : "=r"(reg_value) );
+	printk(KERN_INFO "Auxiliary Feature Register 0: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 4" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 0: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 5" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 1: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 6" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 2: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 7" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 3: 0x%08x\n", reg_value);
 	return 0;
 }
 
@@ -49,7 +61,18 @@ static void __exit cp15_test_exit(void) {
 	printk(KERN_INFO "Processor Feature Register 0: 0x%08x\n", reg_value);
 	asm volatile("MRC p15, 0, %0, c0, c1, 1" : "=r"(reg_value) );
 	printk(KERN_INFO "Processor Feature Register 1: 0x%08x\n", reg_value);
-
+	asm volatile("MRC p15, 0, %0, c0, c1, 2" : "=r"(reg_value) );
+	printk(KERN_INFO "Debug Feature Register 0: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 3" : "=r"(reg_value) );
+	printk(KERN_INFO "Auxiliary Feature Register 0: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 4" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 0: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 5" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 1: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 6" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 2: 0x%08x\n", reg_value);
+	asm volatile("MRC p15, 0, %0, c0, c1, 7" : "=r"(reg_value) );
+	printk(KERN_INFO "Memory Model Feature Register 3: 0x%08x\n", reg_value);
 	printk(KERN_INFO "cp15_Test exit\n");
 }
 
