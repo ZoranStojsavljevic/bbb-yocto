@@ -1,4 +1,4 @@
-obj-m += p15_test.o
+obj-m += cp15_test.o
 
 all:
 	make -C /lib/modules/$(shell uname -r)/build M=$(PWD) modules
