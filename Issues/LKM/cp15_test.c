@@ -11,10 +11,11 @@ MODULE_AUTHOR("Zoran Stojsavljevic");			///< The author -- visible when you use 
 MODULE_DESCRIPTION("A simple armv7 A8 test driver");	///< The description -- see modinfo
 MODULE_VERSION("0.01");					///< A version number to inform users
 
-static int __init cp15_test_init(void) {
+static int read_cp15_registers(void) {
 	unsigned int reg_value = 0;
 
-	printk(KERN_INFO "cp15_Test init\n");
+	// CRn = C0 within CP15, Opcode_1 = 0
+	printk(KERN_INFO "CRn = C0 within CP15, Opcode_1 = 0\n");
 	asm volatile("mrc p15, 0, %0, c0, c0, 0" : "=r"(reg_value) );
 	printk(KERN_INFO "Main ID Register: 0x%08x\n", reg_value);
 	asm volatile("mrc p15, 0, %0, c0, c0, 1" : "=r"(reg_value) );
@@ -57,55 +58,44 @@ static int __init cp15_test_init(void) {
 	printk(KERN_INFO "Instruction Set Attributes Register 6: 0x%08x\n", reg_value);
 	asm volatile("mrc p15, 0, %0, c0, c2, 7" : "=r"(reg_value) );
 	printk(KERN_INFO "Instruction Set Attributes Register 7: 0x%08x\n", reg_value);
+	printk(KERN_INFO "\n");
+
+	// CRn = C0 within CP15, Opcode_1 = 1
+	printk(KERN_INFO "CRn = C0 within CP15, Opcode_1 = 1\n");
+	asm volatile("mrc p15, 1, %0, c0, c0, 1" : "=r"(reg_value) );
+	printk(KERN_INFO "Cache Level ID Register: 0x%08x\n", reg_value);
+	asm volatile("mrc p15, 1, %0, c0, c0, 7" : "=r"(reg_value) );
+	printk(KERN_INFO "Silicon ID Register: 0x%08x\n", reg_value);
+	asm volatile("mrc p15, 1, %0, c0, c0, 0" : "=r"(reg_value) );
+	printk(KERN_INFO "Cache Size Identification Register: 0x%08x\n", reg_value);
+	printk(KERN_INFO "\n");
+
+	// CRn = C0 within CP15, Opcode_1 = 2
+	printk(KERN_INFO "CRn = C0 within CP15, Opcode_1 = 2\n");
+	asm volatile("mrc p15, 2, %0, c0, c0, 0" : "=r"(reg_value) );
+	printk(KERN_INFO "Cache Size Selection Register: 0x%08x\n", reg_value);
+	printk(KERN_INFO "\n");
+
+	// CRn = C1 within CP15, Opcode_1 = 0
+	printk(KERN_INFO "CRn = C1 within CP15, Opcode_1 = 0\n");
+	asm volatile("mrc p15, 0, %0, c1, c0, 0" : "=r"(reg_value) );
+	printk(KERN_INFO "Control Register: 0x%08x\n", reg_value);
+	asm volatile("mrc p15, 0, %0, c1, c0, 1" : "=r"(reg_value) );
+	printk(KERN_INFO "Auxiliary Control Register: 0x%08x\n", reg_value);
+	asm volatile("mrc p15, 0, %0, c1, c0, 2" : "=r"(reg_value) );
+	printk(KERN_INFO "Coprocessor Access Control Register: 0x%08x\n", reg_value);
+	printk(KERN_INFO "\n");
+
 	return 0;
 }
 
-static void __exit cp15_test_exit(void) {
-	unsigned int reg_value = 0;
-
+static int __init cp15_test_init(void) {
 	printk(KERN_INFO "cp15_Test init\n");
-	asm volatile("mrc p15, 0, %0, c0, c0, 0" : "=r"(reg_value) );
-	printk(KERN_INFO "Main ID Register: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c0, 1" : "=r"(reg_value) );
-	printk(KERN_INFO "Cache Type Register: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c0, 2" : "=r"(reg_value) );
-	printk(KERN_INFO "TCM Type Register: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c0, 3" : "=r"(reg_value) );
-	printk(KERN_INFO "TLB Type Register: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c0, 5" : "=r"(reg_value) );
-	printk(KERN_INFO "Multiprocessor ID Register: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 0" : "=r"(reg_value) );
-	printk(KERN_INFO "Processor Feature Register 0: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 1" : "=r"(reg_value) );
-	printk(KERN_INFO "Processor Feature Register 1: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 2" : "=r"(reg_value) );
-	printk(KERN_INFO "Debug Feature Register 0: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 3" : "=r"(reg_value) );
-	printk(KERN_INFO "Auxiliary Feature Register 0: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 4" : "=r"(reg_value) );
-	printk(KERN_INFO "Memory Model Feature Register 0: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 5" : "=r"(reg_value) );
-	printk(KERN_INFO "Memory Model Feature Register 1: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 6" : "=r"(reg_value) );
-	printk(KERN_INFO "Memory Model Feature Register 2: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c1, 7" : "=r"(reg_value) );
-	printk(KERN_INFO "Memory Model Feature Register 3: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 0" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 0: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 1" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 1: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 2" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 2: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 3" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 3: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 4" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 4: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 5" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 5: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 6" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 6: 0x%08x\n", reg_value);
-	asm volatile("mrc p15, 0, %0, c0, c2, 7" : "=r"(reg_value) );
-	printk(KERN_INFO "Instruction Set Attributes Register 7: 0x%08x\n", reg_value);
+	return read_cp15_registers();
+}
+
+static void __exit cp15_test_exit(void) {
+	read_cp15_registers();
 	printk(KERN_INFO "cp15_Test exit\n");
 }
 
