@@ -6,3 +6,6 @@ http://infocenter.arm.com/help/topic/com.arm.doc.ddi0344k/DDI0344K_cortex_a8_r3p
 This section describes all the registers in the system control coprocessor. The section presents a summary of the registers and descriptions in register order of CRn, Opcode_1, CRm, Opcode_2.
 
 See the ARM Architecture Reference Manual for more information on using system control coprocessors and the general method on how to access CP15 registers.
+
+### AM335x and AMIC110 Sitara™ Processors (Technical Reference Manual)
+http://www.ti.com/lit/ug/spruh73p/spruh73p.pdf
