@@ -142,6 +142,21 @@ static int read_cp15_registers(void) {
 	printk(KERN_INFO "Domain Access Control Register: 0x%08x\n", reg_value);
 	printk(KERN_INFO "\n");
 
+	// CRn = C7 within CP15, Opcode_1 = 0
+
+	// Define DSB() function
+	asm volatile("mcr p15, 0, %0, c7, c10, 4" : : "r" (0) : "memory");	// Data Synchronization Barrier (DSB)
+	printk(KERN_INFO "Data Synchronization Barrier (DSB) operation\n");
+
+	// Define ISB() function
+	asm volatile("mcr p15, 0, %0, c7, c5, 4" : : "r" (0) : "memory");	// Instruction Synchronization Barrier (ISB)
+	printk(KERN_INFO "Instruction Synchronization Barrier (ISB) operation\n");
+
+	// Define DMB() function
+	asm volatile("mcr p15, 0, %0, c7, c10, 5" : : "r" (0) : "memory");	// Data Memory Barrier (DMB) operation
+	printk(KERN_INFO "Data Memory Barrier (DMB) operation\n");
+	printk(KERN_INFO "\n");
+
 	// CRn = C9 within CP15, Opcode_1 = 1
 	asm volatile ("mrc p15, 1, r0, c9, c0, 2" : "=r"(reg_value) );
 	printk(KERN_INFO "L2 Cache Auxiliary Control Register: 0x%08x\n", reg_value);
