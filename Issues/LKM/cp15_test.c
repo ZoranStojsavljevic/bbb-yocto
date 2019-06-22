@@ -17,7 +17,7 @@ static inline unsigned asm_get_cpsr(void) {
 	__asm ("mrs	r0, cpsr");
 	__asm ("bic	r0, r0, #0x1f");
 	__asm ("orr	r0, r0, #0x16");
-	__asm ("msr	cpsr_c, r0" : "=r"(retval) );
+	__asm ("msr	cpsr_c, %0" : "=r"(retval) );
 	return retval;
 }
 
@@ -109,9 +109,9 @@ static int read_cp15_registers(void) {
 	asm volatile("mrs r0, cpsr");
 	asm volatile("bic r0, r0, #0x1f");
 	asm volatile("orr r0, r0, #0x16");
-	asm volatile("msr cpsr_c, r0" : "=r"(reg_value) );
+	asm volatile("msr cpsr_c, %0" : "=r"(reg_value) );
 	printk(KERN_INFO "R0 value is: 0x%08x\n", reg_value);
-	asm volatile("mrs r0, cpsr" : "=r"(reg_value) );
+	asm volatile("mrs %0, cpsr" : "=r"(reg_value) );
 	printk(KERN_INFO "NEW CPSR/R0 value is: 0x%08x\n", reg_value);
 	printk(KERN_INFO "------------------------------------------------\n");
 
@@ -158,7 +158,7 @@ static int read_cp15_registers(void) {
 	printk(KERN_INFO "\n");
 
 	// CRn = C9 within CP15, Opcode_1 = 1
-	asm volatile ("mrc p15, 1, r0, c9, c0, 2" : "=r"(reg_value) );
+	asm volatile ("mrc p15, 1, %0, c9, c0, 2" : "=r"(reg_value) );
 	printk(KERN_INFO "L2 Cache Auxiliary Control Register: 0x%08x\n", reg_value);
 
 	return 0;
