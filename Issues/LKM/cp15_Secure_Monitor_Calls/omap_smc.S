@@ -8,7 +8,7 @@ omap_smc:
 
 	dsb
 	dmb
-@	smc	#0		@ SMC #0 to enter monitor mode
+@	smc	0		@ SMC #0 to enter monitor mode
 				@ call ROM Code API for the service requested
 	pop	{r4-r12, pc}
 	movs	pc, lr		@ return
