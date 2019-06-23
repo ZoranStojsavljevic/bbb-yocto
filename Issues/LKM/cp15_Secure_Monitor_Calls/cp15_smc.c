@@ -10,6 +10,8 @@ MODULE_AUTHOR("Zoran Stojsavljevic");				///< The author -- visible when you use
 MODULE_DESCRIPTION("An armv7 A8 L2 ECC enabling  driver");	///< The description -- see modinfo
 MODULE_VERSION("0.01");						///< A version number to inform users
 
+extern void omap_smc(void);
+
 static void enable_L2_ECC(void) {
 	unsigned int reg_value;
 
@@ -32,13 +34,15 @@ static void enable_L2_ECC(void) {
 	if (0x00200000 & reg_value ) {
 		printk(KERN_INFO "The processor is configured to include parity and ECC RAM\n");
 	}
+	else {
+		printk(KERN_INFO "The processor is NOT configured to include parity and ECC RAM\n");
+	}
 
 _set_L2_ECC:
 	__asm volatile ("mrc p15, 1, %0, c9, c0, 2" : "=r"(reg_value) );	// Read L2 Cache Auxiliary Control Register into R0
 //	__asm volatile ("orr r0, r0, #0x00200000");				// Set parity/ECC enable
 //	__asm volatile ("mcr p15, 1, r0, c9, c0, 2");				// Write L2 Cache Auxiliary Control Register
 //	__asm volatile ("mrc p15, 1, %0, c9, c0, 2" : "=r"(reg_value) );
-
 	if (0x00200000 & reg_value ) {
 		printk(KERN_INFO "The processor is configured to include parity and ECC RAM\n");
 	}
@@ -52,7 +56,6 @@ _set_L2_ECC:
 	__asm ("eor	r1, r1, r1");			// xor R1, R1 - clear R1
 	__asm ("ldr	r1, =#0x10200000");		// Enable mask for ECC (set bits 21 and 28 to enable ECC)
 //	__asm ("movt	r1, #0x1020");			// Enable mask for ECC (set bits 21 and 28 to enable ECC)
-
 	__asm ("orr	r0, r0, r1");			// OR with original register value
 	__asm ("ldr	r12, =#0x00000102");		// Setup service ID in R12
 //	__asm ("movw	r12, #0x0102");			// Setup service ID in R12
@@ -62,7 +65,9 @@ _set_L2_ECC:
 	dsb();			// data synchronization barrier operation
 	isb();			// instruction synchronization barrier operation
 	dmb();			// data memory barrier operation
+	omap_smc();
 //	__asm ("smc	#1");	// secure monitor call SMC (previously SMI)
+
 	__asm ("ldmfd	sp!, {r0 - r4}");		// After returning from SMC, restore R0-R4
 //	__asm ("mov	pc, lr");			// Return: does NOT work as expected, produces kernel panic!
 
