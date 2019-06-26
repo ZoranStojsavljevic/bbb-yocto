@@ -55,18 +55,23 @@ _set_L2_ECC:
 	__asm ("mov	r1, #0");			// Clear R1
 	__asm ("eor	r1, r1, r1");			// xor R1, R1 - clear R1
 	__asm ("ldr	r1, =#0x10200000");		// Enable mask for ECC (set bits 21 and 28 to enable ECC)
-//	__asm ("movt	r1, #0x1020");			// Enable mask for ECC (set bits 21 and 28 to enable ECC)
+	__asm ("movt	r1, #0x1020");			// Enable mask for ECC (set bits 21 and 28 to enable ECC)
 	__asm ("orr	r0, r0, r1");			// OR with original register value
 	__asm ("ldr	r12, =#0x00000102");		// Setup service ID in R12
-//	__asm ("movw	r12, #0x0102");			// Setup service ID in R12
+	__asm ("movw	r12, #0x0102");			// Setup service ID in R12
 	__asm ("eor	r1, r1, r1");			// xor R1, R1 - clear R1
 	__asm volatile ("mcr p15, 0, r1, c7, c5, 6");	// Invalidate entire branch predictor array
 
 	dsb();			// data synchronization barrier operation
 	isb();			// instruction synchronization barrier operation
 	dmb();			// data memory barrier operation
-	omap_smc();
+//	omap_smc();
 //	__asm ("smc	#1");	// secure monitor call SMC (previously SMI)
+
+asm volatile(
+	".arch_extension sec\n"
+	"smc	0\n"
+	);
 
 	__asm ("ldmfd	sp!, {r0 - r4}");		// After returning from SMC, restore R0-R4
 //	__asm ("mov	pc, lr");			// Return: does NOT work as expected, produces kernel panic!
