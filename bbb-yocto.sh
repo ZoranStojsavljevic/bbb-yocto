@@ -12,8 +12,8 @@ echo $CURRENT_DIR
 
 custom_setings () {
     if [ "$ReleaseName" == "warrior" ]; then
-	cp custom/defconfig.warrior meta-bbb/recipes-kernel/linux/linux-stable-5.1/beaglebone
-	cd meta-bbb/recipes-kernel/linux/linux-stable-5.1/beaglebone
+	cp custom/defconfig.warrior meta-bbb/recipes-kernel/linux/linux-stable-5.2/beaglebone
+	cd meta-bbb/recipes-kernel/linux/linux-stable-5.2/beaglebone
 	mv defconfig defconfig.genesis
 	mv defconfig.warrior defconfig
 	ls -al
