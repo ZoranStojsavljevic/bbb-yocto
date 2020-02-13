@@ -102,11 +102,10 @@ do
 	checkout_release
 	custom_setings
 	cd $CURRENT_DIR
-	source poky/oe-init-build-env
+	. poky/oe-init-build-env build
 	cp ../bbb-releases/bbb-zeus/local.conf conf/local.conf
 	cp ../bbb-releases/bbb-zeus/bblayers.conf conf/bblayers.conf
 	echo "The system is ready for making the YOCTO images!"
-	echo "Please, run command: bitbake -k core-image-minimal" ## or whatever core-image-? requred
 	exit 0
     fi
 done
