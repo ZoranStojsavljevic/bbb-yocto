@@ -11,9 +11,20 @@ CURRENT_DIR=`pwd`
 echo $CURRENT_DIR
 
 custom_setings () {
+    if [ "$ReleaseName" == "zeus" ]; then
+	## Fixing (zeus only) jumpnow/meta-bbb/console-image.bb: require images/basic-dev-image.bb
+	cp meta-bbb/images/basic-image.bb meta-bbb/images/basic-dev-image.bb
+
+        cp custom/defconfig.zeus meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
+	cd meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
+	mv defconfig defconfig.genesis
+	mv defconfig.zeus defconfig
+	ls -al
+	cd $CURRENT_DIR
+    fi
     if [ "$ReleaseName" == "warrior" ]; then
-	cp custom/defconfig.warrior meta-bbb/recipes-kernel/linux/linux-stable-5.2/beaglebone
-	cd meta-bbb/recipes-kernel/linux/linux-stable-5.2/beaglebone
+	cp custom/defconfig.warrior meta-bbb/recipes-kernel/linux/linux-stable-5.3/beaglebone
+	cd meta-bbb/recipes-kernel/linux/linux-stable-5.3/beaglebone
 	mv defconfig defconfig.genesis
 	mv defconfig.warrior defconfig
 	ls -al
@@ -83,13 +94,19 @@ fi
 
 ReleaseName=$1
 
-names="sumo thud warrior"
+names="sumo thud warrior zeus"
 for name in $names
 do
     if [ "$ReleaseName" == $name ]; then
 	echo "Supported YOCTO Release Name entered $name!"
 	checkout_release
 	custom_setings
+	cd $CURRENT_DIR
+	source poky/oe-init-build-env
+	cp ../bbb-releases/bbb-zeus/local.conf conf/local.conf
+	cp ../bbb-releases/bbb-zeus/bblayers.conf conf/bblayers.conf
+	echo "The system is ready for making the YOCTO images!"
+	echo "Please, run command: bitbake -k core-image-minimal" ## or whatever core-image-? requred
 	exit 0
     fi
 done
