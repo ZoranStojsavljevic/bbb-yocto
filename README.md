@@ -35,6 +35,6 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/bbb-yocto.sh
 
 https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-zeus
 
-### Referent YOCTO Poky BeagleBone distro is also supported: git clone https://git.yoctoproject.org/git/poky.git
+### Referent YOCTO Poky BeagleBone distro is also supported:
 
 git clone https://git.yoctoproject.org/git/poky.git
