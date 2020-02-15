@@ -12,9 +12,6 @@ echo $CURRENT_DIR
 
 custom_setings () {
     if [ "$ReleaseName" == "zeus" ]; then
-	## Fixing (zeus only) jumpnow/meta-bbb/console-image.bb: require images/basic-dev-image.bb
-	cp meta-bbb/images/basic-image.bb meta-bbb/images/basic-dev-image.bb
-
         cp custom/defconfig.zeus meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
 	cd meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
 	mv defconfig defconfig.genesis
@@ -23,8 +20,8 @@ custom_setings () {
 	cd $CURRENT_DIR
     fi
     if [ "$ReleaseName" == "warrior" ]; then
-	cp custom/defconfig.warrior meta-bbb/recipes-kernel/linux/linux-stable-5.3/beaglebone
-	cd meta-bbb/recipes-kernel/linux/linux-stable-5.3/beaglebone
+	cp custom/defconfig.warrior meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
+	cd meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
 	mv defconfig defconfig.genesis
 	mv defconfig.warrior defconfig
 	ls -al
@@ -59,12 +56,6 @@ custom_setings () {
 }
 
 checkout_release () {
-    ## meta-bbb
-    git clone https://github.com/jumpnow/meta-bbb.git
-    cd meta-bbb
-    git checkout $ReleaseName
-    cd ..
-
     ## poky
     git clone https://git.yoctoproject.org/git/poky.git
     cd poky
@@ -82,6 +73,21 @@ checkout_release () {
     cd meta-qt5
     git checkout upstream/$ReleaseName
     cd ..
+
+    ## meta-security
+    git clone git://git.yoctoproject.org/meta-security.git
+    cd meta-security
+    git checkout $ReleaseName
+    cd ..
+
+    if [ "$ReleaseName" == zeus ]; then
+	## generic meta-jumpnow YOCTO layer, serving as common
+	## layer to seven different boards
+	git clone https://github.com/jumpnow/meta-jumpnow.git
+	cd meta-jumpnow
+	git checkout $ReleaseName
+	cd ..
+    fi
 
     ## meta-socketcan
     git clone https://github.com/ZoranStojsavljevic/meta-socketcan.git
