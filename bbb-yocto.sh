@@ -56,6 +56,12 @@ custom_setings () {
 }
 
 checkout_release () {
+    ## meta-bbb
+    git clone https://github.com/jumpnow/meta-bbb.git
+    cd meta-bbb
+    git checkout $ReleaseName
+    cd ..
+
     ## poky
     git clone https://git.yoctoproject.org/git/poky.git
     cd poky
@@ -72,12 +78,6 @@ checkout_release () {
     git clone http://code.qt.io/yocto/meta-qt5.git
     cd meta-qt5
     git checkout upstream/$ReleaseName
-    cd ..
-
-    ## meta-security
-    git clone git://git.yoctoproject.org/meta-security.git
-    cd meta-security
-    git checkout $ReleaseName
     cd ..
 
     if [ "$ReleaseName" == zeus ]; then
@@ -109,8 +109,8 @@ do
 	custom_setings
 	cd $CURRENT_DIR
 	. poky/oe-init-build-env build
-	cp ../bbb-releases/bbb-zeus/local.conf conf/local.conf
-	cp ../bbb-releases/bbb-zeus/bblayers.conf conf/bblayers.conf
+	cp ../bbb-releases/bbb-$name/local.conf conf/local.conf
+	cp ../bbb-releases/bbb-$name/bblayers.conf conf/bblayers.conf
 	echo "The system is ready for making the YOCTO images!"
 	exit 0
     fi
