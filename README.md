@@ -6,10 +6,10 @@ https://jumpnowtek.com/beaglebone/BeagleBone-Systems-with-Yocto.html
 
 ### The bash script, customized for the owner's projects purposes (substitutions for the KAS tool)
 
-https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/bbb-yocto.sh
+https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 
 	Step [1]: Look into the script and customize it for your own project;
-	Step [2]: Make the script bbb-yocto.sh executable (permissions 755), and execute it: ./bbb-yocto.sh ;
+	Step [2]: Make the script yocto-setup.sh executable (permissions 755), and execute it: ./yocto-setup.sh ;
 	Step [3]: Run bitbake -k core-image-minimal ## or whatever core-image-? you need
 
 ### KAS tool (by example: execute kas warrior script)
