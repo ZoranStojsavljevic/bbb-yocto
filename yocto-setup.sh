@@ -31,6 +31,12 @@ checkout_release () {
 	git checkout upstream/$ReleaseName
 	cd ..
 
+	## meta-socketcan
+	git clone https://github.com/ZoranStojsavljevic/meta-socketcan.git
+	cd meta-socketcan
+	git checkout master
+	cd ..
+
 	if [ "$ReleaseName" == zeus ]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
