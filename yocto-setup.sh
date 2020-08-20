@@ -37,7 +37,7 @@ checkout_release () {
 	git checkout master
 	cd ..
 
-	if [ "$ReleaseName" == zeus ]; then
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
 		git clone https://github.com/jumpnow/meta-jumpnow.git
@@ -49,9 +49,17 @@ checkout_release () {
 }
 
 custom_setings () {
+	if [ "$ReleaseName" == "dunfell" ]; then
+		cp custom/defconfig.dunfell meta-bbb/recipes-kernel/linux/linux-stable-5.7/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-5.7/beaglebone
+		mv defconfig defconfig.genesis
+		mv defconfig.dunfell defconfig
+		ls -al
+		cd $CURRENT_DIR
+	fi
 	if [ "$ReleaseName" == "zeus" ]; then
-		cp custom/defconfig.zeus meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
+		cp custom/defconfig.zeus meta-bbb/recipes-kernel/linux/linux-stable-5.6/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-5.6/beaglebone
 		mv defconfig defconfig.genesis
 		mv defconfig.zeus defconfig
 		ls -al
@@ -95,7 +103,9 @@ custom_setings () {
 
 set_build_env() {
 	source oe-init-build-env build/ > /dev/null 2>&1
-	bitbake-layers add-layer ../../meta-jumpnow/
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell ]]; then
+		bitbake-layers add-layer ../../meta-jumpnow/
+	fi
 	bitbake-layers add-layer ../../meta-bbb/
 	bitbake-layers add-layer ../../meta-openembedded/meta-oe/
 	bitbake-layers add-layer ../../meta-openembedded/meta-python/
@@ -115,7 +125,7 @@ fi
 
 ReleaseName=$1
 
-names="zeus"
+names="sumo thud warrior zeus dunfell"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then

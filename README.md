@@ -31,9 +31,11 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 	CONFIG_BLK_DEV_RAM_COUNT=16
 	CONFIG_BLK_DEV_RAM_SIZE=16384
 
-### [WARNING] Only last official YOCTO Release scripts ARE actively maintained!
+### [WARNING] Only two last official YOCTO Releases' scripts ARE actively maintained/supported!
 
 https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-zeus
+
+https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-dunfell
 
 ### Referent YOCTO Poky BeagleBone distro is also supported:
 
