@@ -37,7 +37,7 @@ checkout_release () {
 	git checkout master
 	cd ..
 
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell ]]; then
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
 		git clone https://github.com/jumpnow/meta-jumpnow.git
@@ -49,6 +49,14 @@ checkout_release () {
 }
 
 custom_setings () {
+	if [ "$ReleaseName" == "gatesgarth" ]; then
+		cp custom/defconfig.gatesgarth meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
+		mv defconfig defconfig.genesis
+		mv defconfig.gatesgarth defconfig
+		ls -al
+		cd $CURRENT_DIR
+	fi
 	if [ "$ReleaseName" == "dunfell" ]; then
 		cp custom/defconfig.dunfell meta-bbb/recipes-kernel/linux/linux-stable-5.7/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-5.7/beaglebone
@@ -113,6 +121,7 @@ set_build_env() {
 	bitbake-layers add-layer ../../meta-qt5/
 	bitbake-layers add-layer ../../meta-socketcan/
 	bitbake-layers show-layers
+	source oe-init-build-env build/ > /dev/null 2>&1
 }
 
 CURRENT_DIR=`pwd`
@@ -125,7 +134,7 @@ fi
 
 ReleaseName=$1
 
-names="sumo thud warrior zeus dunfell"
+names="sumo thud warrior zeus dunfell gatesgarth"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then
@@ -139,6 +148,7 @@ do
 
 		cp bbb-releases/bbb-$name/local.conf poky/build/conf/local.conf
 		echo "The system is ready for making the YOCTO images!"
+		echo "Example: bitbake -k core-image-minimal"
 		echo `pwd`
 		exit 0
 	fi

@@ -8,14 +8,15 @@ https://jumpnowtek.com/beaglebone/BeagleBone-Systems-with-Yocto.html
 
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 
-	Step [1]: Look into the script and customize it for your own project;
-	Step [2]: Make the script yocto-setup.sh executable (permissions 755), and execute it: ./yocto-setup.sh ;
-	Step [3]: Run bitbake -k core-image-minimal ## or whatever core-image-? you need
+	Step [1]: Look into the script and customize it for your own project
+	Step [2]: Make the script yocto-setup.sh executable (permissions 755), and execute it: ./yocto-setup.sh <yocto_release>
+	STEP [3]: After script executes, change to poky/build and check upon poky/build/conf/ dir.
+	Step [4]: Run in poky/build bitbake -k core-image-minimal (or whatever core-image-? required)
 
-### KAS tool (by example: execute kas warrior script)
+### KAS tool passive comments, not tested (by example: execute kas warrior script)
 
-	Step [1]: Go to bbb-releases/bbb-warrior/ directory and copy kas-bbb-warrior.yml to designated directory for build;
-	Step [2]: Execute kas script as: kas build kas-bbb-warrior.yml ## KAS tool should be installed (go to kas/ for documentation).
+	Step [1]: Go to bbb-releases/bbb-warrior/ directory and copy kas-bbb-warrior.yml to designated directory for build
+	Step [2]: Execute kas script as: kas build kas-bbb-warrior.yml ## KAS tool should be installed (go to kas/ for documentation)
 
 ### The test initramfs BBB image description
  Part of the config-initramfs, outlining important part of defconfig (the booting is done solely from initramfs)!
@@ -31,11 +32,13 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 	CONFIG_BLK_DEV_RAM_COUNT=16
 	CONFIG_BLK_DEV_RAM_SIZE=16384
 
-### [WARNING] Only two last official YOCTO Releases' scripts ARE actively maintained/supported!
+### [WARNING] Only two last official YOCTO Releases' scripts are actively maintained/supported!
 
-https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-zeus
+Host Linux distro used: Fedora 33
 
 https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-dunfell
+
+https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-gatesgarth
 
 ### Referent YOCTO Poky BeagleBone distro is also supported:
 
