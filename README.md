@@ -5,13 +5,17 @@ The YOCTO BeagleBobe Black YOCTO repo used is described @ the following net poin
 https://jumpnowtek.com/beaglebone/BeagleBone-Systems-with-Yocto.html
 
 ### The bash script, customized for the owner's projects purposes (substitutions for the KAS tool)
-
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 
-	Step [1]: Look into the script and customize it for your own project
-	Step [2]: Make the script yocto-setup.sh executable (permissions 755), and execute it: ./yocto-setup.sh <yocto_release>
-	STEP [3]: After script executes, change to poky/build and check upon poky/build/conf/ dir.
-	Step [4]: Run in poky/build bitbake -k core-image-minimal (or whatever core-image-? required)
+Please, follow the strict rules outlined below!
+
+	Step [1]: Look into the script yocto-setup.sh and customize it for your own project
+	Step [2]: Make the script yocto-setup.sh executable (permissions 755), and execute it:
+		# . ./yocto-setup.sh <yocto_release>
+	or
+		# source ./yocto-setup.sh <yocto_release>
+	Step [3]: After script executes, it'll be in build/ directory/ Please, check upon build/conf/ dir.
+	Step [4]: Run in build/ bitbake -k core-image-minimal (or whatever core-image-? required)
 
 ### KAS tool passive comments, not tested (by example: execute kas warrior script)
 
@@ -32,14 +36,19 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 	CONFIG_BLK_DEV_RAM_COUNT=16
 	CONFIG_BLK_DEV_RAM_SIZE=16384
 
-### [WARNING] Only two last official YOCTO Releases' scripts are actively maintained/supported!
+### [WARNING] Only last two official YOCTO Releases are actively maintained/supported!
 
 Host Linux distro used: Fedora 33
 
 https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-dunfell
 
+Status: Works
+
 https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-gatesgarth
 
-### Referent YOCTO Poky BeagleBone distro is also supported:
+Status: Fails
 
+Issue recorded in: https://github.com/ZoranStojsavljevic/bbb-yocto/issues/3
+
+### Referent YOCTO Poky BeagleBone distro is also supported:
 git clone https://git.yoctoproject.org/git/poky.git

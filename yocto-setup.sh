@@ -121,7 +121,7 @@ set_build_env() {
 	bitbake-layers add-layer ../../meta-qt5/
 	bitbake-layers add-layer ../../meta-socketcan/
 	bitbake-layers show-layers
-	source oe-init-build-env build/ > /dev/null 2>&1
+	## source oe-init-build-env build/ > /dev/null 2>&1
 }
 
 CURRENT_DIR=`pwd`
@@ -147,12 +147,13 @@ do
 		cd $CURRENT_DIR
 
 		cp bbb-releases/bbb-$name/local.conf poky/build/conf/local.conf
+		cd poky/build
 		echo "The system is ready for making the YOCTO images!"
 		echo "Example: bitbake -k core-image-minimal"
 		echo `pwd`
-		exit 0
 	fi
 done
 
-echo "Non supported YOCTO Release Name entered $ReleaseName!"
-exit 1
+if [ "$ReleaseName" != $name ]; then
+	echo "Non supported YOCTO Release Name entered $ReleaseName!"
+fi
