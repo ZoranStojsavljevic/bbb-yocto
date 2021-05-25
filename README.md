@@ -46,9 +46,10 @@ Status: Works
 
 https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-gatesgarth
 
-Status: Fails
+Status: Works
 
-Issue recorded in: https://github.com/ZoranStojsavljevic/bbb-yocto/issues/3
+	NOTE: ## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
+	Please, read http://git.yoctoproject.org/cgit.cgi/poky/tree/documentation/ref-manual/migration-3.2.rst
 
 ### Referent YOCTO Poky BeagleBone distro is also supported:
 git clone https://git.yoctoproject.org/git/poky.git

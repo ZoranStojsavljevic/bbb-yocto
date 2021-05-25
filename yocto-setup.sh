@@ -111,7 +111,7 @@ custom_setings () {
 
 set_build_env() {
 	source oe-init-build-env build/ > /dev/null 2>&1
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell ]]; then
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth ]]; then
 		bitbake-layers add-layer ../../meta-jumpnow/
 	fi
 	bitbake-layers add-layer ../../meta-bbb/
