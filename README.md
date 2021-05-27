@@ -36,7 +36,7 @@ Please, follow the strict rules outlined below!
 	CONFIG_BLK_DEV_RAM_COUNT=16
 	CONFIG_BLK_DEV_RAM_SIZE=16384
 
-### [WARNING] Only last two official YOCTO Releases are actively maintained/supported!
+### [WARNING] Only last three official YOCTO Releases are actively maintained/supported!
 
 Host Linux distro used: Fedora 33
 
@@ -48,7 +48,11 @@ https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-gat
 
 Status: Works
 
-	NOTE: ## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
+https://github.com/ZoranStojsavljevic/bbb-yocto/tree/master/bbb-releases/bbb-hardknott
+
+Status: Works
+
+	NOTE: ## "dhcp": obsolete from gatesgarth release, functionally replaced by "dhcpcd" and "kea"
 	Please, read http://git.yoctoproject.org/cgit.cgi/poky/tree/documentation/ref-manual/migration-3.2.rst
 
 ### Referent YOCTO Poky BeagleBone distro is also supported:

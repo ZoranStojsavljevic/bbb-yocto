@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2020, Systems Software Research, Ltd., Zoran Stojsavljevic
+# Copyright (C) 2020, 2021 Systems Software Research, Ltd., Zoran Stojsavljevic
 # SPDX-License-Identifier: MIT License
 # This program is free software: you can redistribute it and/or modify it under the terms of the MIT Public License.
 
@@ -8,7 +8,8 @@
 
 checkout_release () {
 	## meta-bbb
-	git clone https://github.com/jumpnow/meta-bbb.git
+	## git clone https://github.com/jumpnow/meta-bbb.git
+	git clone https://github.com/ZoranStojsavljevic/meta-bbb.git
 	cd meta-bbb
 	git checkout $ReleaseName
 	cd ..
@@ -37,10 +38,11 @@ checkout_release () {
 	git checkout master
 	cd ..
 
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth ]]; then
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
-		git clone https://github.com/jumpnow/meta-jumpnow.git
+		## git clone https://github.com/jumpnow/meta-jumpnow.git
+		git clone https://github.com/ZoranStojsavljevic/meta-jumpnow.git
 		cd meta-jumpnow
 		git checkout $ReleaseName
 		cd ..
@@ -49,6 +51,14 @@ checkout_release () {
 }
 
 custom_setings () {
+	if [ "$ReleaseName" == "hardknott" ]; then
+		cp custom/defconfig.gatesgarth meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
+		mv defconfig defconfig.genesis
+		mv defconfig.gatesgarth defconfig
+		ls -al
+		cd $CURRENT_DIR
+	fi
 	if [ "$ReleaseName" == "gatesgarth" ]; then
 		cp custom/defconfig.gatesgarth meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
@@ -111,7 +121,7 @@ custom_setings () {
 
 set_build_env() {
 	source oe-init-build-env build/ > /dev/null 2>&1
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth ]]; then
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott ]]; then
 		bitbake-layers add-layer ../../meta-jumpnow/
 	fi
 	bitbake-layers add-layer ../../meta-bbb/
@@ -134,7 +144,7 @@ fi
 
 ReleaseName=$1
 
-names="sumo thud warrior zeus dunfell gatesgarth"
+names="sumo thud warrior zeus dunfell gatesgarth hardknott"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then
