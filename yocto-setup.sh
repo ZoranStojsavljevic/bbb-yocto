@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2020, 2021 Systems Software Research, Ltd., Zoran Stojsavljevic
+# Copyright (C) 2019-2021 Systems Software Research, Ltd., Zoran Stojsavljevic
 # SPDX-License-Identifier: MIT License
 # This program is free software: you can redistribute it and/or modify it under the terms of the MIT Public License.
 
@@ -52,10 +52,10 @@ checkout_release () {
 
 custom_setings () {
 	if [ "$ReleaseName" == "hardknott" ]; then
-		cp custom/defconfig.gatesgarth meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
+		cp custom/defconfig.hardknott meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
 		mv defconfig defconfig.genesis
-		mv defconfig.gatesgarth defconfig
+		mv defconfig.hardknott defconfig
 		ls -al
 		cd $CURRENT_DIR
 	fi

@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2020, Systems Software Research, Ltd., Zoran Stojsavljevic
+# Copyright (C) 2021, Systems Software Research, Ltd., Zoran Stojsavljevic
 # SPDX-License-Identifier: MIT License
 # This program is free software: you can redistribute it and/or modify it under the terms of the MIT Public License.
 
