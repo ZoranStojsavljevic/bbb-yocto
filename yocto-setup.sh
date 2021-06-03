@@ -52,8 +52,8 @@ checkout_release () {
 
 custom_setings () {
 	if [ "$ReleaseName" == "hardknott" ]; then
-		cp custom/defconfig.hardknott meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
+		cp custom/defconfig.hardknott meta-bbb/recipes-kernel/linux/linux-stable-5.12/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-5.12/beaglebone
 		mv defconfig defconfig.genesis
 		mv defconfig.hardknott defconfig
 		ls -al
