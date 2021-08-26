@@ -1,4 +1,4 @@
-### 4.16.1 Init System Selection
+### 4.16.1 INIT_MNAGER Selection
 
 Changing the init system manager previously required setting a number of different
 variables. You can now change the manager by setting the INIT_MANAGER variable and the

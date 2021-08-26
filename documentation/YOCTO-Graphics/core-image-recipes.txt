@@ -1,0 +1,114 @@
+[OE-core] how to create new core image recipes [pt 2]
+
+https://www.openembedded.org/pipermail/openembedded-core/2015-January/100454.html
+
+  again for purposes of tutorial, to clarify the second way to create
+new core image recipes, rather than "require"ing an existing recipe
+file (as before), inherit the fundamental class file with:
+
+  inherit core-image
+
+and here's the first question. here's the fundamental definition of
+the image contents from core-image.bbclass:
+
+  CORE_IMAGE_BASE_INSTALL = '\
+    packagegroup-core-boot \
+    packagegroup-base-extended \
+    \
+    ${CORE_IMAGE_EXTRA_INSTALL} \
+    '
+
+  CORE_IMAGE_EXTRA_INSTALL ?= ""
+
+  IMAGE_INSTALL ?= "${CORE_IMAGE_BASE_INSTALL}"
+
+  inherit image
+
+i've whined about this before ... can the above not be written more
+clearly as:
+
+  CORE_IMAGE_EXTRA_INSTALL ?= ""         [is this even necessary?]
+
+  IMAGE_INSTALL ?= '\
+    packagegroup-core-boot \
+    packagegroup-base-extended \
+    ${CORE_IMAGE_EXTRA_INSTALL} \
+    '
+
+  inherit image
+
+the current code is confusing since you have to read it twice to see
+what's going on ... is the second snippet not equivalent? and if not,
+what subtlety is going on there? but wait ... there's more.
+
+  if this can be simplified as i've written, that drops any need for
+CORE_IMAGE_BASE_INSTALL, which doesn't look necessary in the first
+place. consider some examples of OE's use of this. here's
+core-image-minimal.bb, whose definition i have always hated since it
+inherits core-image, only to just stomp on IMAGE_INSTALL:
+
+  IMAGE_INSTALL = "packagegroup-core-boot ${ROOTFS_PKGMANAGE_BOOTSTRAP}
+  ${CORE_IMAGE_EXTRA_INSTALL}"
+
+  IMAGE_LINGUAS = " "
+
+  LICENSE = "MIT"
+
+  inherit core-image
+
+i've learned to live with that, but let's continue. here's
+core-image-sato.bb:
+
+  IMAGE_FEATURES += "splash package-management x11-base x11-sato ssh-server-dropbear hwcodecs"
+
+  LICENSE = "MIT"
+
+  inherit core-image
+
+  IMAGE_INSTALL += "packagegroup-core-x11-sato-games"
+
+while the above is certainly technically correct, would it not make
+more sense to have written that last line as:
+
+  CORE_IMAGE_EXTRA_INSTALL = "packagegroup-core-x11-sato-games"
+
+i mean, isn't that the whole point of the variable
+CORE_IMAGE_EXTRA_INSTALL ... to give recipe writers a simple and
+*clear* way of adding extra content to the core-image class?
+
+now look at core-image-weston.bb, which reads (in part):
+
+  IMAGE_FEATURES += "splash package-management ssh-server-dropbear hwcodecs"
+
+  inherit core-image ...
+
+  CORE_IMAGE_BASE_INSTALL += "weston weston-init weston-examples gtk+3-demo clutter-1.0-examples"
+
+at this point, how many different way are there to add content to a
+core-image that all seem to work? and here's core-image-directfb:
+
+  IMAGE_INSTALL += "\
+        ${CORE_IMAGE_BASE_INSTALL} \
+        packagegroup-core-full-cmdline \
+        packagegroup-core-directfb \
+  "
+
+and here's core-image-clutter:
+
+  IMAGE_INSTALL = "\
+    ${CORE_IMAGE_BASE_INSTALL} \
+    packagegroup-core-clutter-core \
+    "
+
+everyone seems to have their own idea for how to extend core-image ...
+can this not be standardized so it's easier for people to RTFS? is
+there no preferred way to do the above for the sake of visual
+consistency?
+
+rday
+
+-- 
+
+========================================================================
+Robert P. J. Day Ottawa, Ontario, CANADA, http://crashcourse.ca
+LinkedIn:	http://ca.linkedin.com/in/rpjday
