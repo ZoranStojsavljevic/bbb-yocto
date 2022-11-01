@@ -1,0 +1,38 @@
+For -rt bbb the following options in virtual/kernel should be set in the menuconfig:
+
+	# CONFIG_SMP is not set
+	# CONFIG_MODULES is not set
+
+	CONFIG_DEBUG_ATOMIC_SLEEP=y
+	# CONFIG_DEBUG_LOCK_ALLOC is not set
+	# CONFIG_PROVE_LOCKING is not set
+	# CONFIG_LOCKDEP is not set
+
+	# CONFIG_CPU_FREQ is not set
+	# CONFIG_CPU_IDLE is not set
+
+	# CONFIG_NO_HZ is not set
+	CONFIG_HZ_PERIODIC=y
+
+	CONFIG_HZ_250=y
+	CONFIG_HZ=250
+
+	# CONFIG_SUSPEND is not set
+	# CONFIG_HIBERNATION is not set
+	# CONFIG_PM is not set
+
+	# CONFIG_FTRACE is not set
+
+	CONFIG_PREEMPT_RT_FULL=y
+
+The commands to setup the menuconfig are the following:
+
+[1] Run menuconfig and configure the kernel:
+
+	$ bitbake -c menuconfig virtual/kernel
+
+[2] To save the configuration in a defconfig format:
+
+	$ bitbake -c savedefconfig virtual/kernel
+
+https://variwiki.com/index.php?title=Yocto_Customizing_the_Linux_kernel
