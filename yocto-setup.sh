@@ -38,7 +38,7 @@ checkout_release () {
 	git checkout master
 	cd ..
 
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott ]]; then
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott || "$ReleaseName" == kirkstone ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
 		## git clone https://github.com/jumpnow/meta-jumpnow.git
@@ -51,6 +51,14 @@ checkout_release () {
 }
 
 custom_setings () {
+	if [ "$ReleaseName" == "kirkstone" ]; then
+		cp custom/defconfig.kirkstone meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
+		mv defconfig defconfig.genesis
+		mv defconfig.kirkstone defconfig
+		ls -al
+		cd $CURRENT_DIR
+	fi
 	if [ "$ReleaseName" == "hardknott" ]; then
 		cp custom/defconfig.hardknott meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
@@ -115,13 +123,17 @@ custom_setings () {
 	mv core-image-base.bb.default core-image-base.bb
 	mv core-image-minimal.bb core-image-minimal.bb.genesis
 	mv core-image-minimal.bb.default core-image-minimal.bb
+	if [ "$ReleaseName" == "kirkstone" ]; then
+		sed -i 's/_append/:append/g' core-image-minimal.bb
+		sed -i 's/_append/:append/g' core-image-base.bb
+	fi
 	ls -al
 	cd $CURRENT_DIR
 }
 
 set_build_env() {
 	source oe-init-build-env build/ > /dev/null 2>&1
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott ]]; then
+	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott || "$ReleaseName" == kirkstone ]]; then
 		bitbake-layers add-layer ../../meta-jumpnow/
 	fi
 	bitbake-layers add-layer ../../meta-bbb/
@@ -144,7 +156,7 @@ fi
 
 ReleaseName=$1
 
-names="sumo thud warrior zeus dunfell gatesgarth hardknott"
+names="sumo thud warrior zeus dunfell gatesgarth hardknott kirkstone"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then

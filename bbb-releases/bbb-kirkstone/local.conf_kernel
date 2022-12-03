@@ -1,5 +1,5 @@
 ## BeagleBone Black
-CONF_VERSION = "1"
+CONF_VERSION = "2"
 PATCHRESOLVE = "noop"
 SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 DL_DIR ?= "${TOPDIR}/downloads"
@@ -11,10 +11,10 @@ INIT_MANAGER ?= "systemd"
 
 ## Define kernel version
 PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
-PREFERRED_VERSION_meta-bbb ?= "5.10.%"
+PREFERRED_VERSION_meta-bbb ?= "5.13.%"
 
 ## Add kernel packages to have /usr/src/kernel/`uname -r` source code
-TOOLCHAIN_TARGET_TASK_append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
+TOOLCHAIN_TARGET_TASK:append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
 KERNEL_DEV_TOOLS = "packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
 KERNEL_DEV_MODULE = "kernel-modules"
 CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
@@ -27,9 +27,9 @@ BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 ## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
 ## CORE_IMAGE_EXTRA_INSTALL += "dhcp-libs dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-CORE_IMAGE_EXTRA_INSTALL_append = "openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential "
-DISTRO_FEATURES_append = " nfs systemd"
-IMAGE_FSTYPES_append = " cpio.xz"
+CORE_IMAGE_EXTRA_INSTALL:append = "openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential "
+DISTRO_FEATURES:append = " nfs systemd"
+IMAGE_FSTYPES:append = " cpio.xz"
 ## INHERIT += "extrausers"
 ## EXTRA_USERS_PARAMS = "usermod -P root root;"
 
