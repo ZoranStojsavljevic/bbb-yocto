@@ -47,10 +47,17 @@ checkout_release () {
 }
 
 custom_setings () {
+	cp custom/defconfig.langdale meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
+	cd meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
+	mv defconfig defconfig.genesis
+	mv defconfig.langdale defconfig
+	cd $CURRENT_DIR
+
 	cp custom/defconfig.langdale meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
 	cd meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
 	mv defconfig defconfig.genesis
 	mv defconfig.langdale defconfig
+
 	ls -al
 	cd $CURRENT_DIR
 
