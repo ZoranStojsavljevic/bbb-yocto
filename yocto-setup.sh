@@ -38,7 +38,8 @@ checkout_release () {
 	git checkout master
 	cd ..
 
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott || "$ReleaseName" == kirkstone ]]; then
+	if [[ "$ReleaseName" == "zeus" || "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" || "$ReleaseName" == "hardknott" \
+		|| "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
 		## git clone https://github.com/jumpnow/meta-jumpnow.git
@@ -51,6 +52,13 @@ checkout_release () {
 }
 
 custom_setings () {
+	if [ "$ReleaseName" == "langdale" ]; then
+		cp custom/defconfig.langdale meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
+		mv defconfig defconfig.genesis
+		mv defconfig.langdale defconfig
+		cd $CURRENT_DIR
+	fi
 	if [ "$ReleaseName" == "kirkstone" ]; then
 		cp custom/defconfig.kirkstone meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
@@ -123,7 +131,7 @@ custom_setings () {
 	mv core-image-base.bb.default core-image-base.bb
 	mv core-image-minimal.bb core-image-minimal.bb.genesis
 	mv core-image-minimal.bb.default core-image-minimal.bb
-	if [ "$ReleaseName" == "kirkstone" ]; then
+	if [[ "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" ]]; then
 		sed -i 's/_append/:append/g' core-image-minimal.bb
 		sed -i 's/_append/:append/g' core-image-base.bb
 	fi
@@ -133,7 +141,8 @@ custom_setings () {
 
 set_build_env() {
 	source oe-init-build-env build/ > /dev/null 2>&1
-	if [[ "$ReleaseName" == zeus || "$ReleaseName" == dunfell || "$ReleaseName" == gatesgarth || "$ReleaseName" == hardknott || "$ReleaseName" == kirkstone ]]; then
+	if [[ "$ReleaseName" == "zeus" || "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" || "$ReleaseName" == "hardknott" \
+		|| "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" ]]; then
 		bitbake-layers add-layer ../../meta-jumpnow/
 	fi
 	bitbake-layers add-layer ../../meta-bbb/
@@ -156,7 +165,7 @@ fi
 
 ReleaseName=$1
 
-names="sumo thud warrior zeus dunfell gatesgarth hardknott kirkstone"
+names="sumo thud warrior zeus dunfell gatesgarth hardknott kirkstone langdale"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then
