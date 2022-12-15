@@ -164,6 +164,7 @@ if [ $# -ne 1 ] ; then
 fi
 
 ReleaseName=$1
+name_bool=false
 
 names="sumo thud warrior zeus dunfell gatesgarth hardknott kirkstone langdale"
 for name in $names
@@ -182,9 +183,10 @@ do
 		echo "The system is ready for making the YOCTO images!"
 		echo "Example: bitbake -k core-image-minimal"
 		echo `pwd`
+		name_bool=true
 	fi
 done
 
-if [ "$ReleaseName" != $name ]; then
+if [ "$name_bool" == false ]; then
 	echo "Non supported YOCTO Release Name entered $ReleaseName!"
 fi
