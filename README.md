@@ -1,9 +1,4 @@
-### IMPORTANT announcement: this is LANGDALE experimental branch meta-langdale
-
-	LANGDALE experimental branch meta-langdale
-	# git checkout meta-langdale
-
-To try to test the Yocto kernel recipe: linux-yocto_5.19.bb
+### IMPORTANT announcement (latest change: December 18th, 4:23 CET, Y2022)
 
 #### WARRANTY of this repo used
 https://github.com/ZoranStojsavljevic/bbb-yocto
@@ -40,11 +35,13 @@ Once you have cloned the repo bbb-yocto with the command:
 The command to use to run the setup is the following:
 
 	cd bbb-yocto
-	source yocto-setup.sh
+	source yocto-setup.sh <release-name>
 	OR:
-	. yocto-setup.sh
+	. yocto-setup.sh <release-name>
+	### Example
+	. yocto-setup.sh langdale
 
-Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh)!
+Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
 #### BBLAYERS
 
@@ -64,8 +61,10 @@ These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's cloned repos, wher
 the jump-now technology to the langdale release (skipping honister release - limitation) and
 making Scott's jump-now repos langdale compliant:
 
-	cloned meta-bbb - from now on compliant on langdale
-	cloned meta-jumpnow - from now on compliant on langdale
+	cloned meta-bbb - from now on compliant up to langdale
+	cloned meta-jumpnow - from now on compliant up tp langdale
+
+TO DO: to create the Yocto honister release (low prio task, very low prio execution).
 
 #### Environment
 
@@ -75,20 +74,31 @@ Please, do note that (in the conf/local.conf the CONF_VERSION variable is now 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the bitbake environment on Langdale 4.1.1
+##### [2] Execution of the bitbake environment from langdale 4.1.1
 
-Important: langdale's bitbake version is 2.2.0 onwards.
+Important: langdale's bitbake version went from 2.2.0 onwards.
 ```
 	Build Configuration:
-**==>>	BB_VERSION           = "2.2.0"
+**==>>  BB_VERSION           = "2.2.0"
 	BUILD_SYS            = "x86_64-linux"
 	NATIVELSBSTRING      = "ubuntu-20.04"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
 	MACHINE              = "beaglebone"
 	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "4.1.1"
+**==>>  DISTRO_VERSION       = "4.1.1"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
+
+	meta
+	meta-poky
+	meta-yocto-bsp       = "langdale:3ec705d3203766a9a437ef7c7837f820c0800ead"
+	meta-jumpnow         = "langdale:30341c005f217d5d400a846de86d1f0fac40df5c"
+	meta-bbb             = "langdale:82524e3f271aba16164008fe0ba1d41cc48eb473"
+	meta-oe
+	meta-python
+	meta-networking      = "langdale:c354f92778c1d4bcd3680af7e0fb0d1414de2344"
+	meta-qt5             = "lts-5.15:cd923b23562827c71b478051ffbe8ec0cce76b8e"
+	meta-socketcan       = "master:1f829f50f15edf37a6823ae110fd160dea7a17d8"
 ```
 ##### [3] /bin/bash environment gets quite a few changes imported form YOCTO
 
@@ -104,38 +114,112 @@ General command (for any $SHELL):
 
 	$ exec $SHELL
 
-####  Langdale changes closer to the metal
+####  Kirkstone changes closer to the metal
+
+Please, do note then from the YOCTO Release kirkstone, there are major changes introduced
+in the YOCTO build system. I made more than 120 changes in the bbb-yocto repos (4 outlined
+repos presented in BBLAYERS. There are 4 of the repos I maintain from time to time, as
+outlined above (as time allows, since YOCTO is JUST ONE of many projects I am on).
 
 ##### [1] There are changes in the syntax of the recipes from hardknott to honister
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/documentation/YOCTO-Release-Migration-Guides/3.4_honister.md
 
-Please, do note that amount of changes for the new syntax is around 90% .
+Please, do note that amount of changes for the new syntax is around 80% .
 
-##### [2] There are changes to the meta-bbb kernel recipes
+##### [2] There are changes to the meta-bbb u-boot recipes
+
+Created meta-bbb/recipes-bsp/u-boot/ with rebased '0001-Customize-config-and-boot-command.patch'
+for the u-boot-1_2022.01 (added it to the meta-bbb/recipes-bsp).
+
+The meta-bbb/recipes-bsp/u-boot: serves as overlay for the poky/meta/recipes-bsp/u-boot.
+
+##### [3] There are changes to the meta-bbb kernel recipes
 
 The directory recipes-kernel/linux undergoes some investigation from my side.
 
+As my best understanding, there are for quite awhile two types of the Yocto kernel recipes:
+
+	linux-stable kernel recipes (linux-stable_x.yz.bb comming from linux stable repos)
+	and linux-yocto kernel recipes (linux-yocto_x.yz.bb comming from Yocto repos)
+
+In the directory conf/machine/conf/<MACHINE>.conf there is a variable PREFERRED_PROVIDER_virtual/kernel
+defined as:
+
+	PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
+	or
 	PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
-#### bbb-yocto langdale release should seamlessly compile on the following host platforms
+There are two include scripts provided for two different PREFERRED_PROVIDER:
+
+	linux-yocto.inc for the linux-yocto type of kernels
+	linux-stable.inc for the linux-stable type of kernels
+
+DISCLAIMER: Investigating the linux-yocto recipes, and how to incorporate them
+
+#### bbb-yocto releases should seamlessly compile on the following host platforms
 
 	Fedora 36
 	Ubuntu 20.4 (LTS)
 
-This was tested by me on both host platforms, it compiles and made a release.
+This was tested by me on both host platforms, it compiles and makes a release.
 
-WARNING: most likey, the following Yocto releases still compile on the above hosts:
+WARNING: most like, the following Yocto releases still compile on the native hosts:
 
-	gatesgarth
 	hardknott
+	honister
 	kirkstone
 	langdale
 
 Back in The Past, most likely older hosts (example: Ubuntu 18.04 and Fedora 32) are
 required as hosts containers. Usage of the containers are out of the YOCTO scope.
 
-I did not have time yet to test released Langdale images on BeagleBone Black from the
-poky/build/tmp/deploy/images/beaglebone (probably will not work).
+#### Known bbb-yocto (this project) deficiencies
+
+##### [1] The entire compiled and released Yocto kirkstone nad langdale images NOT tested yet
+
+Meaning u-boot, kernel, dtbs, dtbos, modules and rootfs.
+
+I do not have time yet to test released kirkstone and langdale images on BeagleBone
+Black from the poky/build/tmp/deploy/images/beaglebone (~90% probability it'll
+work out of the box).
+
+##### [2] Jumped from hardknott straight to kirkstone
+
+TO DO: to create the Yocto honister release (low prio task, very low prio execution).
+
+##### [3] To test the other style Yocto kernel recipes, such as:
+
+	linux-yocto_5.19.bb
+
+Time to understand linux-yocto kernels' recipes' environment.
+
+#### Standalone kernel handling in Yocto
+
+For make menuconfig, please, use the following Yocto command:
+
+	bitbake -c menuconfig virtual/kernel
+
+For make, please, use the following Yocto command:
+
+	bitbake -c compile virtual/kernel
+
+#### The bash script, customized for the owner's projects purposes (substitutions for the KAS tool)
+https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
+
+Please, follow the strict rules outlined below!
+
+	Step [1]: Look into the script yocto-setup.sh and customize it for your own project
+	Step [2]: Make the script yocto-setup.sh executable (permissions 755), and execute it:
+		# . ./yocto-setup.sh <yocto_release>
+	or
+		# source ./yocto-setup.sh <yocto_release>
+	Step [3]: After script executes, it'll be in the poky/build/ directory
+	Step [4]: Run in build/ bitbake -k core-image-minimal (or whatever core-image-? required)
+
+#### KAS tool passive comments, for now support abandoned (example: kas warrior script)
+
+	Step [1]: Go to bbb-releases/bbb-warrior/ directory and copy kas-bbb-warrior.yml to designated directory for build
+	Step [2]: Execute: kas build kas-bbb-warrior.yml ## KAS tool should be installed (go to kas/ for documentation)
 
 #### The test initramfs BBB image description
 
