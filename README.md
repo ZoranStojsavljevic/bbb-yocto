@@ -39,7 +39,7 @@ The command to use to run the setup is the following:
 	OR:
 	. yocto-setup.sh <release-name>
 	### Example
-	. yocto-setup.sh langdale
+	. yocto-setup.sh mickledore
 
 Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
@@ -58,11 +58,11 @@ Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-nam
 	** ==>>	/home/zoran.s/projects/github/yocto/bbb-yocto/meta-socketcan \"
 
 These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's cloned repos, where I advanced
-the jump-now technology to the langdale release (skipping honister release - limitation) and
-making Scott's jump-now repos langdale compliant:
+the jump-now technology to the mickledore release (skipping honister release - limitation) and
+making Scott's jump-now repos mickledore compliant:
 
-	cloned meta-bbb - from now on compliant up to langdale
-	cloned meta-jumpnow - from now on compliant up tp langdale
+	cloned meta-bbb - from now on compliant up to mickledore
+	cloned meta-jumpnow - from now on compliant up tp mickledore
 
 TO DO: to create the Yocto honister release (low prio task, very low prio execution).
 
@@ -74,31 +74,30 @@ Please, do note that (in the conf/local.conf the CONF_VERSION variable is now 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the bitbake environment from langdale 4.1.1
+##### [2] Execution of the DISTRO_VERSION 4.2.2
 
-Important: langdale's bitbake version went from 2.2.0 onwards.
+Important: mickledore's bitbake version went from 2.4.0 onwards.
 ```
 	Build Configuration:
-**==>>  BB_VERSION           = "2.2.0"
+**==>>	BB_VERSION           = "2.4.0"
 	BUILD_SYS            = "x86_64-linux"
 	NATIVELSBSTRING      = "ubuntu-20.04"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
 	MACHINE              = "beaglebone"
 	DISTRO               = "poky"
-**==>>  DISTRO_VERSION       = "4.1.1"
+**==>>	DISTRO_VERSION       = "4.2.2"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
-
-	meta
-	meta-poky
-	meta-yocto-bsp       = "langdale:3ec705d3203766a9a437ef7c7837f820c0800ead"
-	meta-jumpnow         = "langdale:30341c005f217d5d400a846de86d1f0fac40df5c"
-	meta-bbb             = "langdale:82524e3f271aba16164008fe0ba1d41cc48eb473"
-	meta-oe
-	meta-python
-	meta-networking      = "langdale:c354f92778c1d4bcd3680af7e0fb0d1414de2344"
-	meta-qt5             = "lts-5.15:cd923b23562827c71b478051ffbe8ec0cce76b8e"
-	meta-socketcan       = "master:1f829f50f15edf37a6823ae110fd160dea7a17d8"
+	meta                 
+	meta-poky            
+	meta-yocto-bsp       = "mickledore:0a98281d37b0bd8dc1548c390216cb3978e36e0e"
+	meta-jumpnow         = "mickledore:548f19edf4724c6f26a90c813091e74a3fc8d864"
+	meta-bbb             = "mickledore:4f7e8b9687c163da9cabaa251eff2251c0c59001"
+	meta-oe              
+	meta-python          
+	meta-networking      = "mickledore:75cf318cef3b4ee81fad2782cf063ecd69ba8842"
+	meta-qt5             = "upstream/mickledore:d86e2e82c15d186141713515dfd1373013aaebd5"
+	meta-socketcan       = "master:15406dd37cc568d083cb3a40a3c61bd217a1b8ab"
 ```
 ##### [3] /bin/bash environment gets quite a few changes imported form YOCTO
 
@@ -179,9 +178,9 @@ required as hosts containers. Usage of the containers are out of the YOCTO scope
 
 Meaning u-boot, kernel, dtbs, dtbos, modules and rootfs.
 
-I do not have time yet to test released kirkstone and langdale images on BeagleBone
-Black from the poky/build/tmp/deploy/images/beaglebone (~90% probability it'll
-work out of the box).
+I do not have time yet to test released mickledore images on BeagleBone
+Black from the poky/build/tmp/deploy/images/beaglebone (~90% probability
+it'll work out of the box).
 
 ##### [2] Jumped from hardknott straight to kirkstone
 
