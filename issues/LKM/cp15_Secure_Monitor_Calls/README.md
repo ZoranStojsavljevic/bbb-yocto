@@ -44,7 +44,7 @@ Since, while compiling it with newest Makefile (executed natively on the target)
 	make: *** [Makefile:5: all] Error 2
 	root@beaglebone:~/projects/LKM/cp15_smc# 
 ```
-### Hidden arm ROOT/Superuser Supervisor mode handling by armv7 A8 (most likely by A9 and A15) arhhitecture
+### Hidden arm ROOT/Superuser Supervisor mode handling by armv7 A8 (AM335x specimen)
 
 There are two distinct HW modes dealing with root/superuser:
 [1] Executing in user space as root/superuser;
@@ -85,3 +85,21 @@ Since [1] for the instruction:
 	asm volatile ("mrc p15, 0, %0, c0, c2, 4" : "=r"(reg_value) );
 ```
 Produces message: Illegal instruction!
+
+### Some additional thoughts regarding arm AM335x asm implementation
+
+#### ARM processor modes
+* [ARM processor modes](https://developer.arm.com/documentation/ddi0406/cb/System-Level-Architecture/The-System-Level-Programmers--Model/ARM-processor-modes-and-ARM-core-registers/ARM-processor-modes?lang=en)
+
+#### ARM Architecture – Registers and Exception Model
+* [Registers and Exception Model](https://www.embien.com/blog/arm-architecture-registers-exception-model)
+
+#### Direct Operating System Access via Syscalls
+* [Direct OS Access via Syscalls](https://www.cs.uaf.edu/2017/fall/cs301/lecture/11_17_syscall.html)
+
+And the registers, for passing the arguments:
+![](different_arch_system_calls.png)
+
+Maybe for smc 0 (AM 335x syscall instruction) there are arguments missing???
+
+Since as it hangs, the supplied # and args values might be wrong!

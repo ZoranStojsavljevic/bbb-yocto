@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2019-2021 Systems Software Research, Ltd., Zoran Stojsavljevic
+# Copyright (C) 2019-2023 Systems Software Research, Ltd., Zoran Stojsavljevic
 # SPDX-License-Identifier: MIT License
 # This program is free software: you can redistribute it and/or modify it under the terms of the MIT Public License.
 
@@ -54,8 +54,8 @@ checkout_release () {
 
 custom_setings () {
 	if [ "$ReleaseName" == "mickledore" ]; then
-		cp custom/defconfig.mickledore meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
+		cp custom/defconfig.mickledore meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
 		mv defconfig defconfig.genesis
 		mv defconfig.mickledore defconfig
 		cd $CURRENT_DIR
