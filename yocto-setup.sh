@@ -1,10 +1,15 @@
 #!/bin/bash
-# Copyright (C) 2019-2023 Systems Software Research, Ltd., Zoran Stojsavljevic
+# Copyright (C) 2019-2024 Systems Software Research, Ltd.,
+# Zoran Stojsavljevic
+#
 # SPDX-License-Identifier: MIT License
-# This program is free software: you can redistribute it and/or modify it under the terms of the MIT Public License.
+# This program is free software: you can redistribute it and/or
+# modify it under the terms of the MIT Public License.
 
-# This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied
-# warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the MIT Public License for more details.
+# This program is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+# MIT Public License for more details.
 
 checkout_release () {
 	## meta-bbb
@@ -17,6 +22,13 @@ checkout_release () {
 	## poky
 	git clone https://git.yoctoproject.org/git/poky.git
 	cd poky
+	## ------- add to poky meta-secure-core repo
+	## meta-secure-core
+	git clone https://github.com/Wind-River/meta-secure-core
+	cd meta-secure-core
+	git checkout $ReleaseName
+	cd ..
+	## ------- end add to poky meta-secure-core repo
 	git checkout $ReleaseName
 	cd ..
 
@@ -38,9 +50,10 @@ checkout_release () {
 	git checkout master
 	cd ..
 
-	if [[ "$ReleaseName" == "zeus" || "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
+	if [[ "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
 		|| "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
-		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" ]]; then
+		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
+		|| "$ReleaseName" == "nanbield" ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
 		## git clone https://github.com/jumpnow/meta-jumpnow.git
@@ -53,6 +66,13 @@ checkout_release () {
 }
 
 custom_setings () {
+	if [ "$ReleaseName" == "nanbield" ]; then
+		cp custom/defconfig.nanbield meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
+		mv defconfig defconfig.genesis
+		mv defconfig.nanbield defconfig
+		cd $CURRENT_DIR
+	fi
 	if [ "$ReleaseName" == "mickledore" ]; then
 		cp custom/defconfig.mickledore meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
@@ -99,38 +119,6 @@ custom_setings () {
 		ls -al
 		cd $CURRENT_DIR
 	fi
-	if [ "$ReleaseName" == "zeus" ]; then
-		cp custom/defconfig.zeus meta-bbb/recipes-kernel/linux/linux-stable-5.6/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.6/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.zeus defconfig
-		ls -al
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "warrior" ]; then
-		cp custom/defconfig.warrior meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.4/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.warrior defconfig
-		ls -al
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "thud" ]; then
-		cp custom/defconfig.thud meta-bbb/recipes-kernel/linux/linux-stable-5.0/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.0/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.thud defconfig
-		ls -al
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "sumo" ]; then
-		cp custom/defconfig.sumo meta-bbb/recipes-kernel/linux/linux-stable-4.19/beaglbone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-4.19/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.sumo defconfig
-		ls -al
-		cd $CURRENT_DIR
-	fi
 
 	cp custom/core-image-minimal.bb.default poky/meta/recipes-core/images
 	cp custom/core-image-base.bb.default poky/meta/recipes-core/images
@@ -139,7 +127,8 @@ custom_setings () {
 	mv core-image-base.bb.default core-image-base.bb
 	mv core-image-minimal.bb core-image-minimal.bb.genesis
 	mv core-image-minimal.bb.default core-image-minimal.bb
-	if [[ "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" ]]; then
+	if [[ "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" \
+		|| "$ReleaseName" == "mickledore" || "$ReleaseName" == "nanbield" ]]; then
 		sed -i 's/_append/:append/g' core-image-minimal.bb
 		sed -i 's/_append/:append/g' core-image-base.bb
 	fi
@@ -149,11 +138,13 @@ custom_setings () {
 
 set_build_env() {
 	source oe-init-build-env build/ > /dev/null 2>&1
-	if [[ "$ReleaseName" == "zeus" || "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
+	if [[ "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
 		|| "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
-		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" ]]; then
+		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
+		|| "$ReleaseName" == "nanbield" ]]; then
 		bitbake-layers add-layer ../../meta-jumpnow/
 	fi
+
 	bitbake-layers add-layer ../../meta-bbb/
 	bitbake-layers add-layer ../../meta-openembedded/meta-oe/
 	bitbake-layers add-layer ../../meta-openembedded/meta-python/
@@ -168,18 +159,18 @@ CURRENT_DIR=`pwd`
 echo $CURRENT_DIR
 
 if [ $# -ne 1 ] ; then
-	echo "Usage: $0 <YOCTO Release Name (starting from sumo release)>"
+	echo "Usage: $0 <YOCTO Release Name (starting from dunfell release)>"
 	exit 1
 fi
 
 ReleaseName=$1
 name_bool=false
 
-names="sumo thud warrior zeus dunfell gatesgarth hardknott kirkstone langdale mickledore"
+names="dunfell gatesgarth hardknott kirkstone langdale mickledore nanbield"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then
-		echo "Supported YOCTO Release Name entered $name!"
+		echo "ONLY OFFICIALLY Supported YOCTO Release Name entered: $name!"
 		rm -rf build/
 		checkout_release
 		custom_setings
