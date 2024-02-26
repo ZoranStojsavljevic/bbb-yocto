@@ -9,6 +9,8 @@ For the releases:
 	defconfig.hardknott
 	defconfig.kirkstone
 	defconfig.langdale
+	defconfig.mickledore
+	defconfig.nanbield
 
 Issue is described @ the following pointer:
 https://archlinuxarm.org/forum/viewtopic.php?f=60&t=15933
