@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: February 27th, Y2024)
+### IMPORTANT announcement (latest change: May 14th, Y2024)
 
 #### WARRANTY of this repo used
 https://github.com/ZoranStojsavljevic/bbb-yocto
@@ -36,17 +36,23 @@ create an issue!
 
 Once you have cloned the repo bbb-yocto with the command:
 
-	git clone https://github.com/ZoranStojsavljevic/bbb-yocto.git
+	$ git clone https://github.com/ZoranStojsavljevic/bbb-yocto.git
 
-The command to use to run the setup is the following:
+The command to be used to run the setup is the following:
 
-	cd bbb-yocto
-	source yocto-setup.sh <release-name>
+	$ cd bbb-yocto
+
+	### For now, the following mandatory command
+	### since Yocto scarthgap release is a MUST!
+	if <release-name> .GT. nanbield
+		$ git checkout <release-name>
+	$ source yocto-setup.sh <release-name>
 	OR:
-	. yocto-setup.sh <release-name>
+	$ . yocto-setup.sh <release-name>
 
 	### Example
-	. yocto-setup.sh nanbield
+	git checkout scarthgap
+	. yocto-setup.sh scarthgap
 
 Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
@@ -65,12 +71,12 @@ Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-nam
 	** ==>>	/home/zoran.s/projects/github/yocto/bbb-yocto/meta-socketcan \"
 
 These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's
-cloned repos, where I advanced the jump-now technology to the
+cloned repos, where I advanced the jumpnow technology to the
 mickledore release (skipping honister release - limitation) and
-making Scott's jump-now repos nanbield compliant:
+making Scott's jump-now repos scarthgap compliant:
 
-	cloned meta-bbb - from now on compliant up to nanbield
-	cloned meta-jumpnow - from now on compliant up to nanbield
+	cloned meta-bbb - from now on compliant up to scarthgap
+	cloned meta-jumpnow - from now on compliant up to scarthgap
 
 TO DO:	create the Yocto honister release (very low prio task).
 	Probably will never be done!
@@ -84,32 +90,35 @@ variable is now of value 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the DISTRO_VERSION 4.3.3
+##### [2] Execution of the DISTRO_VERSION 5.0.1
 
-Important: nanbield's bitbake version went from 2.6.0 onwards.
+Important: scarthgap's bitbake version went from 2.8.0 onwards.
 
-```
+	Latest commits with 5.0.1 scarthgap release:
+
+NOTE: Resolving any missing task queue dependencies
+
 	Build Configuration:
-**==>>	BB_VERSION           = "2.6.0"
+**==>>	BB_VERSION           = "2.8.0"
 	BUILD_SYS            = "x86_64-linux"
-	NATIVELSBSTRING      = "fedora-39"
+	NATIVELSBSTRING      = "fedora-40"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
 	MACHINE              = "beaglebone"
 	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "4.3.3"
+**==>>	DISTRO_VERSION       = "5.0.1"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
-	meta                 
-	meta-poky            
-	meta-yocto-bsp       = "nanbield:1a5c00f00c14cee3ba5d39c8c8db7a9738469eab"
-	meta-jumpnow         = "nanbield:4c5cff1e973587d5aac8beebfdc7ff50daf66b55"
-	meta-bbb             = "nanbield:17a88e4de6afe5003c7de8ff239fc3d31473d6ac"
-	meta-oe              
-	meta-python          
-	meta-networking      = "nanbield:da9063bdfbe130f424ba487f167da68e0ce90e7d"
-	meta-qt5             = "lts-5.15:8725c579085a317c35e625c1feb8a442a382b88a"
-	meta-socketcan       = "master:15406dd37cc568d083cb3a40a3c61bd217a1b8ab"
-```
+	meta
+	meta-poky
+	meta-yocto-bsp       = "scarthgap:4b07a5316ed4b858863dfdb7cab63859d46d1810"
+	meta-jumpnow         = "scarthgap:500080773492dd842d6ea0627ebc80b2f775ca1c"
+	meta-bbb             = "scarthgap:561d1ada0de84120996c9abb079971ca4888c16f"
+	meta-oe
+	meta-python
+	meta-networking      = "scarthgap:a72010b414ee3d73888ac9cb4e310e8f05e13aea"
+	meta-qt5             = "upstream/scarthgap:d8eeef0bfd84672c7919cd346f25f7c9a98ddaea"
+	meta-socketcan       = "scarthgap:3bceabca635c98f06e5e0fb0d411813c3730d805"
+
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
 Please, note that /bin/bash environment gets quite a few changes
@@ -170,17 +179,16 @@ DISCLAIMER: Investigating the linux-yocto recipes, and how to incorporate them
 
 #### bbb-yocto releases should seamlessly compile on the following host platforms
 
-	Fedora 39
+	Fedora 40
 
 This was tested by me on both host platforms, it compiles and makes a release.
 
 WARNING: most like, the following Yocto releases still compile on the native hosts:
 
-	honister
-	kirkstone
 	langdale
 	micledore
 	nanbield
+	scarthgap
 
 Back in The Past, most likely older hosts (example: Ubuntu 18.04
 and Fedora 32) are required as hosts containers. Usage of the
@@ -192,7 +200,7 @@ containers are out of the YOCTO scope.
 
 Meaning u-boot, kernel, dtbs, dtbos, modules and rootfs.
 
-I do not have time yet to test released mickledore images on
+I do not have time yet to test released scarthgap images on
 BeagleBone Black from the poky/build/tmp/deploy/images/beaglebone
 (~90% probability it'll work out of the box).
 
@@ -216,18 +224,19 @@ For make, please, use the following Yocto command:
 
 	bitbake -c compile virtual/kernel
 
-#### The bash script, customized for the owner's projects purposes (substitutions for the KAS tool)
+#### The bash script, customized for the own purposes (substitutions for the KAS tool)
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 
 Please, follow the strict rules outlined below!
 
-	Step [1]: Look into the script yocto-setup.sh and customize it for your own project
-	Step [2]: Make the script yocto-setup.sh executable (permissions 755), and execute it:
-		# . ./yocto-setup.sh <yocto_release>
+	Step [1]: Look into the script yocto-setup.sh (customize it for the given release)
+	Step [2]: Make the script yocto-setup.sh executable (permissions 755)
+	Step [3]: execute from scarthgap release: $ git checkout <yocto_release>
+	Step [4]: start the script: $ . ./yocto-setup.sh <yocto_release>
 	or
-		# source ./yocto-setup.sh <yocto_release>
-	Step [3]: After script executes, it'll be in the poky/build/ directory
-	Step [4]: Run in build/ bitbake -k core-image-minimal (or whatever core-image-? required)
+		  $ source ./yocto-setup.sh <yocto_release>
+	Step [5]: After script executes, cwd will be the poky/build/ directory
+	Step [6]: Run: $ bitbake -k core-image-minimal (or whatever core-image-? required)
 
 #### KAS tool passive comments, for now support abandoned
 

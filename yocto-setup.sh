@@ -47,13 +47,20 @@ checkout_release () {
 	## meta-socketcan
 	git clone https://github.com/ZoranStojsavljevic/meta-socketcan.git
 	cd meta-socketcan
-	git checkout master
+	if [[ "$ReleaseName" == "scarthgap" ]]; then
+		git checkout $ReleaseName
+	else
+		git checkout master
+	fi
+	git status
 	cd ..
+
+	echo "ReleaseName for meta-jumpnow repo is: "$ReleaseName
 
 	if [[ "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
 		|| "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
 		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
-		|| "$ReleaseName" == "nanbield" ]]; then
+		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
 		## git clone https://github.com/jumpnow/meta-jumpnow.git
@@ -66,6 +73,13 @@ checkout_release () {
 }
 
 custom_setings () {
+	if [ "$ReleaseName" == "scarthgap" ]; then
+		cp custom/defconfig.scarthgap meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
+		mv defconfig defconfig.genesis
+		mv defconfig.scarthgap defconfig
+		cd $CURRENT_DIR
+	fi
 	if [ "$ReleaseName" == "nanbield" ]; then
 		cp custom/defconfig.nanbield meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
@@ -128,8 +142,10 @@ custom_setings () {
 	mv core-image-minimal.bb core-image-minimal.bb.genesis
 	mv core-image-minimal.bb.default core-image-minimal.bb
 	if [[ "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" \
-		|| "$ReleaseName" == "mickledore" || "$ReleaseName" == "nanbield" ]]; then
+		|| "$ReleaseName" == "mickledore" || "$ReleaseName" == "nanbield" \
+		|| "$ReleaseName" == "scarthgap" ]]; then
 		sed -i 's/_append/:append/g' core-image-minimal.bb
+
 		sed -i 's/_append/:append/g' core-image-base.bb
 	fi
 	ls -al
@@ -141,7 +157,7 @@ set_build_env() {
 	if [[ "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
 		|| "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
 		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
-		|| "$ReleaseName" == "nanbield" ]]; then
+		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" ]]; then
 		bitbake-layers add-layer ../../meta-jumpnow/
 	fi
 
@@ -166,7 +182,17 @@ fi
 ReleaseName=$1
 name_bool=false
 
-names="dunfell gatesgarth hardknott kirkstone langdale mickledore nanbield"
+# Run git status command and filter the line containing the branch name
+bbb_yocto_branch=`git status | grep "On branch" | cut -d ' ' -f 3`
+echo "Current bbb-yocto's branch is: "$bbb_yocto_branch
+
+if [[ "$ReleaseName" == "scarthgap" ]]; then
+	git checkout $ReleaseName
+else
+	git checkout master
+fi
+
+names="dunfell gatesgarth hardknott kirkstone langdale mickledore nanbield scarthgap"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then
