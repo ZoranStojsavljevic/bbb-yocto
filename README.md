@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: May 14th, Y2024)
+### IMPORTANT announcement (latest change: May 19th, Y2024)
 
 #### WARRANTY of this repo used
 https://github.com/ZoranStojsavljevic/bbb-yocto
@@ -32,7 +32,7 @@ Please, do not hesitate to report to author any notifications
 about the unknown issues and potential bugs, and/or you can also
 create an issue!
 
-#### Usage, creation of the YOCTO environment
+#### Creation of the YOCTO environment and usage
 
 Once you have cloned the repo bbb-yocto with the command:
 
