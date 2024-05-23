@@ -210,7 +210,7 @@ TO DO: to create the Yocto honister release (very low prio task).
 
 ##### [3] To test the other style Yocto kernel recipes, such as:
 
-	linux-yocto_6.1.bb
+	linux-yocto_6.9.bb
 
 Still a NEED to understand linux-yocto kernels' recipes' env.
 

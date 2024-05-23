@@ -74,8 +74,8 @@ checkout_release () {
 
 custom_setings () {
 	if [ "$ReleaseName" == "scarthgap" ]; then
-		cp custom/defconfig.scarthgap meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
+		cp custom/defconfig.scarthgap meta-bbb/recipes-kernel/linux/linux-stable-6.9/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-6.9/beaglebone
 		mv defconfig defconfig.genesis
 		mv defconfig.scarthgap defconfig
 		cd $CURRENT_DIR

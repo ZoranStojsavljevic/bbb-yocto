@@ -11,7 +11,7 @@ INIT_MANAGER ?= "systemd"
 
 ## Define kernel version
 PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
-PREFERRED_VERSION_meta-bbb ?= "5.19.%"
+PREFERRED_VERSION_meta-bbb ?= "6.1.%"
 
 ## Add kernel packages to have /usr/src/kernel/`uname -r` source code
 TOOLCHAIN_TARGET_TASK:append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
