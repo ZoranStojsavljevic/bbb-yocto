@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: May 19th, Y2024)
+### IMPORTANT announcement (latest change: May 26th, Y2024)
 
 #### WARRANTY of this repo used
 https://github.com/ZoranStojsavljevic/bbb-yocto
@@ -97,7 +97,7 @@ Important: scarthgap's bitbake version went from 2.8.0 onwards.
 	Latest commits with 5.0.1 scarthgap release:
 
 NOTE: Resolving any missing task queue dependencies
-
+```
 	Build Configuration:
 **==>>	BB_VERSION           = "2.8.0"
 	BUILD_SYS            = "x86_64-linux"
@@ -118,7 +118,7 @@ NOTE: Resolving any missing task queue dependencies
 	meta-networking      = "scarthgap:a72010b414ee3d73888ac9cb4e310e8f05e13aea"
 	meta-qt5             = "upstream/scarthgap:d8eeef0bfd84672c7919cd346f25f7c9a98ddaea"
 	meta-socketcan       = "scarthgap:3bceabca635c98f06e5e0fb0d411813c3730d805"
-
+```
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
 Please, note that /bin/bash environment gets quite a few changes
@@ -266,5 +266,5 @@ defconfig (the booting is done solely from initramfs)!
 	CONFIG_BLK_DEV_RAM_SIZE=16384
 
 #### Original referent YOCTO Poky distro is @:
-* [git.yoctoproject.org poky](git clone https://git.yoctoproject.org/git/poky.git)
+* [git.yoctoproject.org poky](https://git.yoctoproject.org/git/poky.git)
 

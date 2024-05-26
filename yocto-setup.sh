@@ -22,6 +22,8 @@ checkout_release () {
 	## poky
 	git clone https://git.yoctoproject.org/git/poky.git
 	cd poky
+	git checkout $ReleaseName
+
 	## ------- add to poky meta-secure-core repo
 	## meta-secure-core
 	git clone https://github.com/Wind-River/meta-secure-core
@@ -29,7 +31,15 @@ checkout_release () {
 	git checkout $ReleaseName
 	cd ..
 	## ------- end add to poky meta-secure-core repo
-	git checkout $ReleaseName
+
+	## Poky 5.0.1 Release - added modified TEMPORARY F40 support patch
+	if [[ "$ReleaseName" == "scarthgap" ]]; then
+		rm ./meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
+		cp ../tmp-patch/0001-packlib.c-support-dictionary-byte-order-dependent.patch \
+			./meta/recipes-extended/cracklib/cracklib/
+		ls -al ./meta/recipes-extended/cracklib/cracklib/000*
+	fi
+	## Poky 5.0.1 Release patch - to be removed in 5.0.2 (?)
 	cd ..
 
 	## meta-openembedded
