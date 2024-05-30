@@ -84,7 +84,8 @@ checkout_release () {
 
 custom_setings () {
 	if [ "$ReleaseName" == "scarthgap" ]; then
-		cp custom/defconfig.scarthgap meta-bbb/recipes-kernel/linux/linux-stable-6.9/beaglebone
+		cp custom/defconfig.scarthgap meta-bbb/recipes-kernel/linux/linux-stable-6
+.9/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-6.9/beaglebone
 		mv defconfig defconfig.genesis
 		mv defconfig.scarthgap defconfig
@@ -163,6 +164,7 @@ custom_setings () {
 }
 
 set_build_env() {
+	cd poky/
 	source oe-init-build-env build/ > /dev/null 2>&1
 	if [[ "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
 		|| "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
@@ -210,7 +212,6 @@ do
 		rm -rf build/
 		checkout_release
 		custom_setings
-		cd poky/
 		set_build_env
 		cd $CURRENT_DIR
 

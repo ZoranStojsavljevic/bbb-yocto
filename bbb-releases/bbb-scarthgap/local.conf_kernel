@@ -23,7 +23,10 @@ CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
                              "
 ## mask for non-mender builds
 BBMASK = "meta-bbb/recipes-mender"
-BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
+
+## Unmask canutils in meta-openembedded/ (oe) since it will be tracked by oe!
+## BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
+
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 ## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
 ## CORE_IMAGE_EXTRA_INSTALL += "dhcp-libs dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
