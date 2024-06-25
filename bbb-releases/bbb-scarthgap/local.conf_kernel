@@ -9,11 +9,13 @@ PACKAGE_CLASSES ?= "package_rpm package_deb"
 INIT_MANAGER ?= "systemd"
 ## PACKAGECONFIG_append_pn-systemd = " networkd"
 
-## Define kernel version
+# Define kernel version
 ## PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
 ## PREFERRED_VERSION_meta-bbb ?= "6.1.%"
+## PREFERRED_VERSION_meta-bbb-libc-headers="6.10.%"
 ## PREFERRED_VERSION_meta-bbb ?= "6.10.%"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+PREFERRED_VERSION_linux-mainline-libc-headers="6.10.%"
 PREFERRED_VERSION_linux-mainline ?= "6.10.%"
 
 ## Add kernel packages to have /usr/src/kernel/`uname -r` source code

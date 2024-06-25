@@ -65,100 +65,22 @@ In dir .../bbb-yocto/meta-bbb/recipes-bsp/u-boot/files the patch:
 
 is rebased since u-boot v2024.01 , which is used for scarthgap release.
 
-### [5] ISSUES in the Poky 5.0.1
-
-These issues supposed to be fixed in Poky 5.0.2
-
-Host distribution "Fedora 40" has not been validated yet
-
-	WARNING: Host distribution "Fedora 40" has not been validated
-	with this version of the build system; you may possibly
-	experience unexpected failures. It is recommended that you use
-	a tested distribution.
-
-Fedora 40 is NOT yet supported as a host distro. To use Fedora
-40, there is an effort to support GCC 14.1, which involves
-fixing problems like the following:
-
-	[5.1] Incompatibility with Fedora 40 (uninative)
-	[5.2] cracklib package to be changed to accomodate gcc 14.1 package
-
-#### [5.1] Incompatibility with Fedora 40 (uninative)
-
-	## TEMPORARY FIX: pzstd: /home/vuser/projects2/yocto/yocto_test2/bbb-yocto/ \
-	## poky/build/tmp/sysroots-uninative/x86_64-linux/usr/lib/libstdc++.so.6: \
-	## version `CXXABI_1.3.15' not found (required by pzstd)
-	## This is an incompatibility with Fedora 40 and uninative, so until this
-	## is resolved. please, disable uninative with this in the local.conf:
-	INHERIT:remove = "uninative"
-
-#### [5.2] cracklib package to be changed to accomodate gcc 14.1 package
-
-* [cracklib fix - yet to be applied](https://git.openembedded.org/openembedded-core/commit/?id=914128f6bd988cde278e087fb9457a0c70c7e5ec)
-
-Where is the cracklib recipe in poky?
-
-	.../bbb-yocto/poky/meta/recipes-extended/cracklib/cracklib_2.9.11.bb
-
-There is a mandatory patch which should be added to the Fedora 40 release!
-
-	.../bbb-yocto/poky/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-
-```
-$ git diff meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-diff --git a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-index 20572b55c4..35229ae890 100644
---- a/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-+++ b/meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-@@ -303,7 +303,7 @@ index 9396e1d..d0bb181 100644
- +          PWDICT tmp_pwp;
- +
- +          memcpy(&tmp_pwp, pwp, sizeof(PWDICT));
--+          HwmsHostToBigEndian(tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
-++          HwmsHostToBigEndian((char *)tmp_pwp.hwms, sizeof(tmp_pwp.hwms), en_is32);
- +          fwrite(tmp_pwp.hwms, 1, sizeof(tmp_pwp.hwms), pwp->wfp);
-        }
-      }
-```
-
-Resulting in adding a temporary patch in yocto-setup.sh:
-
-	## poky
-	git clone https://git.yoctoproject.org/git/poky.git
-	cd poky
-	git checkout $ReleaseName
-
-	## ------- add to poky meta-secure-core repo
-	## meta-secure-core
-	git clone https://github.com/Wind-River/meta-secure-core
-	cd meta-secure-core
-	git checkout $ReleaseName
-	cd ..
-	## ------- end add to poky meta-secure-core repo
-
-	## Poky 5.0.1 Release - added modified TEMPORARY F40 support patch
-	if [[ "$ReleaseName" == "scarthgap" ]]; then
-		rm ./meta/recipes-extended/cracklib/cracklib/0001-packlib.c-support-dictionary-byte-order-dependent.patch
-		cp ../tmp-patch/0001-packlib.c-support-dictionary-byte-order-dependent.patch \
-			./meta/recipes-extended/cracklib/cracklib/
-		ls -al ./meta/recipes-extended/cracklib/cracklib/000*
-	fi
-	## Poky 5.0.1 Release patch - to be removed in 5.0.2 (?)
-	cd ..
-
-These patches are temporary added to the current yocto 5.0.1
-Final Release.
-
-### [6] Poky 5.0.1 Final Release makes the BBB Poky 5.0.1 to work
-
-bitbake -k core-image-minimal
+### [5] Poky 5.0.2-rc1 works
 
 WARNING: Host distribution "fedora-40" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache: 100% |                                                      | ETA:  --:--:--
+Loading cache: 100% |                                                                      | ETA:  --:--:--
 Loaded 0 entries from dependency cache.
-Parsing recipes: 100% |#####################################################| Time: 0:04:02
-Parsing of 2809 .bb files complete (0 cached, 2809 parsed). 4712 targets, 135 skipped, 1 masked, 0 errors.
+Parsing recipes: 100% |#####################################################################| Time: 0:04:20
+Parsing of 2810 .bb files complete (0 cached, 2810 parsed). 4713 targets, 137 skipped, 0 masked, 0 errors.
 NOTE: Resolving any missing task queue dependencies
+WARNING: preferred version 6.10.% of linux-libc-headers not available (for item linux-libc-headers)
+WARNING: versions of linux-libc-headers available: 6.6
+WARNING: preferred version 6.10.% of linux-libc-headers not available (for item linux-libc-headers-dev)
+WARNING: versions of linux-libc-headers available: 6.6
+
+Build Configuration:
+
+bitbake -k core-image-minimal
 
 ```
 Build Configuration:
@@ -168,27 +90,31 @@ NATIVELSBSTRING      = "fedora-40"
 TARGET_SYS           = "arm-poky-linux-gnueabi"
 MACHINE              = "beaglebone"
 DISTRO               = "poky"
-DISTRO_VERSION       = "5.0.1" <<<======= Final Poky 5.0.1 Release =======
+DISTRO_VERSION       = "5.0.2"
 TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 TARGET_FPU           = "hard"
 meta
 meta-poky
-meta-yocto-bsp       = "scarthgap:68f9a4b73d17839e0ec1f12a31fc1d42331cc42f"
-meta-jumpnow         = "scarthgap:500080773492dd842d6ea0627ebc80b2f775ca1c"
-meta-bbb             = "scarthgap:d3a38f37bb3ca7ebe51c6200258bd9cae0c0203c"
+meta-yocto-bsp       = "scarthgap:f7def85be9f99dcb4ba488bead201f670304379b"
+meta-jumpnow         = "scarthgap:3efb1aa7d511f0fb44d9dcdb578bada1882dc1b3"
+meta-bbb             = "scarthgap:ba69a8e5457bcd36b4fe0ab8c3498ec468455077"
 meta-oe
 meta-python
-meta-networking      = "scarthgap:6de0ab744341ad61b0661aa28d78dc6767ce0786"
-meta-qt5             = "upstream/scarthgap:d8eeef0bfd84672c7919cd346f25f7c9a98ddaea"
-meta-socketcan       = "scarthgap:3bceabca635c98f06e5e0fb0d411813c3730d805"
-```
+meta-networking      = "scarthgap:4a7bb77f7ebe0ac8be5bab5103d8bd993e17e18d"
+meta-qt5             = "upstream/scarthgap:eb828418264a49b8d00035cb3d7b12fcea3be801"
+meta-socketcan       = "scarthgap:7bba7af8403eb9a28e7d0e7f0d0229e3bffcf65a"
 
-Sstate summary: Wanted 2404 Local 0 Mirrors 0 Missed 2404 Current 0 (0% match, 0% complete)
-Initialising tasks: 100% |##################################################| Time: 0:00:05
+NOTE: Fetching uninative binary shim http://downloads.yoctoproject.org/releases/uninative/4.5/x86_64-nativesdk-libc-4.5.tar.xz;sha256sum=43ee6a25bcf5fce16ea87076d6a96e79ead6ced90690a058d07432f902773473 (will check PREMIRRORS first)
+Sstate summary: Wanted 2399 Local 0 Mirrors 0 Missed 2399 Current 0 (0% match, 0% complete) | ETA:  0:00:00
+Initialising tasks: 100% |##################################################################| Time: 0:00:04
+NOTE: Executing Tasks
+
+NOTE: Fetching uninative binary shim http://downloads.yoctoproject.org/releases/uninative/4.5/x86_64-nativesdk-libc-4.5.tar.xz;sha256sum=43ee6a25bcf5fce16ea87076d6a96e79ead6ced90690a058d07432f902773473 (will check PREMIRRORS first)
+Sstate summary: Wanted 2399 Local 0 Mirrors 0 Missed 2399 Current 0 (0% match, 0% complete) | ETA:  0:00:00
+Initialising tasks: 100% |##################################################################| Time: 0:00:04
 NOTE: Executing Tasks
 WARNING: libpng-1.6.42-r0 do_fetch: Failed to fetch URL https://downloads.sourceforge.net/project/libpng/libpng16/libpng-1.6.42.tar.xz, attempting MIRRORS if available
-WARNING: linux-stable-6.9.1-r0 do_package_qa: QA Issue: Recipe LICENSE includes obsolete licenses GPLv2 [obsolete-license]
-NOTE: Tasks Summary: Attempted 4990 tasks of which 6 didn't need to be rerun and all succeeded.
+NOTE: Tasks Summary: Attempted 4985 tasks of which 6 didn't need to be rerun and all succeeded.
 
-Summary: There were 3 WARNING messages.
-
+Summary: There were 6 WARNING messages.
+```
