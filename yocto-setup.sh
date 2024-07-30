@@ -40,7 +40,7 @@ checkout_release () {
 	cd ..
 
 	## meta-qt5
-	git clone http://code.qt.io/yocto/meta-qt5.git
+	git clone https://code.qt.io/yocto/meta-qt5.git
 	cd meta-qt5
 	git checkout upstream/$ReleaseName
 	cd ..

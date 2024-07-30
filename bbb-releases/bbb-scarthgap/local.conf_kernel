@@ -41,6 +41,7 @@ IMAGE_FSTYPES:append = " cpio.xz"
 ## INHERIT += "extrausers"
 ## EXTRA_USERS_PARAMS = "usermod -P root root;"
 
-MACHINE ??= "beaglebone"
+MACHINE ?= "beaglebone-yocto"
+## MACHINE ??= "beaglebone"
 DISTRO ??= "poky"
 BBMULTICONFIG ?= ""
