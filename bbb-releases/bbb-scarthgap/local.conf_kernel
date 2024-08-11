@@ -15,8 +15,8 @@ INIT_MANAGER ?= "systemd"
 ## PREFERRED_VERSION_meta-bbb-libc-headers="6.10.%"
 ## PREFERRED_VERSION_meta-bbb ?= "6.10.%"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
-PREFERRED_VERSION_linux-mainline-libc-headers="6.10.%"
-PREFERRED_VERSION_linux-mainline ?= "6.10.%"
+PREFERRED_VERSION_linux-mainline-libc-headers="6.11.%"
+PREFERRED_VERSION_linux-mainline ?= "6.11.%"
 
 ## Add kernel packages to have /usr/src/kernel/`uname -r` source code
 TOOLCHAIN_TARGET_TASK:append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"

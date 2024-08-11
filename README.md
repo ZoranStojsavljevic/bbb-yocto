@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: May 26th, Y2024)
+### IMPORTANT announcement (latest change: August 11th, Y2024)
 
 #### WARRANTY of this repo used
 https://github.com/ZoranStojsavljevic/bbb-yocto
@@ -90,11 +90,11 @@ variable is now of value 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the DISTRO_VERSION 5.0.1
+##### [2] Execution of the DISTRO_VERSION 5.0.2
 
 Important: scarthgap's bitbake version went from 2.8.0 onwards.
 
-	Latest commits with 5.0.1 scarthgap release:
+	Latest commits with 5.0.2 scarthgap release:
 
 NOTE: Resolving any missing task queue dependencies
 ```
@@ -103,21 +103,21 @@ NOTE: Resolving any missing task queue dependencies
 	BUILD_SYS            = "x86_64-linux"
 	NATIVELSBSTRING      = "fedora-40"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
-	MACHINE              = "beaglebone"
+	MACHINE              = "beaglebone-yocto"
 	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "5.0.1"
+**==>>	DISTRO_VERSION       = "5.0.2"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
 	meta
 	meta-poky
-	meta-yocto-bsp       = "scarthgap:4b07a5316ed4b858863dfdb7cab63859d46d1810"
-	meta-jumpnow         = "scarthgap:500080773492dd842d6ea0627ebc80b2f775ca1c"
-	meta-bbb             = "scarthgap:561d1ada0de84120996c9abb079971ca4888c16f"
+	meta-yocto-bsp       = "scarthgap:6ced2e7ca3b58130154035ad61685cd222909680"
+	meta-jumpnow         = "scarthgap:3efb1aa7d511f0fb44d9dcdb578bada1882dc1b3"
+	meta-bbb             = "scarthgap:a25e0b0de2df83d8bde50eee9e7ff3b25150e173"
 	meta-oe
 	meta-python
-	meta-networking      = "scarthgap:a72010b414ee3d73888ac9cb4e310e8f05e13aea"
-	meta-qt5             = "upstream/scarthgap:d8eeef0bfd84672c7919cd346f25f7c9a98ddaea"
-	meta-socketcan       = "scarthgap:3bceabca635c98f06e5e0fb0d411813c3730d805"
+	meta-networking      = "scarthgap:2338409efc51cf2022ff5610a9fb689251706e2b"
+	meta-qt5             = "upstream/scarthgap:eb828418264a49b8d00035cb3d7b12fcea3be801"
+	meta-socketcan       = "scarthgap:7bba7af8403eb9a28e7d0e7f0d0229e3bffcf65a"
 ```
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
