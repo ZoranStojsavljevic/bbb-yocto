@@ -1,14 +1,14 @@
-### 4.16.1 Init System Selection
+### 5.0.1 Init System Selection
 
 Changing the init system manager previously required setting a number of different
 variables. You can now change the manager by setting the INIT_MANAGER variable and the
 corresponding include files (i.e. poky/meta/conf/distro/include/init-manager-*.conf).
 Include files are provided for four values:
-“none”,
-“sysvinit”,
-“systemd”,
-“mdev-busybox”.
-The default value, “none”, for INIT_MANAGER should allow your current settings to
+"none",
+"sysvinit",
+"systemd",
+"mdev-busybox".
+The default value, "none", for INIT_MANAGER should allow your current settings to
 continue working. However, it is advisable to explicitly set INIT_MANAGER in
 local.conf .
 

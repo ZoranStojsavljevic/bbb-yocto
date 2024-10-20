@@ -1,0 +1,67 @@
+# BeagleBone Black
+CONF_VERSION = "2"
+PATCHRESOLVE = "noop"
+SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
+DL_DIR ?= "${TOPDIR}/downloads"
+TMPDIR ?= "${TOPDIR}/tmp"
+PACKAGE_CLASSES ?= "package_rpm package_deb"
+## Select systemd as init manager
+INIT_MANAGER ?= "systemd"
+## PACKAGECONFIG_append_pn-systemd = " networkd"
+
+## Define kernel version
+## PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
+## PREFERRED_VERSION_meta-bbb ?= "6.1.%"
+## PREFERRED_VERSION_meta-bbb-libc-headers="6.10.%"
+## PREFERRED_VERSION_meta-bbb ?= "6.10.%"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+PREFERRED_VERSION_linux-mainline-libc-headers="6.11.%"
+PREFERRED_VERSION_linux-mainline ?= "6.11.%"
+
+## INITRAMFS_IMAGE
+INITRAMFS_IMAGE = "core-image-tiny-initramfs"
+INITRAMFS_IMAGE_BUNDLE = "1"
+INITRAMFS_IMAGE_NAME ?= "${INITRAMFS_IMAGE}-${MACHINE}"
+INITRAMFS_KERNEL_IMAGE="${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin"
+VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
+IMAGE_BOOT_FILES:append = " ${INITRAMFS_KERNEL_IMAGE};${KERNEL_IMAGETYPE}"
+
+IMAGE_ROOTFS_MAXSIZE ?= "4294967296"
+ROOTFS_PARTITION_SIZE ?= "4294967296"
+
+SDCARD_ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4"
+
+IMAGE_FSTYPES:append = " ext4 cpio.gz"
+## END INITRAMFS_IMAGE
+
+## mask for non-mender builds
+BBMASK = "meta-bbb/recipes-mender"
+
+## Unmask canutils in meta-openembedded/ (oe) since it will be tracked by oe!
+## BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
+
+ERROR_QA:remove:pn-u-boot = "patch-status"
+
+## mask for non-libxcrypt builds (too many dependencies)
+## BBMASK += "poky/meta/recipes-core/libxcrypt/"
+## Lists packages that should not be installed into an image
+## PACKAGE_EXCLUDE:pn-target_image = "libxcrypt"
+## IMAGE_INSTALL:remove = " libxcrypt"
+## PACKAGECONFIG:remove = " libxcrypt"
+
+EXTRA_IMAGE_FEATURES = "debug-tweaks"
+## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
+## CORE_IMAGE_EXTRA_INSTALL += "dhcp-libs dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
+CORE_IMAGE_EXTRA_INSTALL:append = "openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential "
+DISTRO_FEATURES:append = " nfs systemd"
+IMAGE_FSTYPES:append = " cpio.xz"
+## INHERIT += "extrausers"
+## EXTRA_USERS_PARAMS = "usermod -P root root;"
+
+MACHINE ?= "beaglebone-yocto"
+## MACHINE ??= "beaglebone"
+DISTRO ??= "poky"
+BBMULTICONFIG ?= ""
+
+## BB_NUMBER_THREADS = "1"
+## PARALLEL_MAKE = "-j 1"

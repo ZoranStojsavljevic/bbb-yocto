@@ -39,16 +39,17 @@ checkout_release () {
 	git checkout $ReleaseName
 	cd ..
 
-	## meta-qt5
-	git clone https://code.qt.io/yocto/meta-qt5.git
-	cd meta-qt5
+	## meta-qt6
+	git clone https://code.qt.io/yocto/meta-qt6.git
+	cd meta-qt6
 	git checkout upstream/$ReleaseName
+	git status
 	cd ..
 
 	## meta-socketcan
 	git clone https://github.com/ZoranStojsavljevic/meta-socketcan.git
 	cd meta-socketcan
-	if [[ "$ReleaseName" == "scarthgap" ]]; then
+	if [[ "$ReleaseName" == "scarthgap" || "$ReleaseName" == "styhead" ]]; then
 		git checkout $ReleaseName
 	else
 		git checkout master
@@ -58,10 +59,10 @@ checkout_release () {
 
 	echo "ReleaseName for meta-jumpnow repo is: "$ReleaseName
 
-	if [[ "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
-		|| "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
+	if [[ "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
 		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
-		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" ]]; then
+		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" \
+		|| "$ReleaseName" == "styhead" ]]; then
 		## generic meta-jumpnow YOCTO layer, serving as common
 		## layer to seven different boards
 		## git clone https://github.com/jumpnow/meta-jumpnow.git
@@ -74,11 +75,11 @@ checkout_release () {
 }
 
 custom_setings () {
-	if [ "$ReleaseName" == "scarthgap" ]; then
-		cp custom/defconfig.scarthgap meta-bbb/recipes-kernel/linux/linux-mainline-6.11/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-mainline-6.11/beaglebone
+	if [ "$ReleaseName" == "styhead" ]; then
+		cp custom/defconfig.styhead meta-bbb/recipes-kernel/linux/linux-stable-6.11/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-6.11/beaglebone
 		mv defconfig defconfig.genesis
-		mv defconfig.scarthgap defconfig
+		mv defconfig.styhead defconfig
 		cd $CURRENT_DIR
 	fi
 	if [ "$ReleaseName" == "nanbield" ]; then
@@ -118,22 +119,6 @@ custom_setings () {
 		ls -al
 		cd $CURRENT_DIR
 	fi
-	if [ "$ReleaseName" == "gatesgarth" ]; then
-		cp custom/defconfig.gatesgarth meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.10/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.gatesgarth defconfig
-		ls -al
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "dunfell" ]; then
-		cp custom/defconfig.dunfell meta-bbb/recipes-kernel/linux/linux-stable-5.7/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.7/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.dunfell defconfig
-		ls -al
-		cd $CURRENT_DIR
-	fi
 
 	cp custom/core-image-minimal.bb.default poky/meta/recipes-core/images
 	cp custom/core-image-base.bb.default poky/meta/recipes-core/images
@@ -144,9 +129,8 @@ custom_setings () {
 	mv core-image-minimal.bb.default core-image-minimal.bb
 	if [[ "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" \
 		|| "$ReleaseName" == "mickledore" || "$ReleaseName" == "nanbield" \
-		|| "$ReleaseName" == "scarthgap" ]]; then
+		|| "$ReleaseName" == "scarthgap" || "$ReleaseName" == "styhead" ]]; then
 		sed -i 's/_append/:append/g' core-image-minimal.bb
-
 		sed -i 's/_append/:append/g' core-image-base.bb
 	fi
 	ls -al
@@ -156,10 +140,10 @@ custom_setings () {
 set_build_env() {
 	cd poky/
 	source oe-init-build-env build/ > /dev/null 2>&1
-	if [[ "$ReleaseName" == "dunfell" || "$ReleaseName" == "gatesgarth" \
-		|| "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
+	if [[ "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
 		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
-		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" ]]; then
+		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" \
+		|| "$ReleaseName" == "styhead" ]]; then
 		bitbake-layers add-layer ../../meta-jumpnow/
 	fi
 
@@ -167,7 +151,7 @@ set_build_env() {
 	bitbake-layers add-layer ../../meta-openembedded/meta-oe/
 	bitbake-layers add-layer ../../meta-openembedded/meta-python/
 	bitbake-layers add-layer ../../meta-openembedded/meta-networking/
-	bitbake-layers add-layer ../../meta-qt5/
+	bitbake-layers add-layer ../../meta-qt6/
 	bitbake-layers add-layer ../../meta-socketcan/
 	bitbake-layers show-layers
 	## source oe-init-build-env build/ > /dev/null 2>&1
@@ -177,7 +161,7 @@ CURRENT_DIR=`pwd`
 echo $CURRENT_DIR
 
 if [ $# -ne 1 ] ; then
-	echo "Usage: $0 <YOCTO Release Name (starting from dunfell release)>"
+	echo "Usage: $0 <YOCTO Release Name (starting from hardknott release)>"
 	exit 1
 fi
 
@@ -188,13 +172,13 @@ name_bool=false
 bbb_yocto_branch=`git status | grep "On branch" | cut -d ' ' -f 3`
 echo "Current bbb-yocto's branch is: "$bbb_yocto_branch
 
-if [[ "$ReleaseName" == "scarthgap" ]]; then
+if [[ "$ReleaseName" == "scarthgap" || "$ReleaseName" == "styhead" ]]; then
 	git checkout $ReleaseName
 else
 	git checkout master
 fi
 
-names="dunfell gatesgarth hardknott kirkstone langdale mickledore nanbield scarthgap"
+names="hardknott kirkstone langdale mickledore nanbield scarthgap styhead"
 for name in $names
 do
 	if [ "$ReleaseName" == $name ]; then

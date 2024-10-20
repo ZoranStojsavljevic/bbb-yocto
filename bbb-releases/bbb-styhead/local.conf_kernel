@@ -1,5 +1,5 @@
 ## BeagleBone Black
-CONF_VERSION = "1"
+CONF_VERSION = "2"
 PATCHRESOLVE = "noop"
 SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 DL_DIR ?= "${TOPDIR}/downloads"
@@ -9,12 +9,17 @@ PACKAGE_CLASSES ?= "package_rpm package_deb"
 INIT_MANAGER ?= "systemd"
 ## PACKAGECONFIG_append_pn-systemd = " networkd"
 
-## Define kernel version
-PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
-PREFERRED_VERSION_meta-bbb ?= "5.10.%"
+# Define kernel version
+## PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
+## PREFERRED_VERSION_meta-bbb ?= "6.1.%"
+## PREFERRED_VERSION_meta-bbb-libc-headers="6.10.%"
+## PREFERRED_VERSION_meta-bbb ?= "6.10.%"
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+PREFERRED_VERSION_linux-mainline-libc-headers="6.11.%"
+PREFERRED_VERSION_linux-mainline ?= "6.11.%"
 
 ## Add kernel packages to have /usr/src/kernel/`uname -r` source code
-TOOLCHAIN_TARGET_TASK_append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
+TOOLCHAIN_TARGET_TASK:append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
 KERNEL_DEV_TOOLS = "packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
 KERNEL_DEV_MODULE = "kernel-modules"
 CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
@@ -23,16 +28,20 @@ CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
                              "
 ## mask for non-mender builds
 BBMASK = "meta-bbb/recipes-mender"
-BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
+
+## Unmask canutils in meta-openembedded/ (oe) since it will be tracked by oe!
+## BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
+
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 ## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
 ## CORE_IMAGE_EXTRA_INSTALL += "dhcp-libs dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-CORE_IMAGE_EXTRA_INSTALL_append = "openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential "
-DISTRO_FEATURES_append = " nfs systemd"
-IMAGE_FSTYPES_append = " cpio.xz"
+CORE_IMAGE_EXTRA_INSTALL:append = "openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential "
+DISTRO_FEATURES:append = " nfs systemd"
+IMAGE_FSTYPES:append = " cpio.xz"
 ## INHERIT += "extrausers"
 ## EXTRA_USERS_PARAMS = "usermod -P root root;"
 
-MACHINE ??= "beaglebone"
+MACHINE ?= "beaglebone-yocto"
+## MACHINE ??= "beaglebone"
 DISTRO ??= "poky"
 BBMULTICONFIG ?= ""
