@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: August 11th, Y2024)
+### IMPORTANT announcement (latest change: October 23th, 2024)
 
 #### WARRANTY of this repo used
 https://github.com/ZoranStojsavljevic/bbb-yocto
@@ -44,15 +44,17 @@ The command to be used to run the setup is the following:
 
 	### For now, the following mandatory command
 	### since Yocto scarthgap release is a MUST!
-	if <release-name> .GT. nanbield
-		$ git checkout <release-name>
-	$ source yocto-setup.sh <release-name>
-	OR:
-	$ . yocto-setup.sh <release-name>
 
-	### Example
-	git checkout scarthgap
-	. yocto-setup.sh scarthgap
+	if <release-name> .GT. nanbield {
+		$ git checkout <release-name>
+		$ source yocto-setup.sh <release-name>
+	} else {
+		$ . yocto-setup.sh <release-name>
+	}
+
+	### Latest example
+	git checkout styhead
+	. yocto-setup.sh styhead
 
 Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
@@ -73,10 +75,10 @@ Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-nam
 These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's
 cloned repos, where I advanced the jumpnow technology to the
 mickledore release (skipping honister release - limitation) and
-making Scott's jump-now repos scarthgap compliant:
+making Scott's jump-now repos styhead compliant:
 
-	cloned meta-bbb - from now on compliant up to scarthgap
-	cloned meta-jumpnow - from now on compliant up to scarthgap
+	cloned meta-bbb - from now on compliant up to styhead
+	cloned meta-jumpnow - from now on compliant up to styhead
 
 TO DO:	create the Yocto honister release (very low prio task).
 	Probably will never be done!
@@ -90,34 +92,34 @@ variable is now of value 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the DISTRO_VERSION 5.0.2
+##### [2] Execution of the DISTRO_VERSION 5.1
 
-Important: scarthgap's bitbake version went from 2.8.0 onwards.
+Important: styhead's bitbake version went from 2.9.1 onwards.
 
-	Latest commits with 5.0.2 scarthgap release:
+	Latest commits with 5.1 styhead release:
 
 NOTE: Resolving any missing task queue dependencies
 ```
 	Build Configuration:
-**==>>	BB_VERSION           = "2.8.0"
+**==>>	BB_VERSION           = "2.9.1"
 	BUILD_SYS            = "x86_64-linux"
 	NATIVELSBSTRING      = "fedora-40"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
 	MACHINE              = "beaglebone-yocto"
 	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "5.0.2"
+**==>>	DISTRO_VERSION       = "5.1"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
 	meta
 	meta-poky
-	meta-yocto-bsp       = "scarthgap:6ced2e7ca3b58130154035ad61685cd222909680"
-	meta-jumpnow         = "scarthgap:3efb1aa7d511f0fb44d9dcdb578bada1882dc1b3"
-	meta-bbb             = "scarthgap:a25e0b0de2df83d8bde50eee9e7ff3b25150e173"
+	meta-yocto-bsp       = "styhead:86bc5dca182a3fe774e17811a82177a68b27a6bb"
+	meta-jumpnow         = "styhead:7adb5044e310819ceb310b3b300ff96704368214"
+	meta-bbb             = "styhead:ed13b4ecd30cbf6df0c5127650f5a378c85b6859"
 	meta-oe
 	meta-python
-	meta-networking      = "scarthgap:2338409efc51cf2022ff5610a9fb689251706e2b"
-	meta-qt5             = "upstream/scarthgap:eb828418264a49b8d00035cb3d7b12fcea3be801"
-	meta-socketcan       = "scarthgap:7bba7af8403eb9a28e7d0e7f0d0229e3bffcf65a"
+	meta-networking      = "styhead:461d85a1831318747af5abe86da193bcde3fd9b4"
+	meta-qt6             = "dev:abdf375a2efe48e30050bd54c717a970f883357c"
+	meta-socketcan       = "styhead:3de33a9b777959a9045579ccd0aa1088eda09199"
 ```
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
@@ -200,7 +202,7 @@ containers are out of the YOCTO scope.
 
 Meaning u-boot, kernel, dtbs, dtbos, modules and rootfs.
 
-I do not have time yet to test released scarthgap images on
+I do not have time yet to test released styhead images on
 BeagleBone Black from the poky/build/tmp/deploy/images/beaglebone
 (~90% probability it'll work out of the box).
 

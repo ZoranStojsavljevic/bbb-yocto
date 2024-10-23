@@ -1,6 +1,6 @@
-## scarthgap RELEASE_NOTES.md
+## Styhead RELEASE_NOTES.md
 
-### [1] Creation of the YOCTO environment and usage CHANGED!
+### [1] Creation of the YOCTO environment and usage CHANGED since scarthgap
 
 Once you have cloned the repo bbb-yocto with the command:
 
@@ -12,33 +12,45 @@ The command to be used to run the setup is the following:
 
 	### For now, the following mandatory command
 	### since Yocto scarthgap release is a MUST!
-	if <release-name> .GT. nanbield
-		$ git checkout <release-name>
-	$ source yocto-setup.sh <release-name>
-	OR:
-	$ . yocto-setup.sh <release-name>
 
-	### Example
-	git checkout scarthgap
-	. yocto-setup.sh scarthgap
+	if <release-name> .GT. nanbield {
+		$ git checkout <release-name>
+		$ source yocto-setup.sh <release-name>
+	} else {
+		$ . yocto-setup.sh <release-name>
+	}
+
+	### Latest example
+	git checkout styhead
+	. yocto-setup.sh styhead
 
 ### [2] Git repository: https://github.com/Wind-River/meta-secure-core
 
 This is (as noted before) a test feature. To understand how to
 incorporate TPM2 security features for true TPM2 HW platforms.
 
+Still on openembedded.org it is on scarthgap branch (hopefully, it'll be
+updated!
+
 https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-tpm2/
 
 Git repository: https://github.com/Wind-River/meta-secure-core
 
 Subdirectory:
-* [meta-tpm2](https://github.com/Wind-River/meta-secure-core/tree/scarthgap/meta-tpm2)
+* [meta-tpm2](https://github.com/Wind-River/meta-secure-core/tree/styhead/meta-tpm2)
 
 Credentials:
 
-	Last commit: May 3, 2024 (scarthgap branch)
-	Maintainer: Yi Zhao <yi.zhao@windriver.com>
-	email: yi.zhao@windriver.com
+	commit a8dd44d08f1318b5954c68dc8d88e04a40429bba
+	Author: Yi Zhao <yi.zhao@windriver.com>
+	last commit:   Mon Oct 7 12:06:28 2024 +0800
+
+	tpm2-pkcs11: upgrade 1.9.0 -> 1.9.1
+
+	ChangeLog:
+	https://github.com/tpm2-software/tpm2-pkcs11/releases/tag/1.9.1
+
+	Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 
 ### [3] Start tracking meta-socketcan layer since scarthgap release
 
@@ -57,64 +69,43 @@ via git as Yocto current release. It is easier to unify all the
 repos to be on the same release (not some on master (bbb-yocto
 and meta-socketcan repos) till nanbield release, inclusive).
 
-### [4] Rebasing 0001-Customize-config-and-boot-command.patch
+### [4] Statement S = "${WORKDIR}" is no longer supported
 
-In dir .../bbb-yocto/meta-bbb/recipes-bsp/u-boot/files the patch:
+S = "${WORKDIR}" is no longer supported
 
-	0001-Customize-config-and-boot-command.patch
+Replace the line that sets S to "${WORKDIR}" with the appropriate
+path to the source files.
 
-is rebased since u-boot v2024.01 , which is used for scarthgap release.
+As generic example: S = "${WORKDIR}/path/to/source"
 
-### [5] Poky 5.0.2-rc1 works
-
-WARNING: Host distribution "fedora-40" has not been validated with this version of the build system; you may possibly experience unexpected failures. It is recommended that you use a tested distribution.
-Loading cache: 100% |                                                                      | ETA:  --:--:--
-Loaded 0 entries from dependency cache.
-Parsing recipes: 100% |#####################################################################| Time: 0:04:20
-Parsing of 2810 .bb files complete (0 cached, 2810 parsed). 4713 targets, 137 skipped, 0 masked, 0 errors.
-NOTE: Resolving any missing task queue dependencies
-WARNING: preferred version 6.10.% of linux-libc-headers not available (for item linux-libc-headers)
-WARNING: versions of linux-libc-headers available: 6.6
-WARNING: preferred version 6.10.% of linux-libc-headers not available (for item linux-libc-headers-dev)
-WARNING: versions of linux-libc-headers available: 6.6
-
-Build Configuration:
+### [5] Execution of the DISTRO_VERSION 5.1
 
 bitbake -k core-image-minimal
 
+Important: styhead's bitbake version went from 2.9.1 onwards.
+
+	Latest commits with 5.1 styhead release:
+
+NOTE: Resolving any missing task queue dependencies
 ```
-Build Configuration:
-BB_VERSION           = "2.8.0"
-BUILD_SYS            = "x86_64-linux"
-NATIVELSBSTRING      = "fedora-40"
-TARGET_SYS           = "arm-poky-linux-gnueabi"
-MACHINE              = "beaglebone"
-DISTRO               = "poky"
-DISTRO_VERSION       = "5.0.2"
-TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
-TARGET_FPU           = "hard"
-meta
-meta-poky
-meta-yocto-bsp       = "scarthgap:f7def85be9f99dcb4ba488bead201f670304379b"
-meta-jumpnow         = "scarthgap:3efb1aa7d511f0fb44d9dcdb578bada1882dc1b3"
-meta-bbb             = "scarthgap:ba69a8e5457bcd36b4fe0ab8c3498ec468455077"
-meta-oe
-meta-python
-meta-networking      = "scarthgap:4a7bb77f7ebe0ac8be5bab5103d8bd993e17e18d"
-meta-qt5             = "upstream/scarthgap:eb828418264a49b8d00035cb3d7b12fcea3be801"
-meta-socketcan       = "scarthgap:7bba7af8403eb9a28e7d0e7f0d0229e3bffcf65a"
-
-NOTE: Fetching uninative binary shim http://downloads.yoctoproject.org/releases/uninative/4.5/x86_64-nativesdk-libc-4.5.tar.xz;sha256sum=43ee6a25bcf5fce16ea87076d6a96e79ead6ced90690a058d07432f902773473 (will check PREMIRRORS first)
-Sstate summary: Wanted 2399 Local 0 Mirrors 0 Missed 2399 Current 0 (0% match, 0% complete) | ETA:  0:00:00
-Initialising tasks: 100% |##################################################################| Time: 0:00:04
-NOTE: Executing Tasks
-
-NOTE: Fetching uninative binary shim http://downloads.yoctoproject.org/releases/uninative/4.5/x86_64-nativesdk-libc-4.5.tar.xz;sha256sum=43ee6a25bcf5fce16ea87076d6a96e79ead6ced90690a058d07432f902773473 (will check PREMIRRORS first)
-Sstate summary: Wanted 2399 Local 0 Mirrors 0 Missed 2399 Current 0 (0% match, 0% complete) | ETA:  0:00:00
-Initialising tasks: 100% |##################################################################| Time: 0:00:04
-NOTE: Executing Tasks
-WARNING: libpng-1.6.42-r0 do_fetch: Failed to fetch URL https://downloads.sourceforge.net/project/libpng/libpng16/libpng-1.6.42.tar.xz, attempting MIRRORS if available
-NOTE: Tasks Summary: Attempted 4985 tasks of which 6 didn't need to be rerun and all succeeded.
-
-Summary: There were 6 WARNING messages.
+	Build Configuration:
+**==>>	BB_VERSION           = "2.9.1"
+	BUILD_SYS            = "x86_64-linux"
+	NATIVELSBSTRING      = "fedora-40"
+	TARGET_SYS           = "arm-poky-linux-gnueabi"
+	MACHINE              = "beaglebone-yocto"
+	DISTRO               = "poky"
+**==>>	DISTRO_VERSION       = "5.1"
+	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
+	TARGET_FPU           = "hard"
+	meta
+	meta-poky
+	meta-yocto-bsp       = "styhead:86bc5dca182a3fe774e17811a82177a68b27a6bb"
+	meta-jumpnow         = "styhead:7adb5044e310819ceb310b3b300ff96704368214"
+	meta-bbb             = "styhead:ed13b4ecd30cbf6df0c5127650f5a378c85b6859"
+	meta-oe
+	meta-python
+	meta-networking      = "styhead:461d85a1831318747af5abe86da193bcde3fd9b4"
+	meta-qt6             = "dev:abdf375a2efe48e30050bd54c717a970f883357c"
+	meta-socketcan       = "styhead:3de33a9b777959a9045579ccd0aa1088eda09199"
 ```

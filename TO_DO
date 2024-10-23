@@ -1,0 +1,40 @@
+Summary: 2 tasks failed:
+
+There is one patch left for styhead which needs to be rebased.
+
+Kernel stable 6.11.4 patch:
+
+	/home/vuser/projects2/yocto/yocto_styhead/bbb-yocto/meta-bbb/ \
+		recipes-kernel/linux/linux-stable_6.11.bb:do_patch
+	log: /home/vuser/projects2/yocto/yocto_styhead/bbb-yocto/poky/ \
+		build/tmp/work/beaglebone_yocto-poky-linux-gnueabi/linux-stable/ \
+		6.11.4/temp/log.do_patch.20294
+
+U-BOOT_2024.07 patch is resolved (quick and dirty method):
+
+cat meta-bbb/recipes-bsp/u-boot/files/0001-Customize-config-and-boot-command.patch
+
+From a856a7e3e96b0e08c1c2b78c08eb1126421ee344 Mon Sep 17 00:00:00 2001
+From: Zoran Stojsavljevic <zoran.stojsavljevic@gmail.com>
+Date: Wed, 23 Oct 2024 11:20:48 +0200
+Subject: [PATCH] Customize config and boot command
+
+---
+ configs/am335x_evm_defconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/configs/am335x_evm_defconfig b/configs/am335x_evm_defconfig
+index cabc181460..a2adaae790 100644
+--- a/configs/am335x_evm_defconfig
++++ b/configs/am335x_evm_defconfig
+@@ -19,7 +19,7 @@ CONFIG_SPL_LOAD_FIT=y
+ CONFIG_SYS_BOOTM_LEN=0x1000000
+ CONFIG_DISTRO_DEFAULTS=y
+ CONFIG_OF_BOARD_SETUP=y
+-CONFIG_BOOTCOMMAND="run findfdt; run init_console; run finduuid; run distro_bootcmd"
++CONFIG_BOOTCOMMAND="run envboot; setenv mmcdev 1; run envboot; setenv mmcdev 0; run findfdt; run distro_bootcmd"
+ CONFIG_LOGLEVEL=3
+ CONFIG_SYS_CONSOLE_INFO_QUIET=y
+ CONFIG_ARCH_MISC_INIT=y
+-- 
+2.45.0
