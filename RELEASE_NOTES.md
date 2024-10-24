@@ -78,7 +78,14 @@ path to the source files.
 
 As generic example: S = "${WORKDIR}/path/to/source"
 
-### [5] Execution of the DISTRO_VERSION 5.1
+### [5] meta-qt6 repo replacing meta-qt5 one
+
+	## meta-qt6
+	git clone https://code.qt.io/yocto/meta-qt6.git
+	cd meta-qt6
+	git checkout upstream/$ReleaseName
+
+### [6] Execution of the DISTRO_VERSION 5.1
 
 bitbake -k core-image-minimal
 
