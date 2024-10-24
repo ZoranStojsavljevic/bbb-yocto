@@ -1,4 +1,4 @@
-## BeagleBone Black
+# BeagleBone Black
 CONF_VERSION = "2"
 PATCHRESOLVE = "noop"
 SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
@@ -9,14 +9,13 @@ PACKAGE_CLASSES ?= "package_rpm package_deb"
 INIT_MANAGER ?= "systemd"
 ## PACKAGECONFIG_append_pn-systemd = " networkd"
 
-# Define kernel version
-## PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
-## PREFERRED_VERSION_meta-bbb ?= "6.1.%"
-## PREFERRED_VERSION_meta-bbb-libc-headers="6.10.%"
-## PREFERRED_VERSION_meta-bbb ?= "6.10.%"
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
-PREFERRED_VERSION_linux-mainline-libc-headers="6.11.%"
-PREFERRED_VERSION_linux-mainline ?= "6.11.%"
+## Define kernel version
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
+PREFERRED_VERSION_linux-stable ?= "6.11%"
+PREFERRED_VERSION_linux-stable-libc-headers="6.11%"
+## PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+## PREFERRED_VERSION_linux-mainline-libc-headers="6.11%"
+## PREFERRED_VERSION_linux-mainline ?= "6.11%"
 
 ## Add kernel packages to have /usr/src/kernel/`uname -r` source code
 TOOLCHAIN_TARGET_TASK:append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
@@ -26,11 +25,24 @@ CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
                              ${KERNEL_DEV_TOOLS} \
                              systemtap \
                              "
+
 ## mask for non-mender builds
 BBMASK = "meta-bbb/recipes-mender"
 
 ## Unmask canutils in meta-openembedded/ (oe) since it will be tracked by oe!
 ## BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
+
+## ERROR_QA:remove:pn-u-boot = "patch-status"
+## ERROR_QA:remove:pn-kernel = "patch-status"
+ERROR_QA:remove = "patch-status"
+WARN_QA:append = " patch-status"
+
+## mask for non-libxcrypt builds (too many dependencies)
+## BBMASK += "poky/meta/recipes-core/libxcrypt/"
+## Lists packages that should not be installed into an image
+## PACKAGE_EXCLUDE:pn-target_image = "libxcrypt"
+## IMAGE_INSTALL:remove = " libxcrypt"
+## PACKAGECONFIG:remove = " libxcrypt"
 
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 ## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
@@ -42,6 +54,9 @@ IMAGE_FSTYPES:append = " cpio.xz"
 ## EXTRA_USERS_PARAMS = "usermod -P root root;"
 
 MACHINE ?= "beaglebone-yocto"
-## MACHINE ??= "beaglebone"
+## MACHINE ?= "beaglebone"
 DISTRO ??= "poky"
 BBMULTICONFIG ?= ""
+
+## BB_NUMBER_THREADS = "1"
+## PARALLEL_MAKE = "-j 1"

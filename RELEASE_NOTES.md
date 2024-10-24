@@ -1,8 +1,8 @@
 ## Styhead RELEASE_NOTES.md
 
-### [1] Creation of the YOCTO environment and usage CHANGED since scarthgap
+### [1] Start tracking bbb-yocto layer by <release-name> since scarthgap
 
-Once you have cloned the repo bbb-yocto with the command:
+Once the repo bbb-yocto is cloned with the command:
 
 	$ git clone https://github.com/ZoranStojsavljevic/bbb-yocto.git
 
@@ -52,7 +52,7 @@ Credentials:
 
 	Signed-off-by: Yi Zhao <yi.zhao@windriver.com>
 
-### [3] Start tracking meta-socketcan layer since scarthgap release
+### [3] Start tracking meta-socketcan layer by <release-name> since scarthgap
 
 Layer meta-socketcan still holds outdated YOCTO releases, just
 in case that somebody else is using my native meta-socketcan
@@ -78,7 +78,14 @@ path to the source files.
 
 As generic example: S = "${WORKDIR}/path/to/source"
 
-### [5] Execution of the DISTRO_VERSION 5.1
+### [5] meta-qt6 repo replacing meta-qt5 one
+
+	## meta-qt6
+	git clone https://code.qt.io/yocto/meta-qt6.git
+	cd meta-qt6
+	git checkout upstream/$ReleaseName
+
+### [6] Execution of the DISTRO_VERSION 5.1
 
 bitbake -k core-image-minimal
 

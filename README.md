@@ -29,12 +29,12 @@ testing:
 #### Support
 
 Please, do not hesitate to report to author any notifications
-about the unknown issues and potential bugs, and/or you can also
-create an issue!
+about the unknown issues and potential bugs, an issue also can
+be created!
 
 #### Creation of the YOCTO environment and usage
 
-Once you have cloned the repo bbb-yocto with the command:
+The repo bbb-yocto should be cloned with the command:
 
 	$ git clone https://github.com/ZoranStojsavljevic/bbb-yocto.git
 
@@ -69,7 +69,7 @@ Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-nam
 		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-openembedded/meta-oe \
 		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-openembedded/meta-python \
 		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-openembedded/meta-networking \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-qt5 \
+		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-qt6 \
 	** ==>>	/home/zoran.s/projects/github/yocto/bbb-yocto/meta-socketcan \"
 
 These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's
@@ -152,7 +152,7 @@ Please, do note that amount of changes for the new syntax is around 80% .
 ##### [2] There are changes to the meta-bbb u-boot recipes
 
 Created meta-bbb/recipes-bsp/u-boot/ with rebased '0001-Customize-config-and-boot-command.patch'
-for the u-boot-1_2023.10 (rebased it to the meta-bbb/recipes-bsp).
+for the u-boot-1_2024.07 (rebased it to the meta-bbb/recipes-bsp).
 
 The meta-bbb/recipes-bsp/u-boot: serves as overlay for the poky/meta/recipes-bsp/u-boot.
 
@@ -160,22 +160,26 @@ The meta-bbb/recipes-bsp/u-boot: serves as overlay for the poky/meta/recipes-bsp
 
 The directory recipes-kernel/linux undergoes some investigation from my side.
 
-As my best understanding, there are for quite awhile two types of the Yocto kernel recipes:
+As my best understanding, there are for quite awhile three types of the Yocto kernel recipes:
 
 	linux-stable kernel recipes (linux-stable_x.yz.bb comming from linux stable repos)
-	and linux-yocto kernel recipes (linux-yocto_x.yz.bb comming from Yocto repos)
+	linux-mainline kernel recipes (linux-mainline_x.yz.bb comming from linux mainline repos)
+	linux-yocto kernel recipes (linux-yocto_x.yz.bb comming from Yocto repos)
 
 In the directory conf/machine/conf/<MACHINE>.conf there is a variable PREFERRED_PROVIDER_virtual/kernel
 defined as:
 
 	PREFERRED_PROVIDER_virtual/kernel = "linux-stable"
 	or
+	PREFERRED_PROVIDER_virtual/kernel = "linux-mainline"
+	or
 	PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
-There are two include scripts provided for two different PREFERRED_PROVIDER:
+There are three included scripts provided for three different PREFERRED_PROVIDER:
 
-	linux-yocto.inc for the linux-yocto type of kernels
 	linux-stable.inc for the linux-stable type of kernels
+	linux-mainline.inc for the linux-mainline type of kernels
+	linux-yocto.inc for the linux-yocto type of kernels
 
 DISCLAIMER: Investigating the linux-yocto recipes, and how to incorporate them
 
@@ -187,14 +191,14 @@ This was tested by me on both host platforms, it compiles and makes a release.
 
 WARNING: most like, the following Yocto releases still compile on the native hosts:
 
-	langdale
 	micledore
 	nanbield
 	scarthgap
+	styhead
 
 Back in The Past, most likely older hosts (example: Ubuntu 18.04
-and Fedora 32) are required as hosts containers. Usage of the
-containers are out of the YOCTO scope.
+and Fedora 34) are required as hosts containers. Usage of the
+containers are out of the scope of this repo.
 
 #### Known bbb-yocto (this project) deficiencies
 
@@ -234,9 +238,10 @@ Please, follow the strict rules outlined below!
 	Step [1]: Look into the script yocto-setup.sh (customize it for the given release)
 	Step [2]: Make the script yocto-setup.sh executable (permissions 755)
 	Step [3]: execute from scarthgap release: $ git checkout <yocto_release>
-	Step [4]: start the script: $ . ./yocto-setup.sh <yocto_release>
+	Step [4]: start the script:
+		$ . ./yocto-setup.sh <yocto_release>
 	or
-		  $ source ./yocto-setup.sh <yocto_release>
+		$ source ./yocto-setup.sh <yocto_release>
 	Step [5]: After script executes, cwd will be the poky/build/ directory
 	Step [6]: Run: $ bitbake -k core-image-minimal (or whatever core-image-? required)
 
