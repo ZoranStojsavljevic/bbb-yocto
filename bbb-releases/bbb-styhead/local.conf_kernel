@@ -5,8 +5,12 @@ SSTATE_DIR ?= "${TOPDIR}/sstate-cache"
 DL_DIR ?= "${TOPDIR}/downloads"
 TMPDIR ?= "${TOPDIR}/tmp"
 PACKAGE_CLASSES ?= "package_rpm package_deb"
+
 ## Select systemd as init manager
-INIT_MANAGER ?= "systemd"
+VIRTUAL-RUNTIME_init_manager = "systemd"
+DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
+VIRTUAL-RUNTIME_initscripts = ""
+## INIT_MANAGER ?= "systemd"
 ## PACKAGECONFIG_append_pn-systemd = " networkd"
 
 ## Define kernel version
@@ -47,7 +51,7 @@ WARN_QA:append = " patch-status"
 EXTRA_IMAGE_FEATURES = "debug-tweaks"
 ## "dhcp": obsolete, functionally replaced by "dhcpcd" and "kea"
 ## CORE_IMAGE_EXTRA_INSTALL += "dhcp-libs dhcp-server dhcp-server-config dhcp-client dhcp-relay dhcp-omshell"
-CORE_IMAGE_EXTRA_INSTALL:append = "openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential "
+CORE_IMAGE_EXTRA_INSTALL:append = " openssh cmake libsocketcan nfs-utils rt-tests strace procps packagegroup-core-buildessential"
 DISTRO_FEATURES:append = " nfs systemd"
 IMAGE_FSTYPES:append = " cpio.xz"
 ## INHERIT += "extrausers"
