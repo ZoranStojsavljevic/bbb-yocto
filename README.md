@@ -103,22 +103,22 @@ NOTE: Resolving any missing task queue dependencies
 	Build Configuration:
 **==>>	BB_VERSION           = "2.9.1"
 	BUILD_SYS            = "x86_64-linux"
-	NATIVELSBSTRING      = "fedora-40"
+	NATIVELSBSTRING      = "universal"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
 	MACHINE              = "beaglebone-yocto"
 	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "5.1"
+**==>>	DISTRO_VERSION       = "5.1.4"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
 	meta
 	meta-poky
-	meta-yocto-bsp       = "styhead:86bc5dca182a3fe774e17811a82177a68b27a6bb"
+	meta-yocto-bsp       = "styhead:70dc28ac287bf35541270cae1d99130a0f6b7b5f"
 	meta-jumpnow         = "styhead:7adb5044e310819ceb310b3b300ff96704368214"
-	meta-bbb             = "styhead:ed13b4ecd30cbf6df0c5127650f5a378c85b6859"
-	meta-oe
-	meta-python
-	meta-networking      = "styhead:461d85a1831318747af5abe86da193bcde3fd9b4"
-	meta-qt6             = "dev:abdf375a2efe48e30050bd54c717a970f883357c"
+	meta-bbb             = "styhead:ba0f913f911fbcba892c6d5d3455598b79ee7875"
+	meta-oe              
+	meta-python          
+	meta-networking      = "styhead:c93994f1bb601c57548b588d4f77a044d90822cf"
+	meta-qt6             = "dev:976ae87638703de3c41d34f9d15d7b138e2a58b7"
 	meta-socketcan       = "styhead:3de33a9b777959a9045579ccd0aa1088eda09199"
 ```
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
