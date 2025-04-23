@@ -92,11 +92,11 @@ variable is now of value 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the DISTRO_VERSION 5.1
+##### [2] Execution of the DISTRO_VERSION 5.1.4
 
 Important: styhead's bitbake version went from 2.9.1 onwards.
 
-	Latest commits with 5.1 styhead release:
+	Latest commits with 5.1.4 styhead release:
 
 NOTE: Resolving any missing task queue dependencies
 ```
@@ -114,12 +114,12 @@ NOTE: Resolving any missing task queue dependencies
 	meta-poky
 	meta-yocto-bsp       = "styhead:70dc28ac287bf35541270cae1d99130a0f6b7b5f"
 	meta-jumpnow         = "styhead:7adb5044e310819ceb310b3b300ff96704368214"
-	meta-bbb             = "styhead:ba0f913f911fbcba892c6d5d3455598b79ee7875"
-	meta-oe              
-	meta-python          
+	meta-bbb             = "styhead:071dce5510e5e93f203eced7be830621cbcc3b21"
+	meta-oe
+	meta-python
 	meta-networking      = "styhead:c93994f1bb601c57548b588d4f77a044d90822cf"
 	meta-qt6             = "dev:976ae87638703de3c41d34f9d15d7b138e2a58b7"
-	meta-socketcan       = "styhead:3de33a9b777959a9045579ccd0aa1088eda09199"
+	meta-socketcan       = "styhead:01d346bb14c28b80460449ed1bb15d7be22818c9"
 ```
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
@@ -216,7 +216,7 @@ TO DO: to create the Yocto honister release (very low prio task).
 
 ##### [3] To test the other style Yocto kernel recipes, such as:
 
-	linux-yocto_6.9.bb
+	linux-yocto_6.11.bb
 
 Still a NEED to understand linux-yocto kernels' recipes' env.
 
