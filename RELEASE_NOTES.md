@@ -1,10 +1,10 @@
-## Styhead RELEASE_NOTES.md
+## walnascar RELEASE_NOTES.md
 
 ### [1] Start tracking bbb-yocto layer by <release-name> since scarthgap
 
 Once the repo bbb-yocto is cloned with the command:
 
-	$ git clone https://github.com/ZoranStojsavljevic/bbb-yocto.git
+	$ git clone git@github.com:ZoranStojsavljevic/bbb-yocto.git
 
 The command to be used to run the setup is the following:
 
@@ -21,8 +21,8 @@ The command to be used to run the setup is the following:
 	}
 
 	### Latest example
-	git checkout styhead
-	. yocto-setup.sh styhead
+	git checkout walnascar
+	. yocto-setup.sh walnascar
 
 ### [2] Git repository: https://github.com/Wind-River/meta-secure-core
 
@@ -37,7 +37,7 @@ https://layers.openembedded.org/layerindex/branch/scarthgap/layer/meta-tpm2/
 Git repository: https://github.com/Wind-River/meta-secure-core
 
 Subdirectory:
-* [meta-tpm2](https://github.com/Wind-River/meta-secure-core/tree/styhead/meta-tpm2)
+* [meta-tpm2](https://github.com/Wind-River/meta-secure-core/tree/walnascar/meta-tpm2)
 
 Credentials:
 
@@ -89,30 +89,30 @@ As generic example: S = "${WORKDIR}/path/to/source"
 
 bitbake -k core-image-minimal
 
-Important: styhead's bitbake version went from 2.9.1 onwards.
+Important: walnascar's bitbake version went from 2.9.1 onwards.
 
-	Latest commits with 5.1 styhead release:
+	Latest commits with 5.2 walnascar release:
 
 NOTE: Resolving any missing task queue dependencies
 ```
 	Build Configuration:
-**==>>	BB_VERSION           = "2.9.1"
+**==>>	BB_VERSION           = "2.?.?"
 	BUILD_SYS            = "x86_64-linux"
 	NATIVELSBSTRING      = "fedora-40"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
 	MACHINE              = "beaglebone-yocto"
 	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "5.1"
+**==>>	DISTRO_VERSION       = "5.2.1"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
 	meta
 	meta-poky
-	meta-yocto-bsp       = "styhead:86bc5dca182a3fe774e17811a82177a68b27a6bb"
-	meta-jumpnow         = "styhead:7adb5044e310819ceb310b3b300ff96704368214"
-	meta-bbb             = "styhead:ed13b4ecd30cbf6df0c5127650f5a378c85b6859"
+	meta-yocto-bsp       = "walnascar:86bc5dca182a3fe774e17811a82177a68b27a6bb"
+	meta-jumpnow         = "walnascar:7adb5044e310819ceb310b3b300ff96704368214"
+	meta-bbb             = "walnascar:ed13b4ecd30cbf6df0c5127650f5a378c85b6859"
 	meta-oe
 	meta-python
-	meta-networking      = "styhead:461d85a1831318747af5abe86da193bcde3fd9b4"
+	meta-networking      = "walnascar:461d85a1831318747af5abe86da193bcde3fd9b4"
 	meta-qt6             = "dev:abdf375a2efe48e30050bd54c717a970f883357c"
-	meta-socketcan       = "styhead:3de33a9b777959a9045579ccd0aa1088eda09199"
+	meta-socketcan       = "walnascar:3de33a9b777959a9045579ccd0aa1088eda09199"
 ```

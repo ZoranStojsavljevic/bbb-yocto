@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (C) 2019-2024 Systems Software Research, Ltd.,
+# Copyright (C) 2019-2025 Systems Software Research, Ltd.,
 # Zoran Stojsavljevic
 #
 # SPDX-License-Identifier: MIT License
@@ -13,8 +13,8 @@
 
 checkout_release () {
 	## meta-bbb
-	## git clone https://github.com/jumpnow/meta-bbb.git
-	git clone https://github.com/ZoranStojsavljevic/meta-bbb.git
+	## git clone https://github.com/ZoranStojsavljevic/meta-bbb.git
+	git clone git@github.com:ZoranStojsavljevic/meta-bbb.git
 	cd meta-bbb
 	git checkout $ReleaseName
 	cd ..
@@ -47,76 +47,31 @@ checkout_release () {
 	cd ..
 
 	## meta-socketcan
-	git clone https://github.com/ZoranStojsavljevic/meta-socketcan.git
+	## https://github.com/ZoranStojsavljevic/meta-socketcan.git
+	git clone git@github.com:ZoranStojsavljevic/meta-socketcan.git
 	cd meta-socketcan
-	if [[ "$ReleaseName" == "scarthgap" || "$ReleaseName" == "styhead" ]]; then
-		git checkout $ReleaseName
-	else
-		git checkout master
-	fi
+	git checkout $ReleaseName
 	git status
 	cd ..
 
 	echo "ReleaseName for meta-jumpnow repo is: "$ReleaseName
 
-	if [[ "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
-		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
-		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" \
-		|| "$ReleaseName" == "styhead" ]]; then
-		## generic meta-jumpnow YOCTO layer, serving as common
-		## layer to seven different boards
-		## git clone https://github.com/jumpnow/meta-jumpnow.git
-		git clone https://github.com/ZoranStojsavljevic/meta-jumpnow.git
-		cd meta-jumpnow
-		git checkout $ReleaseName
-		cd ..
-	fi
+	## generic meta-jumpnow YOCTO layer, serving as common
+	## layer to seven different boards
+	## git clone https://github.com/ZoranStojsavljevic/meta-jumpnow.git
+	git clone git@github.com:ZoranStojsavljevic/meta-jumpnow.git
+	cd meta-jumpnow
+	git checkout $ReleaseName
+	cd ..
 	cd $CURRENT_DIR
 }
 
 custom_setings () {
-	if [ "$ReleaseName" == "styhead" ]; then
-		cp custom/defconfig.styhead meta-bbb/recipes-kernel/linux/linux-stable-6.11/beaglebone
+	if [ "$ReleaseName" == "walnascar" ]; then
+		cp custom/defconfig.walnascar meta-bbb/recipes-kernel/linux/linux-stable-6.11/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-6.11/beaglebone
 		mv defconfig defconfig.genesis
-		mv defconfig.styhead defconfig
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "nanbield" ]; then
-		cp custom/defconfig.nanbield meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.nanbield defconfig
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "mickledore" ]; then
-		cp custom/defconfig.mickledore meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-6.1/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.mickledore defconfig
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "langdale" ]; then
-		cp custom/defconfig.langdale meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.19/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.langdale defconfig
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "kirkstone" ]; then
-		cp custom/defconfig.kirkstone meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.kirkstone defconfig
-		ls -al
-		cd $CURRENT_DIR
-	fi
-	if [ "$ReleaseName" == "hardknott" ]; then
-		cp custom/defconfig.hardknott meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-5.13/beaglebone
-		mv defconfig defconfig.genesis
-		mv defconfig.hardknott defconfig
-		ls -al
+		mv defconfig.walnascar defconfig
 		cd $CURRENT_DIR
 	fi
 
@@ -127,12 +82,8 @@ custom_setings () {
 	mv core-image-base.bb.default core-image-base.bb
 	mv core-image-minimal.bb core-image-minimal.bb.genesis
 	mv core-image-minimal.bb.default core-image-minimal.bb
-	if [[ "$ReleaseName" == "kirkstone" || "$ReleaseName" == "langdale" \
-		|| "$ReleaseName" == "mickledore" || "$ReleaseName" == "nanbield" \
-		|| "$ReleaseName" == "scarthgap" || "$ReleaseName" == "styhead" ]]; then
-		sed -i 's/_append/:append/g' core-image-minimal.bb
-		sed -i 's/_append/:append/g' core-image-base.bb
-	fi
+	sed -i 's/_append/:append/g' core-image-minimal.bb
+	sed -i 's/_append/:append/g' core-image-base.bb
 	ls -al
 	cd $CURRENT_DIR
 }
@@ -140,13 +91,8 @@ custom_setings () {
 set_build_env() {
 	cd poky/
 	source oe-init-build-env build/ > /dev/null 2>&1
-	if [[ "$ReleaseName" == "hardknott" || "$ReleaseName" == "kirkstone" \
-		|| "$ReleaseName" == "langdale" || "$ReleaseName" == "mickledore" \
-		|| "$ReleaseName" == "nanbield" || "$ReleaseName" == "scarthgap" \
-		|| "$ReleaseName" == "styhead" ]]; then
-		bitbake-layers add-layer ../../meta-jumpnow/
-	fi
 
+	bitbake-layers add-layer ../../meta-jumpnow/
 	bitbake-layers add-layer ../../meta-bbb/
 	bitbake-layers add-layer ../../meta-openembedded/meta-oe/
 	bitbake-layers add-layer ../../meta-openembedded/meta-python/
@@ -172,32 +118,25 @@ name_bool=false
 bbb_yocto_branch=`git status | grep "On branch" | cut -d ' ' -f 3`
 echo "Current bbb-yocto's branch is: "$bbb_yocto_branch
 
-if [[ "$ReleaseName" == "scarthgap" || "$ReleaseName" == "styhead" ]]; then
+name=walnascar
+
+if [ "$ReleaseName" == "walnascar" ]; then
+	echo "ONLY APPROVED YOCTO Release Name entered: $name!"
+	rm -rf build/
 	git checkout $ReleaseName
-else
-	git checkout master
+	checkout_release
+	custom_setings
+	set_build_env
+	cd $CURRENT_DIR
+
+	cp bbb-releases/bbb-$name/local.conf poky/build/conf/local.conf
+	cd poky/build
+	echo "The system is ready for making the YOCTO images!"
+	echo "Example: bitbake -k core-image-minimal"
+	echo `pwd`
+	name_bool=true
 fi
 
-names="hardknott kirkstone langdale mickledore nanbield scarthgap styhead"
-for name in $names
-do
-	if [ "$ReleaseName" == $name ]; then
-		echo "ONLY OFFICIALLY Supported YOCTO Release Name entered: $name!"
-		rm -rf build/
-		checkout_release
-		custom_setings
-		set_build_env
-		cd $CURRENT_DIR
-
-		cp bbb-releases/bbb-$name/local.conf poky/build/conf/local.conf
-		cd poky/build
-		echo "The system is ready for making the YOCTO images!"
-		echo "Example: bitbake -k core-image-minimal"
-		echo `pwd`
-		name_bool=true
-	fi
-done
-
 if [ "$name_bool" == false ]; then
-	echo "Non supported YOCTO Release Name entered $ReleaseName!"
+	echo "Non supported or approved YOCTO Release Name entered $ReleaseName!"
 fi

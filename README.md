@@ -1,6 +1,8 @@
-### IMPORTANT announcement (latest change: October 23th, 2024)
+### IMPORTANT announcement (latest change: Jun 05th, 2025)
 
 #### WARRANTY of this repo used
+git@github.com:ZoranStojsavljevic/bbb-yocto.git
+
 https://github.com/ZoranStojsavljevic/bbb-yocto
 
 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
@@ -37,6 +39,8 @@ be created!
 The repo bbb-yocto should be cloned with the command:
 
 	$ git clone https://github.com/ZoranStojsavljevic/bbb-yocto.git
+or
+	$ git clone git@github.com:ZoranStojsavljevic/bbb-yocto.git
 
 The command to be used to run the setup is the following:
 
@@ -53,8 +57,8 @@ The command to be used to run the setup is the following:
 	}
 
 	### Latest example
-	git checkout styhead
-	. yocto-setup.sh styhead
+	git checkout walnascar
+	. yocto-setup.sh walnascar
 
 Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
@@ -73,15 +77,11 @@ Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-nam
 	** ==>>	/home/zoran.s/projects/github/yocto/bbb-yocto/meta-socketcan \"
 
 These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's
-cloned repos, where I advanced the jumpnow technology to the
-mickledore release (skipping honister release - limitation) and
-making Scott's jump-now repos styhead compliant:
+cloned repos, where I advanced the jumpnow technology, making
+Scott's jump-now repos walnascar compliant:
 
-	cloned meta-bbb - from now on compliant up to styhead
-	cloned meta-jumpnow - from now on compliant up to styhead
-
-TO DO:	create the Yocto honister release (very low prio task).
-	Probably will never be done!
+	cloned meta-bbb - from now on compliant up to walnascar
+	cloned meta-jumpnow - from now on compliant up to walnascar
 
 #### Environment
 
@@ -92,35 +92,36 @@ variable is now of value 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the DISTRO_VERSION 5.1.4
+##### [2] Execution of the DISTRO_VERSION 5.2.1
 
-Important: styhead's bitbake version went from 2.9.1 onwards.
+Important: walnascar's bitbake version went from 2.9.1 onwards.
 
-	Latest commits with 5.1.4 styhead release:
+	Latest commits with 5.2.1 walnascar release:
 
 NOTE: Resolving any missing task queue dependencies
 ```
 	Build Configuration:
-**==>>	BB_VERSION           = "2.9.1"
+**==>>	BB_VERSION           = "2.12.0"
 	BUILD_SYS            = "x86_64-linux"
-	NATIVELSBSTRING      = "universal"
+	NATIVELSBSTRING      = "fedora-42"
 	TARGET_SYS           = "arm-poky-linux-gnueabi"
 	MACHINE              = "beaglebone-yocto"
 	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "5.1.4"
+**==>>	DISTRO_VERSION       = "5.2.1"
 	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
 	TARGET_FPU           = "hard"
 	meta
 	meta-poky
-	meta-yocto-bsp       = "styhead:70dc28ac287bf35541270cae1d99130a0f6b7b5f"
-	meta-jumpnow         = "styhead:7adb5044e310819ceb310b3b300ff96704368214"
-	meta-bbb             = "styhead:071dce5510e5e93f203eced7be830621cbcc3b21"
+	meta-yocto-bsp       = "walnascar:ee0d8d8a61d8e22a3dd00c32cde58ee6e8ec458f"
+	meta-jumpnow         = "walnascar:d75272ddf82f1314d95ad2ccb8737d48d42e9d1f"
+	meta-bbb             = "walnascar:cacb454862ec6abaf835a80927f96a6f54e67d4d"
 	meta-oe
 	meta-python
-	meta-networking      = "styhead:c93994f1bb601c57548b588d4f77a044d90822cf"
-	meta-qt6             = "dev:976ae87638703de3c41d34f9d15d7b138e2a58b7"
-	meta-socketcan       = "styhead:01d346bb14c28b80460449ed1bb15d7be22818c9"
+	meta-networking      = "walnascar:2169c9afcc0945045bea49f58011080942d4ddb4"
+	meta-qt6             = "dev:01bd0410181845c642adc44ee0534b6de8b388d3"
+	meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
 ```
+
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
 Please, note that /bin/bash environment gets quite a few changes
@@ -185,19 +186,17 @@ DISCLAIMER: Investigating the linux-yocto recipes, and how to incorporate them
 
 #### bbb-yocto releases should seamlessly compile on the following host platforms
 
-	Fedora 40
+	Fedora 41
 
 This was tested by me on both host platforms, it compiles and makes a release.
 
 WARNING: most like, the following Yocto releases still compile on the native hosts:
 
-	micledore
-	nanbield
 	scarthgap
 	styhead
 
-Back in The Past, most likely older hosts (example: Ubuntu 18.04
-and Fedora 34) are required as hosts containers. Usage of the
+Back in The Past, most likely older hosts (example: Ubuntu 20.04
+and Fedora 36) are required as hosts containers. Usage of the
 containers are out of the scope of this repo.
 
 #### Known bbb-yocto (this project) deficiencies
@@ -206,7 +205,7 @@ containers are out of the scope of this repo.
 
 Meaning u-boot, kernel, dtbs, dtbos, modules and rootfs.
 
-I do not have time yet to test released styhead images on
+I do not have time yet to test released walnascar images on
 BeagleBone Black from the poky/build/tmp/deploy/images/beaglebone
 (~90% probability it'll work out of the box).
 
