@@ -14,13 +14,12 @@ VIRTUAL-RUNTIME_initscripts = ""
 ## PACKAGECONFIG_append_pn-systemd = " networkd"
 
 ## Define kernel version
-## PREFERRED_PROVIDER_virtual/kernel ?= "meta-bbb"
-## PREFERRED_VERSION_meta-bbb ?= "6.1.%"
-## PREFERRED_VERSION_meta-bbb-libc-headers="6.10.%"
-## PREFERRED_VERSION_meta-bbb ?= "6.10.%"
+## PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
+## PREFERRED_VERSION_linux-stable ?= "6.15%"
+## PREFERRED_VERSION_linux-stable-libc-headers="6.15%"
 PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
-PREFERRED_VERSION_linux-mainline-libc-headers="6.11.%"
-PREFERRED_VERSION_linux-mainline ?= "6.11.%"
+PREFERRED_VERSION_linux-mainline-libc-headers="6.16.%"
+PREFERRED_VERSION_linux-mainline ?= "6.16.%"
 
 ## INITRAMFS_IMAGE
 INITRAMFS_IMAGE = "core-image-tiny-initramfs"

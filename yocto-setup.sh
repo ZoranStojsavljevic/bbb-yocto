@@ -13,8 +13,8 @@
 
 checkout_release () {
 	## meta-bbb
-	## git clone https://github.com/ZoranStojsavljevic/meta-bbb.git
-	git clone git@github.com:ZoranStojsavljevic/meta-bbb.git
+	git clone https://github.com/ZoranStojsavljevic/meta-bbb.git
+	## git clone git@github.com:ZoranStojsavljevic/meta-bbb.git
 	cd meta-bbb
 	git checkout $ReleaseName
 	cd ..
@@ -47,8 +47,8 @@ checkout_release () {
 	cd ..
 
 	## meta-socketcan
-	## https://github.com/ZoranStojsavljevic/meta-socketcan.git
-	git clone git@github.com:ZoranStojsavljevic/meta-socketcan.git
+	git clone https://github.com/ZoranStojsavljevic/meta-socketcan.git
+	## git clone git@github.com:ZoranStojsavljevic/meta-socketcan.git
 	cd meta-socketcan
 	git checkout $ReleaseName
 	git status
@@ -58,8 +58,8 @@ checkout_release () {
 
 	## generic meta-jumpnow YOCTO layer, serving as common
 	## layer to seven different boards
-	## git clone https://github.com/ZoranStojsavljevic/meta-jumpnow.git
-	git clone git@github.com:ZoranStojsavljevic/meta-jumpnow.git
+	git clone https://github.com/ZoranStojsavljevic/meta-jumpnow.git
+	## git clone git@github.com:ZoranStojsavljevic/meta-jumpnow.git
 	cd meta-jumpnow
 	git checkout $ReleaseName
 	cd ..
@@ -68,8 +68,8 @@ checkout_release () {
 
 custom_setings () {
 	if [ "$ReleaseName" == "walnascar" ]; then
-		cp custom/defconfig.walnascar meta-bbb/recipes-kernel/linux/linux-stable-6.11/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-6.11/beaglebone
+		cp custom/defconfig.walnascar meta-bbb/recipes-kernel/linux/linux-stable-6.15/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-6.15/beaglebone
 		mv defconfig defconfig.genesis
 		mv defconfig.walnascar defconfig
 		cd $CURRENT_DIR
