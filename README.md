@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: Jun 05th, 2025)
+### IMPORTANT announcement (latest change: Oct 21th, 2025.)
 
 #### WARRANTY of this repo used
 git@github.com:ZoranStojsavljevic/bbb-yocto.git
@@ -92,36 +92,35 @@ variable is now of value 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the DISTRO_VERSION 5.2.1
+##### [2] Execution of the DISTRO_VERSION 5.2.4
 
 Important: walnascar's bitbake version went from 2.12.0 onwards.
 
-	Latest commits with 5.2.2 walnascar release:
+	Latest commits with 5.2.4 walnascar release:
 
 NOTE: Resolving any missing task queue dependencies
 
-```
 	Build Configuration:
-**==>>	BB_VERSION           = "2.12.0"
-	BUILD_SYS            = "x86_64-linux"
-	NATIVELSBSTRING      = "universal"
-	TARGET_SYS           = "arm-poky-linux-gnueabi"
-	MACHINE              = "beaglebone-yocto"
-	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "5.2.2"
-	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
-	TARGET_FPU           = "hard"
-	meta
-	meta-poky
-	meta-yocto-bsp       = "walnascar:8fe20edf8a7affb88eaad3fcd060021056ded3f7"
-	meta-jumpnow         = "walnascar:d75272ddf82f1314d95ad2ccb8737d48d42e9d1f"
-	meta-bbb             = "walnascar:01e88d384a80cf8ad48dfd06a44bcff2b7f80606"
-	meta-oe
-	meta-python
-	meta-networking      = "walnascar:c009244a045923a9dfc32d7f2996cb61629870f6"
-	meta-qt6             = "dev:cae750cf1964a37a4744166e844cafa280c1356d"
-	meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
-```
+
+	**==>>	BB_VERSION           = "2.12.1"
+		BUILD_SYS            = "x86_64-linux"
+		NATIVELSBSTRING      = "universal"
+		TARGET_SYS           = "arm-poky-linux-gnueabi"
+		MACHINE              = "beaglebone-yocto"
+		DISTRO               = "poky"
+	**==>>	DISTRO_VERSION       = "5.2.4"
+		TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
+		TARGET_FPU           = "hard"
+		meta
+		meta-poky
+		meta-yocto-bsp       = "walnascar:d0b46a6624ec9c61c47270745dd0b2d5abbe6ac1"
+		meta-jumpnow         = "walnascar:d75272ddf82f1314d95ad2ccb8737d48d42e9d1f"
+		meta-bbb             = "walnascar:977dfd6abc0d6e70fa009c289e3faf2d7720d280"
+		meta-oe
+		meta-python
+		meta-networking      = "walnascar:07330a98cf93806b7a4e0170a541b94962ff3960"
+		meta-qt6             = "dev:c01d4217149a1960b2e12a23156000817e53b455"
+		meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
 
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
@@ -154,7 +153,7 @@ Please, do note that amount of changes for the new syntax is around 80% .
 ##### [2] There are changes to the meta-bbb u-boot recipes
 
 Created meta-bbb/recipes-bsp/u-boot/ with rebased '0001-Customize-config-and-boot-command.patch'
-for the u-boot-1_2024.07 (rebased it to the meta-bbb/recipes-bsp).
+for the u-boot-1_2025.01 (rebased it to the meta-bbb/recipes-bsp).
 
 The meta-bbb/recipes-bsp/u-boot: serves as overlay for the poky/meta/recipes-bsp/u-boot.
 
@@ -185,7 +184,7 @@ There are three included scripts provided for three different PREFERRED_PROVIDER
 
 DISCLAIMER: Investigating the linux-yocto recipes, and how to incorporate them
 
-#### bbb-yocto releases should seamlessly compile on the following host platforms:
+#### bbb-yocto releases should seamlessly build on the following host platforms:
 
 	PRETTY_NAME="Ubuntu 22.04.5 LTS"
 	NAME="Ubuntu"
@@ -195,7 +194,24 @@ DISCLAIMER: Investigating the linux-yocto recipes, and how to incorporate them
 	ID=ubuntu
 	ID_LIKE=debian
 
-	Fedora 41
+	Fedora 42 (with the new gcc version 15.2.1 introduced)
+
+```
+NOTE: About the native Fedora 42 latest GCC compiler (gcc version 15.2.1
+	20250808 (Red Hat 15.2.1-1) (GCC)):
+
+/usr/lib64/ccache/gcc -v
+Using built-in specs.
+COLLECT_GCC=/usr/bin/gcc
+COLLECT_LTO_WRAPPER=/usr/libexec/gcc/x86_64-redhat-linux/15/lto-wrapper
+OFFLOAD_TARGET_NAMES=nvptx-none:amdgcn-amdhsa
+OFFLOAD_TARGET_DEFAULT=1
+Target: x86_64-redhat-linux
+Configured with: ../configure --enable-bootstrap --enable-languages=c,c++,fortran,objc,obj-c++,ada,go,d,m2,cobol,lto --prefix=/usr --mandir=/usr/share/man --infodir=/usr/share/info --with-bugurl=http://bugzilla.redhat.com/bugzilla --enable-shared --enable-threads=posix --enable-checking=release --enable-multilib --with-system-zlib --enable-__cxa_atexit --disable-libunwind-exceptions --enable-gnu-unique-object --enable-linker-build-id --with-gcc-major-version-only --enable-libstdcxx-backtrace --with-libstdcxx-zoneinfo=/usr/share/zoneinfo --with-linker-hash-style=gnu --enable-plugin --enable-initfini-array --with-isl=/builddir/build/BUILD/gcc-15.2.1-build/gcc-15.2.1-20250808/obj-x86_64-redhat-linux/isl-install --enable-offload-targets=nvptx-none,amdgcn-amdhsa --enable-offload-defaulted --without-cuda-driver --enable-gnu-indirect-function --enable-cet --with-tune=generic --with-arch_32=i686 --build=x86_64-redhat-linux --with-build-config=bootstrap-lto --enable-link-serialization=1
+Thread model: posix
+Supported LTO compression algorithms: zlib zstd
+gcc version 15.2.1 20250808 (Red Hat 15.2.1-1) (GCC)
+```
 
 This was tested by me on both host platforms, it compiles and makes a release.
 
