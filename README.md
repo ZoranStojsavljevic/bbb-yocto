@@ -51,14 +51,12 @@ The command to be used to run the setup is the following:
 
 	if <release-name> .GT. nanbield {
 		$ git checkout <release-name>
-		$ source yocto-setup.sh <release-name>
-	} else {
-		$ . yocto-setup.sh <release-name>
 	}
+	$ . yocto-setup.sh <release-name>
 
 	### Latest example
-	git checkout walnascar
-	. yocto-setup.sh walnascar
+	git checkout wrynose
+	. yocto-setup.sh wrynose
 
 Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
@@ -78,10 +76,10 @@ Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-nam
 
 These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's
 cloned repos, where I advanced the jumpnow technology, making
-Scott's jump-now repos walnascar compliant:
+Scott's jump-now repos wrynose compliant:
 
-	cloned meta-bbb - from now on compliant up to walnascar
-	cloned meta-jumpnow - from now on compliant up to walnascar
+	cloned meta-bbb - from now on compliant up to wrynose
+	cloned meta-jumpnow - from now on compliant up to wrynose
 
 #### Environment
 
@@ -92,33 +90,33 @@ variable is now of value 2.
 
 	CONF_VERSION = "2"
 
-##### [2] Execution of the DISTRO_VERSION 5.2.4
+##### [2] Execution of the DISTRO_VERSION 6.0.4
 
-Important: walnascar's bitbake version went from 2.12.0 onwards.
+Important: wrynose's bitbake version went from 2.18.0 onwards.
 
-	Latest commits with 5.2.4 walnascar release:
+	Latest commits with yocto 6.0.4 wrynose release:
 
 	Build Configuration:
 
-	**==>>	BB_VERSION           = "2.12.1"
+	**==>>	BB_VERSION           = "2.18.0"
 		BUILD_SYS            = "x86_64-linux"
-		NATIVELSBSTRING      = "universal"
+		NATIVELSBSTRING      = "fedora-42"
 		TARGET_SYS           = "arm-poky-linux-gnueabi"
 		MACHINE              = "beaglebone-yocto"
+		SDKMACHINE           = "x86_64"
 		DISTRO               = "poky"
-	**==>>	DISTRO_VERSION       = "5.2.4"
+	**==>>	DISTRO_VERSION       = "6.0.4"
 		TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
-		TARGET_FPU           = "hard"
-		meta
-		meta-poky
-		meta-yocto-bsp       = "walnascar:d0b46a6624ec9c61c47270745dd0b2d5abbe6ac1"
-		meta-jumpnow         = "walnascar:d75272ddf82f1314d95ad2ccb8737d48d42e9d1f"
-		meta-bbb             = "walnascar:977dfd6abc0d6e70fa009c289e3faf2d7720d280"
+		meta                 = "wrynose:636e5d3b12d54951c13d57346648bc29a0e6b24e"
+		meta-jumpnow         = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
+		meta-bbb             = "wrynose:babad72813cca9eecce526cf4b5364746ba4a330"
 		meta-oe
 		meta-python
-		meta-networking      = "walnascar:07330a98cf93806b7a4e0170a541b94962ff3960"
- [branch 6.11]	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
-		meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
+		meta-networking      = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
+	[6.11]	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
+		meta-socketcan       = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
+		meta-poky
+		meta-yocto-bsp       = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
 
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
@@ -151,7 +149,7 @@ Please, do note that amount of changes for the new syntax is around 80% .
 ##### [2] There are changes to the meta-bbb u-boot recipes
 
 Created meta-bbb/recipes-bsp/u-boot/ with rebased '0001-Customize-config-and-boot-command.patch'
-for the u-boot-1_2025.01 (rebased it to the meta-bbb/recipes-bsp).
+for the u-boot-1_2026.01 (rebased it to the meta-bbb/recipes-bsp).
 
 The meta-bbb/recipes-bsp/u-boot: serves as overlay for the poky/meta/recipes-bsp/u-boot.
 
@@ -217,6 +215,8 @@ WARNING: most like, the following Yocto releases still compile on the native hos
 
 	scarthgap
 	styhead
+	walnascar
+	wrynose
 
 Back in The Past, most likely older hosts (example: Ubuntu 20.04
 and Fedora 36) are required as hosts containers. Usage of the
@@ -228,29 +228,40 @@ containers are out of the scope of this repo.
 
 Meaning u-boot, kernel, dtbs, dtbos, modules and rootfs.
 
-I do not have time yet to test released walnascar images on
-BeagleBone Black from the poky/build/tmp/deploy/images/beaglebone
+I do not have time yet to test released images on BeagleBone
+Black from the .../build/tmp/deploy/images/beaglebone
 (~90% probability it'll work out of the box).
 
-##### [2] Jumped from hardknott straight to kirkstone
+##### [2] Releases not covered by bbb-yocto repo:
 
-TO DO: to create the Yocto honister release (very low prio task).
+	honister (yocto 3.4)
+	whinlatter (yocto 5.3)
+	most likely upcoming release blacksail (yocto 6.1)
 
-##### [3] To test the other style Yocto kernel recipes, such as:
+I decided to support ONLY even releases onward.
 
-	linux-yocto_6.11.bb
+##### [3] To test the other style Yocto kernel recipe:
 
-Still a NEED to understand linux-yocto kernels' recipes' env.
+Still NEED to understand linux-yocto kernels' recipes env.
+
+	PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
 
 #### Standalone kernel handling in Yocto
 
-For make menuconfig, please, use the following Yocto command:
+For make menuconfig, please use the following Yocto command:
 
 	bitbake -c menuconfig virtual/kernel
 
-For make, please, use the following Yocto command:
+For make, please use the following Yocto command:
 
 	bitbake -c compile virtual/kernel
+	bitbake virtual/kernel
+
+For delete virtual/kernel, please use the following Yocto command:
+
+	bitbake -c clean virtual/kernel
+	bitbake -c cleansstate virtual/kernel
+	bitbake -c cleanall virtual/kernel
 
 #### The bash script, customized for the own purposes (substitutions for the KAS tool)
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
@@ -269,7 +280,7 @@ Please, follow the strict rules outlined below!
 
 #### KAS tool passive comments, for now support abandoned
 
-KAS description/documentation:
+KAS description/documentation (not used in bbb-yocto):
 
 * [kas latest documentation](https://kas.readthedocs.io/en/latest/)
 
@@ -296,4 +307,3 @@ defconfig (the booting is done solely from initramfs)!
 
 #### Original referent YOCTO Poky distro is @:
 * [git.yoctoproject.org poky](https://git.yoctoproject.org/git/poky.git)
-

@@ -5,7 +5,7 @@
 # modify it under the terms of the MIT Public License.
 
 rm -rf meta-*
-rm -rf poky
-rm -rf build
+rm -rf layers
+## rm rf build
 ls -al
 git status

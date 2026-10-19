@@ -1,4 +1,4 @@
-## walnascar RELEASE_NOTES.md
+## wrynose RELEASE_NOTES.md
 
 ### [1] Start tracking bbb-yocto layer by <release-name> since scarthgap
 
@@ -15,30 +15,33 @@ The command to be used to run the setup is the following:
 
 	if <release-name> .GT. nanbield {
 		$ git checkout <release-name>
-		$ source yocto-setup.sh <release-name>
-	} else {
-		$ . yocto-setup.sh <release-name>
 	}
+	$ . yocto-setup.sh <release-name>
 
 	### Latest example
-	git checkout walnascar
-	. yocto-setup.sh walnascar
+	git checkout wrynose
+	. yocto-setup.sh wrynose
 
 ### [2] Git repository: https://github.com/Wind-River/meta-secure-core
 
 This is (as noted before) a test feature. To understand how to
 incorporate TPM2 security features for true TPM2 HW platforms.
 
-https://layers.openembedded.org/layerindex/branch/walnascar/layers/
+	https://layers.openembedded.org/layerindex/branch/wrynose/layers/
 
-https://layers.openembedded.org/layerindex/branch/walnascar/layer/meta-tpm2/
+	https://layers.openembedded.org/layerindex/branch/wrynose/layer/meta-tpm2/
 
-Git repository: https://github.com/Wind-River/meta-secure-core
+Git repository:
+
+	https://github.com/Wind-River/meta-secure-core
 
 Subdirectory:
-* [meta-tpm2](https://github.com/Wind-River/meta-secure-core/tree/walnascar/meta-tpm2)
+* [meta-tpm2](https://github.com/Wind-River/meta-secure-core/tree/wrynose/meta-tpm2)
 
 ### [3] Git repository: https://github.com/tpm2-software/tpm2-pkcs11/releases/tag/1.9.1
+
+=== WORK IN PROGRESS! This is TPM2 still for walnascar release! ===
+=== TPM2 is not included in the wrynose release. Will do later. ===
 
 Release 1.9.1 is still included for the walnascar DISTRO_VERSION = "5.2.4" :
 
@@ -56,6 +59,8 @@ drwxr-xr-x. 10 vuser vboxusers 4096 Oct 20 06:14 ..
 ```
 
 #### [3.1] Git repository: https://github.com/tpm2-software/tpm2-pkcs11/releases/tag/1.9.2
+
+=== WORK IN PROGRESS! This is TPM2 for walnascar release! ===
 
 Newest release (still NOT included in the walnascar DISTRO_VERSION = "5.2.4"):
 
@@ -83,6 +88,8 @@ Added:
 
 	Add support for importing persistent TPM2 keys with tpm2_ptool.
 
+=== END WORK IN PROGRESS! ---
+
 ### [4] Start tracking meta-socketcan layer by <release-name> since scarthgap
 
 Layer meta-socketcan still holds outdated YOCTO releases, just
@@ -102,54 +109,81 @@ and meta-socketcan repos) till nanbield release, inclusive).
 
 ### [5] Statement S = "${WORKDIR}" is no longer supported
 
+#### [5.1] S = "${WORKDIR}"
+
 S = "${WORKDIR}" is no longer supported
 
 Replace the line that sets S to "${WORKDIR}" with the appropriate
 path to the source files.
 
-As generic example: S = "${WORKDIR}/path/to/source"
+As generic example:
 
-### [6] meta-qt6 repo replacing meta-qt5 one
+	S = "${WORKDIR}/path/to/source"
 
-	## meta-qt6
-	git clone https://code.qt.io/yocto/meta-qt6.git
-	cd meta-qt6
-	git checkout upstream/$ReleaseName
+#### [5.2] Recipes that set S = "${WORKDIR}/git" or S = "${UNPACKDIR}/git"
 
-### [7] Execution of the DISTRO_VERSION 5.2.4
+linux-stable-6.18.57-r0 do_unpack: Recipes that set
+S = "${WORKDIR}/git" or S = "${UNPACKDIR}/git" should remove
+that assignment, as S set by bitbake.conf in oe-core now works.
 
-bitbake -k core-image-minimal
+S = "${WORKDIR}/git" should be deleted from or commented in the
+kernel recipe!
 
-Important: walnascar's latest bitbake version went to 2.12.1.
+#### [5.3] The rest of the comments from the kernel recipe
 
-	Latest commits with 5.2.4 walnascar release:
+Please, read rest of the comments from the kernel recipe, which
+are continuation of [5.2] :
 
-NOTE: Resolving any missing task queue dependencies
+	.../bbb-yocto/meta-bbb/recipes-kernel/linux/linux-stable_6.18.bb
 
-```
+### [6] IMPORTANT - New way how repo poky is set
+
+## Please, it is strongly advised to poky users that they
+## should (better say MUST) read the following documentation
+## to understand this initial script!
+## https://docs.yoctoproject.org/dev-manual/poky-manual-setup.html
+
+Included is a helper script for the poky setup:
+
+	.../bbb-yocto/documentation/YOCTO-POKY/poky_setup.sh
+
+### Devtool helper how to use devtool to produce new patches
+
+Please, read the following file README_DEVTOOL.md:
+
+	.../bbb-yocto/documentation/YOCTO-POKY/README_DEVTOOL.md
+
+### [8] Execution of the DISTRO_VERSION 6.0.4
+
+	bitbake -k core-image-minimal
+
+Important: wrynose's latest bitbake version went to 2.18.1.
+
+Latest commits are with 6.0.4 wrynose release.
+
 	Build Configuration:
-**==>>	BB_VERSION           = "2.12.1"
-	BUILD_SYS            = "x86_64-linux"
-	NATIVELSBSTRING      = "universal"
-	TARGET_SYS           = "arm-poky-linux-gnueabi"
-	MACHINE              = "beaglebone-yocto"
-	DISTRO               = "poky"
-**==>>	DISTRO_VERSION       = "5.2.4"
-	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
-	TARGET_FPU           = "hard"
-	meta
-	meta-poky
-	meta-yocto-bsp       = "walnascar:d0b46a6624ec9c61c47270745dd0b2d5abbe6ac1"
-	meta-jumpnow         = "walnascar:d75272ddf82f1314d95ad2ccb8737d48d42e9d1f"
-	meta-bbb             = "walnascar:977dfd6abc0d6e70fa009c289e3faf2d7720d280"
-	meta-oe
-	meta-python
-	meta-networking      = "walnascar:07330a98cf93806b7a4e0170a541b94962ff3960"
-	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
-	meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
-```
 
-### [8] Changing from meta-qt6 dev branch to meta-qt6 6.11 branch
+	**==>>	BB_VERSION           = "2.18.0"
+		BUILD_SYS            = "x86_64-linux"
+		NATIVELSBSTRING      = "fedora-42"
+		TARGET_SYS           = "arm-poky-linux-gnueabi"
+		MACHINE              = "beaglebone-yocto"
+		SDKMACHINE           = "x86_64"
+		DISTRO               = "poky"
+	**==>>	DISTRO_VERSION       = "6.0.4"
+		TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
+		meta                 = "wrynose:636e5d3b12d54951c13d57346648bc29a0e6b24e"
+		meta-jumpnow         = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
+		meta-bbb             = "wrynose:babad72813cca9eecce526cf4b5364746ba4a330"
+		meta-oe
+		meta-python
+		meta-networking      = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
+	[6.11]	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
+		meta-socketcan       = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
+		meta-poky
+		meta-yocto-bsp       = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
+
+### [9] Changing from meta-qt6 dev branch to meta-qt6 6.11 branch
 
 From meta-qt6 repo at: https://code.qt.io/yocto/meta-qt6.git :
 
@@ -180,10 +214,10 @@ dunfell							c 	c 	c 	c 	c
 -------------------------------------------------------------------------------------------
 		stable 	closed 	EOS 	LTS 	EOS 	EOS 	ESM 	EOS 	EOS 	EOS
 
-This isuue is to be investigated further.
+This issue is to be investigated further.
 
 The code in bash script for YOCTO release setup is temporary
-changed such as (for $ReleaseName = walnascar)
+changed such as (for $ReleaseName = wrynose)
 
 	## git checkout upstream/$ReleaseName
 	git checkout 6.11
