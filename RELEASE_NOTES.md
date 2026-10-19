@@ -145,6 +145,45 @@ NOTE: Resolving any missing task queue dependencies
 	meta-oe
 	meta-python
 	meta-networking      = "walnascar:07330a98cf93806b7a4e0170a541b94962ff3960"
-	meta-qt6             = "dev:c01d4217149a1960b2e12a23156000817e53b455"
+	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
 	meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
 ```
+
+### [8] Changing from meta-qt6 dev branch to meta-qt6 6.11 branch
+
+From meta-qt6 repo at: https://code.qt.io/yocto/meta-qt6.git :
+
+For some reason, meta-qt6 maintainers changed symbolic names
+with numbers!
+
+Each Qt release is tagged either as v6.x.y or v6.x.y-lts.
+
+The following table shows the Yocto releases that are used to
+test each Qt version (x) and any additional Yocto releases that
+are stated in the LAYERSERIES_COMPAT (c).
+
+Yocto \ Qt 	6.11 	6.10 	6.9 	6.8 	6.7 	6.6 	6.5 	6.4 	6.3 	6.2
+-------------------------------------------------------------------------------------------
+wrynose 	x 			x
+whinlatter 	x 	c 	c 	x
+walnascar 	c 	c 	c 	c
+styhead 	c 	c 	c 	c 	c
+scarthgap 	x 	c 	c 	x 	c 	c 	x
+nanbield 		c 	c 	c 	c 	c 	c
+mickledore 		c 	c 	c 	c 	c 	c 	c
+langdale 		c 	c 	c 	c 	c 	c 	c
+kirkstone 		c 	c 	x 	c 	c 	c 	c 	c 	c
+honister 						c 	c 	c 	c 	c
+hardknott 						c 	c 	c 	c 	c
+gatesgarth 						c 	c 	c 	c 	c
+dunfell							c 	c 	c 	c 	c
+-------------------------------------------------------------------------------------------
+		stable 	closed 	EOS 	LTS 	EOS 	EOS 	ESM 	EOS 	EOS 	EOS
+
+This isuue is to be investigated further.
+
+The code in bash script for YOCTO release setup is temporary
+changed such as (for $ReleaseName = walnascar)
+
+	## git checkout upstream/$ReleaseName
+	git checkout 6.11
