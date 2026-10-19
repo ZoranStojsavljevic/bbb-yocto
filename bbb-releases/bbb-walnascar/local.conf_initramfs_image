@@ -13,13 +13,36 @@ DISTRO_FEATURES_BACKFILL_CONSIDERED += "sysvinit"
 VIRTUAL-RUNTIME_initscripts = ""
 ## PACKAGECONFIG_append_pn-systemd = " networkd"
 
-## Define kernel version
-## PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
-## PREFERRED_VERSION_linux-stable ?= "6.15%"
-## PREFERRED_VERSION_linux-stable-libc-headers="6.15%"
-PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
-PREFERRED_VERSION_linux-mainline-libc-headers="6.16.%"
-PREFERRED_VERSION_linux-mainline ?= "6.16.%"
+## Define stable kernel version
+PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
+PREFERRED_VERSION_linux-stable ?= "6.18%"
+PREFERRED_VERSION_linux-libc-headers = "6.18%"
+
+## Define mainline kernel version
+## PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
+## PREFERRED_VERSION_linux-mainline ?= "6.18%"
+## PREFERRED_VERSION_linux-libc-headers= "6.18%"
+
+## This is a compile-time structure-size mismatch in strace 6.12
+## involving io_uring, not a direct incompatibility between strace
+## 6.12 and Linux kernel 6.18.54.
+##
+## The decisive error is:
+## src/macros.h:141:9: error: static assertion failed:
+## "Unexpected size of arg.pad (6 * sizeof(uint32_t) expected).
+## --enabled-bundled=yes configure option may be used to work around that."
+##
+## src/io_uring.c:812:
+## CHECK_TYPE_SIZE(arg.pad, 6 * sizeof(uint32_t));
+##
+## The strace source expects arg.pad to occupy 24 bytes, but the
+## structure definition visible to the compiler has a different size.
+## This points to a mismatch in the io_uring definitions selected
+## during the build.
+## Importantly, the compiler command targets 32-bit ARM hard-float
+## (Cortex-A8). The kernel version alone doesn't establish why this
+## structure has the wrong size.
+EXTRA_OECONF:append:pn-strace = " --enable-bundled=yes"
 
 ## INITRAMFS_IMAGE
 INITRAMFS_IMAGE = "core-image-tiny-initramfs"
