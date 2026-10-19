@@ -10,12 +10,12 @@ LICENSE = "MIT"
 
 inherit core-image
 
-## IMAGE_INSTALL_append = " kernel-modules"
-IMAGE_INSTALL_append = " \
+## IMAGE_INSTALL:append = " kernel-modules"
+IMAGE_INSTALL:append = " \
     kernel-modules \
     cannelloni \
     socketcand \
     "
 
 IMAGE_ROOTFS_SIZE ?= "8192"
-IMAGE_ROOTFS_EXTRA_SPACE_append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"
+IMAGE_ROOTFS_EXTRA_SPACE:append = "${@bb.utils.contains("DISTRO_FEATURES", "systemd", " + 4096", "" ,d)}"

@@ -18,47 +18,14 @@ PREFERRED_PROVIDER_virtual/kernel ?= "linux-stable"
 PREFERRED_VERSION_linux-stable ?= "6.18%"
 PREFERRED_VERSION_linux-libc-headers = "6.18%"
 
-## Define mainline kernel version
-## PREFERRED_PROVIDER_virtual/kernel ?= "linux-mainline"
-## PREFERRED_VERSION_linux-mainline ?= "6.18%"
-## PREFERRED_VERSION_linux-libc-headers= "6.18%"
-
-## This is a compile-time structure-size mismatch in strace 6.12
-## involving io_uring, not a direct incompatibility between strace
-## 6.12 and Linux kernel 6.18.54.
-##
-## The decisive error is:
-## src/macros.h:141:9: error: static assertion failed:
-## "Unexpected size of arg.pad (6 * sizeof(uint32_t) expected).
-## --enabled-bundled=yes configure option may be used to work around that."
-##
-## src/io_uring.c:812:
-## CHECK_TYPE_SIZE(arg.pad, 6 * sizeof(uint32_t));
-##
-## The strace source expects arg.pad to occupy 24 bytes, but the
-## structure definition visible to the compiler has a different size.
-## This points to a mismatch in the io_uring definitions selected
-## during the build.
-## Importantly, the compiler command targets 32-bit ARM hard-float
-## (Cortex-A8). The kernel version alone doesn't establish why this
-## structure has the wrong size.
-EXTRA_OECONF:append:pn-strace = " --enable-bundled=yes"
-
-## INITRAMFS_IMAGE
-INITRAMFS_IMAGE = "core-image-tiny-initramfs"
-INITRAMFS_IMAGE_BUNDLE = "1"
-INITRAMFS_IMAGE_NAME ?= "${INITRAMFS_IMAGE}-${MACHINE}"
-INITRAMFS_KERNEL_IMAGE="${KERNEL_IMAGETYPE}-initramfs-${MACHINE}.bin"
-VIRTUAL-RUNTIME_dev_manager = "busybox-mdev"
-IMAGE_BOOT_FILES:append = " ${INITRAMFS_KERNEL_IMAGE};${KERNEL_IMAGETYPE}"
-
-IMAGE_ROOTFS_MAXSIZE ?= "4294967296"
-ROOTFS_PARTITION_SIZE ?= "4294967296"
-
-SDCARD_ROOTFS ?= "${DEPLOY_DIR_IMAGE}/${IMAGE_NAME}.rootfs.ext4"
-
-IMAGE_FSTYPES:append = " ext4 cpio.gz"
-## END INITRAMFS_IMAGE
+## Add kernel packages to have /usr/src/kernel/`uname -r` source code
+TOOLCHAIN_TARGET_TASK:append = " packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
+KERNEL_DEV_TOOLS = "packagegroup-core-tools-profile packagegroup-core-buildessential kernel-devsrc"
+KERNEL_DEV_MODULE = "kernel-modules"
+CORE_IMAGE_EXTRA_INSTALL += "${KERNEL_DEV_MODULE} \
+                             ${KERNEL_DEV_TOOLS} \
+                             systemtap \
+                             "
 
 ## mask for non-mender builds
 BBMASK = "meta-bbb/recipes-mender"
@@ -66,7 +33,10 @@ BBMASK = "meta-bbb/recipes-mender"
 ## Unmask canutils in meta-openembedded/ (oe) since it will be tracked by oe!
 ## BBMASK += "meta-openembedded/meta-oe/recipes-extended/socketcan/canutils"
 
-ERROR_QA:remove:pn-u-boot = "patch-status"
+## ERROR_QA:remove:pn-u-boot = "patch-status"
+## ERROR_QA:remove:pn-kernel = "patch-status"
+ERROR_QA:remove = "patch-status"
+WARN_QA:append = " patch-status"
 
 ## mask for non-libxcrypt builds (too many dependencies)
 ## BBMASK += "poky/meta/recipes-core/libxcrypt/"
@@ -89,7 +59,7 @@ INHERIT += "license"
 LICENSE_CREATE_PACKAGE = "1"
 
 MACHINE ?= "beaglebone-yocto"
-## MACHINE ??= "beaglebone"
+## MACHINE ?= "beaglebone"
 DISTRO ??= "poky"
 BBMULTICONFIG ?= ""
 

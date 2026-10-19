@@ -1,0 +1,28 @@
+#!/bin/bash
+
+Please, it is strongly advised to poky users that they should
+(better say MUST) read the following documentation to understand
+this initial script:
+
+	https://docs.yoctoproject.org/dev-manual/poky-manual-setup.html
+
+The bash code itself:
+
+```
+mkdir layers/
+git clone -b yocto-6.0.4 https://git.openembedded.org/bitbake ./layers/bitbake
+git clone -b yocto-6.0.4 https://git.yoctoproject.org/meta-yocto ./layers/meta-yocto
+git clone -b yocto-6.0.4 https://git.openembedded.org/openembedded-core ./layers/openembedded-core
+cd layers/openembedded-core
+source oe-init-build-env
+git checkout wrynose
+
+cd ../../meta-yocto
+git checkout wrynose
+
+cd ../../bitbake
+git checkout -b wrynose yocto-6.0.4
+git checkout wrynose
+
+cd ../..
+```
