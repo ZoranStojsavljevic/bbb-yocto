@@ -98,8 +98,6 @@ Important: walnascar's bitbake version went from 2.12.0 onwards.
 
 	Latest commits with 5.2.4 walnascar release:
 
-NOTE: Resolving any missing task queue dependencies
-
 	Build Configuration:
 
 	**==>>	BB_VERSION           = "2.12.1"
@@ -119,7 +117,7 @@ NOTE: Resolving any missing task queue dependencies
 		meta-oe
 		meta-python
 		meta-networking      = "walnascar:07330a98cf93806b7a4e0170a541b94962ff3960"
-		meta-qt6             = "dev:c01d4217149a1960b2e12a23156000817e53b455"
+	[6.11]	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
 		meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
 
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO

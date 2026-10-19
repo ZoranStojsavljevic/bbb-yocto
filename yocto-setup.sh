@@ -42,7 +42,9 @@ checkout_release () {
 	## meta-qt6
 	git clone https://code.qt.io/yocto/meta-qt6.git
 	cd meta-qt6
-	git checkout upstream/$ReleaseName
+	## For some reason, meta-qt6 changed symbolic names with numbers
+	## git checkout upstream/$ReleaseName
+	git checkout 6.11
 	git status
 	cd ..
 
@@ -68,8 +70,8 @@ checkout_release () {
 
 custom_setings () {
 	if [ "$ReleaseName" == "walnascar" ]; then
-		cp custom/defconfig.walnascar meta-bbb/recipes-kernel/linux/linux-stable-6.15/beaglebone
-		cd meta-bbb/recipes-kernel/linux/linux-stable-6.15/beaglebone
+		cp custom/defconfig.walnascar meta-bbb/recipes-kernel/linux/linux-stable-6.18/beaglebone
+		cd meta-bbb/recipes-kernel/linux/linux-stable-6.18/beaglebone
 		mv defconfig defconfig.genesis
 		mv defconfig.walnascar defconfig
 		cd $CURRENT_DIR
