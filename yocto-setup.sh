@@ -12,16 +12,18 @@
 # MIT Public License for more details.
 
 checkout_release () {
-	## meta-bbb
-	git clone https://github.com/ZoranStojsavljevic/meta-bbb.git
-	## git clone git@github.com:ZoranStojsavljevic/meta-bbb.git
-	cd meta-bbb
-	git checkout $ReleaseName
 	cd $CURRENT_DIR
 
 	## meta-openembedded
 	git clone https://github.com/openembedded/meta-openembedded.git
 	cd meta-openembedded
+	git checkout $ReleaseName
+	cd $CURRENT_DIR
+
+	## meta-bbb
+	git clone https://github.com/ZoranStojsavljevic/meta-bbb.git
+	## git clone git@github.com:ZoranStojsavljevic/meta-bbb.git
+	cd meta-bbb
 	git checkout $ReleaseName
 	cd $CURRENT_DIR
 
@@ -55,41 +57,21 @@ checkout_release () {
 	## read the following documentation to understand new poky setup!
 	## https://docs.yoctoproject.org/dev-manual/poky-manual-setup.html
 	mkdir layers/
-	git clone -b yocto-6.0.4 https://git.openembedded.org/bitbake ./layers/bitbake
-	git clone -b yocto-6.0.4 https://git.yoctoproject.org/meta-yocto ./layers/meta-yocto
-	git clone -b yocto-6.0.4 https://git.openembedded.org/openembedded-core ./layers/openembedded-core
-	cd layers/openembedded-core
-	source oe-init-build-env
-	git checkout wrynose
+	git clone -b wrynose https://github.com/Wind-River/meta-secure-core ./layers/meta-secure-core
+	git clone -b yocto-6.0.4 https://git.openembedded.org/bitbake ./layers/bitbake > /dev/null 2>&1
+	git clone -b wrynose https://git.yoctoproject.org/meta-yocto ./layers/meta-yocto
+	git clone -b wrynose https://git.openembedded.org/openembedded-core ./layers/openembedded-core
 
-	cd ../../meta-yocto
-	git checkout wrynose
-
-	cd ../bitbake
+	cd layers/bitbake
 	git checkout -b wrynose yocto-6.0.4
-	git checkout wrynose
+	echo "the current directory is: `pwd`"
 
-	if false; then
-		## Old poky release, for comparison
-		git clone https://git.yoctoproject.org/git/poky.git
-		cd poky
-		git checkout $ReleaseName
-
-		## For the initial wrynose release TPM2 is NOT added
-		## TPM2 for wrynose release is WORK IN PROGRESS!
-
-		## ------- add meta-secure-core repo to poky
-		## meta-secure-core
-		git clone https://github.com/Wind-River/meta-secure-core
-		cd meta-secure-core
-		git checkout $ReleaseName
-		## ------- end add meta-secure-core repo to poky
-		## END TPM2 WORK IN PROGRESS!
-	fi
 	cd $CURRENT_DIR
 }
 
 custom_setings () {
+	cd $CURRENT_DIR
+
 	if [ "$ReleaseName" == "wrynose" ]; then
 		cp custom/defconfig.wrynose meta-bbb/recipes-kernel/linux/linux-stable-6.18/beaglebone
 		cd meta-bbb/recipes-kernel/linux/linux-stable-6.18/beaglebone
@@ -97,7 +79,7 @@ custom_setings () {
 		mv defconfig.wrynose defconfig
 		cd $CURRENT_DIR
 	else
-	        echo "Non supported or approved YOCTO Release Name entered $ReleaseName!"
+		echo "Non supported or approved YOCTO Release Name entered $ReleaseName!"
 		exit 1
 	fi
 
@@ -110,30 +92,45 @@ custom_setings () {
 	mv core-image-minimal.bb.default core-image-minimal.bb
 	## sed -i 's/_append/:append/g' core-image-minimal.bb
 	## sed -i 's/_append/:append/g' core-image-base.bb
+
 	cd $CURRENT_DIR
 }
 
 set_build_env() {
+	cd $CURRENT_DIR
+
 	## Old build env setup
 	## cd poky/
 	## source oe-init-build-env build/ > /dev/null 2>&1
 
 	## New build env setup (since wrynose release)
-	source ./layers/openembedded-core/oe-init-build-en build/ > /dev/null 2>&1
+	cd ./layers/openembedded-core/
+	source oe-init-build-env build/ > /dev/null 2>&1
 	cd $CURRENT_DIR
 
-	bitbake-layers add-layer meta-jumpnow/
-	bitbake-layers add-layer meta-bbb/
+	echo "start bitbake-layers"
 	bitbake-layers add-layer meta-openembedded/meta-oe/
+	bitbake-layers add-layer meta-openembedded/meta-perl/
 	bitbake-layers add-layer meta-openembedded/meta-python/
 	bitbake-layers add-layer meta-openembedded/meta-networking/
+	bitbake-layers add-layer meta-bbb/
 	bitbake-layers add-layer meta-qt6/
 	bitbake-layers add-layer meta-socketcan/
 	bitbake-layers add-layer layers/openembedded-core/meta/
 	bitbake-layers add-layer layers/meta-yocto/meta-poky/
 	bitbake-layers add-layer layers/meta-yocto/meta-yocto-bsp/
+	bitbake-layers add-layer meta-jumpnow/
+
+	## Set meta-secure layers in layers/
+	bitbake-layers add-layer layers/meta-secure-core/meta-signing-key
+	bitbake-layers add-layer layers/meta-secure-core/meta-secure-core-common/
+	bitbake-layers add-layer layers/meta-secure-core/meta-tpm2/
+	bitbake-layers add-layer layers/meta-secure-core/meta-efi-secure-boot/
+	bitbake-layers add-layer layers/meta-secure-core/meta-integrity/
+	bitbake-layers add-layer layers/meta-secure-core/meta-encrypted-storage/
 	bitbake-layers show-layers
-	## source oe-init-build-env build/ > /dev/null 2>&1
+
+	cd $CURRENT_DIR
 }
 
 CURRENT_DIR=`pwd`

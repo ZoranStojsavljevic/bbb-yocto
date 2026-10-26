@@ -46,37 +46,42 @@ The command to be used to run the setup is the following:
 
 	$ cd bbb-yocto
 
-	### For now, the following mandatory command
-	### since Yocto scarthgap release is a MUST!
+	## For now, the following commands are used:
 
-	if <release-name> .GT. nanbield {
-		$ git checkout <release-name>
-	}
+	$ git checkout <release-name>
 	$ . yocto-setup.sh <release-name>
 
-	### Latest example
-	git checkout wrynose
-	. yocto-setup.sh wrynose
+	## Latest example:
+	$ git checkout wrynose
+	$ . yocto-setup.sh wrynose
 
 Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
 #### BBLAYERS
 
 	BBLAYERS ?= " \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/poky/meta \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/poky/meta-poky \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/poky/meta-yocto-bsp \
-	** ==>>	/home/zoran.s/projects/github/yocto/bbb-yocto/meta-jumpnow \
-	** ==>>	/home/zoran.s/projects/github/yocto/bbb-yocto/meta-bbb \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-openembedded/meta-oe \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-openembedded/meta-python \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-openembedded/meta-networking \
-		/home/zoran.s/projects/github/yocto/bbb-yocto/meta-qt6 \
-	** ==>>	/home/zoran.s/projects/github/yocto/bbb-yocto/meta-socketcan \"
+		/home/vuser/projects/github/bbb-yocto/layers/openembedded-core/meta \
+		/home/vuser/projects/github/bbb-yocto/meta-openembedded/meta-oe \
+		/home/vuser/projects/github/bbb-yocto/meta-openembedded/meta-perl \
+		/home/vuser/projects/github/bbb-yocto/meta-openembedded/meta-python \
+		/home/vuser/projects/github/bbb-yocto/meta-openembedded/meta-networking \
+	** ==>>	/home/vuser/projects/github/bbb-yocto/meta-bbb \
+		/home/vuser/projects/github/bbb-yocto/meta-qt6 \
+	** ==>>	/home/vuser/projects/github/bbb-yocto/meta-socketcan \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-yocto/meta-poky \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-yocto/meta-yocto-bsp \
+	** ==>>	/home/vuser/projects/github/bbb-yocto/meta-jumpnow \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-secure-core/meta-signing-key \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-secure-core/meta-secure-core-common \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-secure-core/meta-tpm2 \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-secure-core/meta-efi-secure-boot \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-secure-core/meta-integrity \
+		/home/vuser/projects/github/bbb-yocto/layers/meta-secure-core/meta-encrypted-storage \
+		"
 
-These 3 (** ==>>) repos + bbb_yocto are maintained by Scott's
-cloned repos, where I advanced the jumpnow technology, making
-Scott's jump-now repos wrynose compliant:
+These 2 (meta-bbb and meta-jumpnow) repos are maintained by
+Scott's cloned repos, where author tries to advance the jumpnow
+technology, making Scott's jump-now repos wrynose compliant:
 
 	cloned meta-bbb - from now on compliant up to wrynose
 	cloned meta-jumpnow - from now on compliant up to wrynose
@@ -94,29 +99,36 @@ variable is now of value 2.
 
 Important: wrynose's bitbake version went from 2.18.0 onwards.
 
-	Latest commits with yocto 6.0.4 wrynose release:
+Latest commits with yocto 6.0.4 wrynose release:
 
 	Build Configuration:
 
-	**==>>	BB_VERSION           = "2.18.0"
-		BUILD_SYS            = "x86_64-linux"
-		NATIVELSBSTRING      = "fedora-42"
-		TARGET_SYS           = "arm-poky-linux-gnueabi"
-		MACHINE              = "beaglebone-yocto"
-		SDKMACHINE           = "x86_64"
-		DISTRO               = "poky"
-	**==>>	DISTRO_VERSION       = "6.0.4"
-		TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
-		meta                 = "wrynose:636e5d3b12d54951c13d57346648bc29a0e6b24e"
-		meta-jumpnow         = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
-		meta-bbb             = "wrynose:ca300dde0b709462bb1fa5e8f7006ff753720cdd"
+	**==>>	BB_VERSION             = "2.18.0"
+		BUILD_SYS              = "x86_64-linux"
+		NATIVELSBSTRING        = "universal"
+		TARGET_SYS             = "arm-poky-linux-gnueabi"
+		MACHINE                = "beaglebone-yocto"
+		SDKMACHINE             = "x86_64"
+		DISTRO                 = "poky"
+	**==>>	DISTRO_VERSION         = "6.0.4"
+		TUNE_FEATURES          = "arm vfp cortexa8 neon callconvention-hard"
+		meta                   = "wrynose:884a91e689d545238cfabd7926c93663950ca286"
 		meta-oe
+		meta-perl
 		meta-python
-		meta-networking      = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
-	[6.11]	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
-		meta-socketcan       = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
+		meta-networking        = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
+		meta-bbb               = "wrynose:8d6683d3bea33bf9800c3faec5386d5e46a89881"
+	[6.11]	meta-qt6               = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
+		meta-socketcan         = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
 		meta-poky
-		meta-yocto-bsp       = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
+		meta-yocto-bsp         = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
+		meta-jumpnow           = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
+		meta-signing-key
+		meta-secure-core-common
+		meta-tpm2
+		meta-efi-secure-boot
+		meta-integrity
+		meta-encrypted-storage = "wrynose:07a99ae241acd488a2feda1ededf87dc70dfde80"
 
 ##### [3] /bin/bash environment gets quite a few changes imported from YOCTO
 
@@ -209,18 +221,21 @@ Supported LTO compression algorithms: zlib zstd
 gcc version 15.2.1 20250808 (Red Hat 15.2.1-1) (GCC)
 ```
 
-This was tested by me on both host platforms, it compiles and makes a release.
+This was tested by author on both host platforms, it compiles
+and makes a release.
 
-WARNING: most like, the following Yocto releases still compile on the native hosts:
+WARNING: most like, the following Yocto releases still compile
+on the native hosts (Ubuntu 22.04 and Fedora 42):
 
 	scarthgap
 	styhead
 	walnascar
 	wrynose
 
-Back in The Past, most likely older hosts (example: Ubuntu 20.04
-and Fedora 36) are required as hosts containers. Usage of the
-containers are out of the scope of this repo.
+Back in The Past, most likely older releases require older
+hosts (example: Ubuntu 20.04 and Fedora 36) to exist as hosts
+containers. Usage of the containers are out of the scope of
+bbb-yocto repo.
 
 #### Known bbb-yocto (this project) deficiencies
 
@@ -228,8 +243,8 @@ containers are out of the scope of this repo.
 
 Meaning u-boot, kernel, dtbs, dtbos, modules and rootfs.
 
-I do not have time yet to test released images on BeagleBone
-Black from the .../build/tmp/deploy/images/beaglebone
+Author does not have time yet to test released images on
+BeagleBone Black from the .../build/tmp/deploy/images/beaglebone
 (~90% probability it'll work out of the box).
 
 ##### [2] Releases not covered by bbb-yocto repo:
@@ -250,18 +265,18 @@ Still NEED to understand linux-yocto kernels' recipes env.
 
 For make menuconfig, please use the following Yocto command:
 
-	bitbake -c menuconfig virtual/kernel
+	$ bitbake -c menuconfig virtual/kernel
 
-For make, please use the following Yocto command:
+For make, please use the following Yocto commands:
 
-	bitbake -c compile virtual/kernel
-	bitbake virtual/kernel
+	$ bitbake -c compile virtual/kernel
+	$ bitbake virtual/kernel
 
-For delete virtual/kernel, please use the following Yocto command:
+To delete virtual/kernel, use the following Yocto commands:
 
-	bitbake -c clean virtual/kernel
-	bitbake -c cleansstate virtual/kernel
-	bitbake -c cleanall virtual/kernel
+	$ bitbake -c clean virtual/kernel
+	$ bitbake -c cleansstate virtual/kernel
+	$ bitbake -c cleanall virtual/kernel
 
 #### The bash script, customized for the own purposes (substitutions for the KAS tool)
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
@@ -286,8 +301,8 @@ KAS description/documentation (not used in bbb-yocto):
 
 Repository is located at the following net pointer:
 
-	https://github.com/siemens/kas
-	git clone https://github.com/siemens/kas.git
+	## https://github.com/siemens/kas
+	$ git clone https://github.com/siemens/kas.git
 
 #### The test initramfs BBB image description
 

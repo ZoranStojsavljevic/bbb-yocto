@@ -10,26 +10,46 @@ The command to be used to run the setup is the following:
 
 	$ cd bbb-yocto
 
-	### For now, the following mandatory command
-	### since Yocto scarthgap release is a MUST!
+	## For now, the following commands are used:
 
-	if <release-name> .GT. nanbield {
-		$ git checkout <release-name>
-	}
+	$ git checkout <release-name>
 	$ . yocto-setup.sh <release-name>
 
-	### Latest example
-	git checkout wrynose
-	. yocto-setup.sh wrynose
+	## Latest example:
+	$ git checkout wrynose
+	$ . yocto-setup.sh wrynose
+
+Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
 
 ### [2] Git repository: https://github.com/Wind-River/meta-secure-core
 
-This is (as noted before) a test feature. To understand how to
-incorporate TPM2 security features for true TPM2 HW platforms.
+Repository meta-secure-core is cloned into
+./layers/meta-secure-core . The directory
+structure looks like this:
 
-	https://layers.openembedded.org/layerindex/branch/wrynose/layers/
+	 bbb-yocto/
+	 └──layers/
+	    ├── meta-openembedded/
+	    │   ├── meta-oe/
+	    │	├──meta-perl
+	    │   └── build/
+	    │	    └── conf/
+	    │		└── bblayers.conf
+	    └── meta-secure-core/
+		├── meta-signing-key/
+		├── meta-secure-core-common/
+		├── meta-efi-secure-boot/
+		├── meta-integrity/
+		├── meta-encrypted-storage/
+		└── meta-tpm2/
 
-	https://layers.openembedded.org/layerindex/branch/wrynose/layer/meta-tpm2/
+Please, do note that there is a very powerful command:
+
+	$ tree -L <depth>
+
+Repo meta-secure-core (as noted before) is a test feature.
+To understand how to incorporate TPM2 security features for
+true TPM2 HW platforms.
 
 Git repository:
 
@@ -40,31 +60,83 @@ Subdirectory:
 
 ### [3] Git repository: https://github.com/tpm2-software/tpm2-pkcs11/releases/tag/1.9.1
 
-=== WORK IN PROGRESS! This is TPM2 still for walnascar release! ===
-=== TPM2 is not included in the wrynose release. Will do later. ===
-
-Release 1.9.1 is still included for the walnascar DISTRO_VERSION = "5.2.4" :
+Release tpm2-pkcs11 1.9.1 is still included for the wrynose
+DISTRO_VERSION = "6.0.4" :
 
 	tpm2-pkcs11 [1.9.1]
 
 ```
-.../bbb-yocto$ find . -iname tpm2-pkcs11
-./poky/meta-secure-core/meta-tpm2/recipes-tpm/tpm2-pkcs11
-.../bbb-yocto$ cd ./poky/meta-secure-core/meta-tpm2/recipes-tpm/tpm2-pkcs11
-.../bbb-yocto/poky/meta-secure-core/meta-tpm2/recipes-tpm/tpm2-pkcs11$ ls -al
-total 12
-drwxr-xr-x.  2 vuser vboxusers 4096 Oct 20 06:14 .
-drwxr-xr-x. 10 vuser vboxusers 4096 Oct 20 06:14 ..
--rw-r--r--.  1 vuser vboxusers 1731 Oct 20 06:14 tpm2-pkcs11_1.9.1.bb
+.../bbb-yocto$ cd ./layers/meta-secure-core/meta-tpm2/recipes-tpm/
+.../bbb-yocto/layers/meta-secure-core/meta-tpm2/recipes-tpm/
+
+.../bbb-yocto/layers/meta-secure-core/meta-tpm2/recipes-tpm$ ls -al
+	total 40
+	drwxr-xr-x. 10 vuser vboxusers 4096 Oct 25 16:19 .
+	drwxr-xr-x.  6 vuser vboxusers 4096 Oct 25 16:19 ..
+	drwxr-xr-x.  3 vuser vboxusers 4096 Oct 25 16:19 tpm2-abrmd
+	drwxr-xr-x.  2 vuser vboxusers 4096 Oct 25 16:19 tpm2-openssl
+	drwxr-xr-x.  2 vuser vboxusers 4096 Oct 25 16:19 tpm2-pkcs11
+	drwxr-xr-x.  2 vuser vboxusers 4096 Oct 25 16:19 tpm2-pytss
+	drwxr-xr-x.  3 vuser vboxusers 4096 Oct 25 16:19 tpm2-tools
+	drwxr-xr-x.  2 vuser vboxusers 4096 Oct 25 16:19 tpm2-totp
+	drwxr-xr-x.  3 vuser vboxusers 4096 Oct 25 16:19 tpm2-tss
+	drwxr-xr-x.  3 vuser vboxusers 4096 Oct 25 16:19 tpm2-tss-engine
+
+.../bbb-yocto$ cd ./layers/meta-secure-core/meta-tpm2/recipes-tpm/tpm2-pkcs11 
+
+.../bbb-yocto/layers/meta-secure-core/meta-tpm2/recipes-tpm/tpm2-pkcs11$ ls -al
+	total 12
+	drwxr-xr-x.  2 vuser vboxusers 4096 Oct 25 16:19 .
+	drwxr-xr-x. 10 vuser vboxusers 4096 Oct 25 16:19 ..
+	-rw-r--r--.  1 vuser vboxusers 1731 Oct 25 16:19 tpm2-pkcs11_1.9.1.bb
+
+.../bbb-yocto/layers/meta-secure-core/meta-tpm2/recipes-tpm/tpm2-pkcs11$ git status
+	On branch wrynose
+	Your branch is up to date with 'origin/wrynose'.
 ```
 
-#### [3.1] Git repository: https://github.com/tpm2-software/tpm2-pkcs11/releases/tag/1.9.2
+#### [3.1] Relationship between OpenSSL, TPM 2.0, and tpm2-pkcs11
 
-=== WORK IN PROGRESS! This is TPM2 for walnascar release! ===
+What is the relationship between OpenSSL, TPM 2.0, and
+tpm2-pkcs11? Working with Yocto and tpm2-pkcs11, this
+relationship is particularly relevant.
 
-Newest release (still NOT included in the walnascar DISTRO_VERSION = "5.2.4"):
+				Application
+				     |
+			Uses cryptographic operations
+				     |
+				  OpenSSL
+				     |
+		Provides cryptographic APIs and TLS functionality
+				     |
+			 PKCS#11 provider or engine
+				     |
+	   Connects compatible applications to a cryptographic token
+				     |
+				tpm2-pkcs11
+				     |
+	   Exposes TPM-managed cryptographic objects through PKCS#11
+				     |
+			     TPM 2.0 hardware
+				     |
+    Can protect private keys and perform supported cryptographic operations
+    -----------------------------------------------------------------------
 
-	tpm2-pkcs11 [1.9.2] - 2025-09-29
+	- OpenSSL (Secure Sockets Layer) provides cryptographic
+	  functionality and APIs.
+	- TPM 2.0 provides hardware-backed security capabilities.
+	- tpm2-pkcs11 lets compatible applications access TPM-backed
+	- cryptographic objects through the PKCS#11 interface.
+
+In a Yocto project, OpenSSL is commonly included as a separate
+recipe and may be a dependency of other security-related
+components.
+
+#### [3.2] Git repo: https://github.com/tpm2-software/tpm2-pkcs11/releases/tag/1.9.1
+
+Newest release (included in the wrynose DISTRO_VERSION = "6.0.4"):
+
+	tpm2-pkcs11 [1.9.1] - long term
 
 Fixed:
 
@@ -87,8 +159,6 @@ Fixed:
 Added:
 
 	Add support for importing persistent TPM2 keys with tpm2_ptool.
-
-=== END WORK IN PROGRESS! ---
 
 ### [4] Start tracking meta-socketcan layer by <release-name> since scarthgap
 
@@ -145,43 +215,50 @@ are continuation of [5.2] :
 
 Included is a helper script for the poky setup:
 
-	.../bbb-yocto/documentation/YOCTO-POKY/poky_setup.sh
+	.../bbb-yocto/documentation/YOCTO-WRYNOSE/poky_setup.sh
 
 ### Devtool helper how to use devtool to produce new patches
 
 Please, read the following file README_DEVTOOL.md:
 
-	.../bbb-yocto/documentation/YOCTO-POKY/README_DEVTOOL.md
+	.../bbb-yocto/documentation/YOCTO-WRYNOSE/README_DEVTOOL.md
 
 ### [8] Execution of the DISTRO_VERSION 6.0.4
 
-	bitbake -k core-image-minimal
+	$ bitbake -k core-image-minimal
 
-Important: wrynose's latest bitbake version went to 2.18.1.
+Important: wrynose's latest bitbake version went to 2.18.0.
 
 Latest commits are with 6.0.4 wrynose release.
 
 	Build Configuration:
 
-	**==>>	BB_VERSION           = "2.18.0"
-		BUILD_SYS            = "x86_64-linux"
-		NATIVELSBSTRING      = "fedora-42"
-		TARGET_SYS           = "arm-poky-linux-gnueabi"
-		MACHINE              = "beaglebone-yocto"
-		SDKMACHINE           = "x86_64"
-		DISTRO               = "poky"
-	**==>>	DISTRO_VERSION       = "6.0.4"
-		TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
-		meta                 = "wrynose:636e5d3b12d54951c13d57346648bc29a0e6b24e"
-		meta-jumpnow         = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
-		meta-bbb             = "wrynose:ca300dde0b709462bb1fa5e8f7006ff753720cdd"
+	**==>>	BB_VERSION             = "2.18.0"
+		BUILD_SYS              = "x86_64-linux"
+		NATIVELSBSTRING        = "universal"
+		TARGET_SYS             = "arm-poky-linux-gnueabi"
+		MACHINE                = "beaglebone-yocto"
+		SDKMACHINE             = "x86_64"
+		DISTRO                 = "poky"
+	**==>>	DISTRO_VERSION         = "6.0.4"
+		TUNE_FEATURES          = "arm vfp cortexa8 neon callconvention-hard"
+		meta                   = "wrynose:884a91e689d545238cfabd7926c93663950ca286"
 		meta-oe
+		meta-perl
 		meta-python
-		meta-networking      = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
-	[6.11]	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
-		meta-socketcan       = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
+		meta-networking        = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
+		meta-bbb               = "wrynose:8d6683d3bea33bf9800c3faec5386d5e46a89881"
+	[6.11]	meta-qt6               = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
+		meta-socketcan         = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
 		meta-poky
-		meta-yocto-bsp       = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
+		meta-yocto-bsp         = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
+		meta-jumpnow           = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
+		meta-signing-key
+		meta-secure-core-common
+		meta-tpm2
+		meta-efi-secure-boot
+		meta-integrity
+		meta-encrypted-storage = "wrynose:07a99ae241acd488a2feda1ededf87dc70dfde80"
 
 ### [9] Changing from meta-qt6 dev branch to meta-qt6 6.11 branch
 
@@ -214,10 +291,8 @@ dunfell							c 	c 	c 	c 	c
 -------------------------------------------------------------------------------------------
 		stable 	closed 	EOS 	LTS 	EOS 	EOS 	ESM 	EOS 	EOS 	EOS
 
-This issue is to be investigated further.
-
 The code in bash script for YOCTO release setup is temporary
 changed such as (for $ReleaseName = wrynose)
 
 	## git checkout upstream/$ReleaseName
-	git checkout 6.11
+	$ git checkout 6.11

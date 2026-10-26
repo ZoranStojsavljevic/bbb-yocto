@@ -1,6 +1,6 @@
 ## Quick raw guide (by example) how to use devtool for patch creating
 
-### devtool command 1
+### devtool initial command
 
 .../bbb-yocto/layers/openembedded-core/build$ devtool modify u-boot
 
@@ -51,7 +51,7 @@
 	INFO:	 Recipe u-boot now set up to build from
 		 .../bbb-yocto/layers/openembedded-core/build/workspace/sources/u-boot
 
-### devtool command 2
+### devtool final command
 
 .../bbb-yocto/layers/openembedded-core/build$ devtool finish --force-patch-refresh u-boot \
   .../bbb-yocto/meta-bbb/
