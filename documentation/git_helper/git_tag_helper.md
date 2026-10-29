@@ -20,14 +20,15 @@ such as the tagger's name, email, date, and a message.
 
 If commit hash is to be ommited, Git tags the current HEAD commit.
 
-#### 3 View the tag details
+#### 3 View the local tags and tags' details
 
-	## For individual tags
+	## List all local tags' names:
+	$ git tag
+
+	## For individual tag with details:
 	$ git show yocto_x.y.z
 
-	## Display details for all local tags
-
-	## To list all local tags:
+	## To list all local tags with details:
 	$ git tag -n99
 
 	## To display full details for every local tag:
@@ -37,6 +38,7 @@ If commit hash is to be ommited, Git tags the current HEAD commit.
 
 #### 4 Push the tag to the remote repository
 
+	## Push an individual tag:
 	$ git push origin yocto_x.y.z
 
 	## To push all local tags:
@@ -51,7 +53,7 @@ If commit hash is to be ommited, Git tags the current HEAD commit.
 This deletes the local tag named yocto_x.y.z . It does not
 delete the commit the tag points to.
 
-#### 2 Delete the remote tag
+#### 2 Delete a remote tag
 
 	$ git push origin --delete yocto_x.y.z
 
@@ -60,8 +62,18 @@ or GitLab.
 
 ### List tags
 
-	## List local tags:
+#### 1 List local tags
+
+	## List all local tags' names:
 	$ git tag
 
-	## List remote tags:
+	## List individual tag with details:
+	$ git show yocto_x.y.z
+
+	## List all local tags with details:
+	$ git tag -n99
+
+#### 2 List remote tags
+
+	## List remote tags with details:
 	$ git ls-remote --tags origin

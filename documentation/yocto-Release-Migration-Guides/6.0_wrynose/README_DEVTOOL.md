@@ -1,4 +1,4 @@
-## Quick raw guide (by example) how to use devtool for patch creating
+## Quick raw guide (using u-boot as example) how to use devtool for creating a patch
 
 ### devtool initial command
 
@@ -12,33 +12,8 @@
 		will create branches to represent these
 	NOTE:	Resolving any missing task queue dependencies
 
-	Build Configuration:
+	[snap]
 
-	BB_VERSION           = "2.18.0"
-	BUILD_SYS            = "x86_64-linux"
-	NATIVELSBSTRING      = "universal"
-	TARGET_SYS           = "arm-poky-linux-gnueabi"
-	MACHINE              = "beaglebone-yocto"
-	SDKMACHINE           = "x86_64"
-	DISTRO               = "poky"
-	DISTRO_VERSION       = "6.0.4"
-	TUNE_FEATURES        = "arm vfp cortexa8 neon callconvention-hard"
-	meta                 = "wrynose:636e5d3b12d54951c13d57346648bc29a0e6b24e"
-	meta-jumpnow         = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
-	meta-bbb             = "wrynose:babad72813cca9eecce526cf4b5364746ba4a330"
-	meta-oe
-	meta-python
-	meta-networking      = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
-	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
-	meta-socketcan       = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
-	meta-poky
-	meta-yocto-bsp       = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
-
-	Sstate summary: Wanted 0 Local 0 Mirrors 0 Missed 0 Current 30 (0% match, 100% complete)
-	Initialising tasks: 100% |###############################################|
-	NOTE:	 Executing Tasks
-	NOTE:	 Tasks Summary: Attempted 103 tasks of which 100
-		 didn't need to be rerun and all succeeded.
 	INFO:	 Source tree extracted to
 		 .../bbb-yocto/layers/openembedded-core/build/workspace/sources/u-boot
 	WARNING: SRC_URI is conditionally overridden in this recipe,
@@ -53,8 +28,7 @@
 
 ### devtool final command
 
-.../bbb-yocto/layers/openembedded-core/build$ devtool finish --force-patch-refresh u-boot \
-  .../bbb-yocto/meta-bbb/
+.../bbb-yocto/layers/openembedded-core/build$ devtool finish --force-patch-refresh u-boot .../bbb-yocto/meta-bbb/
 
 	NOTE:	 Starting bitbake server...
 

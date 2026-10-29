@@ -19,13 +19,13 @@ The command to be used to run the setup is the following:
 	$ git checkout wrynose
 	$ . yocto-setup.sh wrynose
 
-Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
+Please, use ONLY this form of setup command (NOT a
+./yocto-setup.sh <release-name>)!
 
 ### [2] Git repository: https://github.com/Wind-River/meta-secure-core
 
-Repository meta-secure-core is cloned into
-./layers/meta-secure-core . The directory
-structure looks like this:
+Repo meta-secure-core is cloned into ./layers/meta-secure-core .
+The directory structure looks like this:
 
 	 bbb-yocto/
 	 └──layers/
@@ -163,8 +163,8 @@ Added:
 ### [4] Start tracking meta-socketcan layer by <release-name> since scarthgap
 
 Layer meta-socketcan still holds outdated YOCTO releases, just
-in case that somebody else is using my native meta-socketcan
-repository.
+in case that somebody else is using native meta-socketcan
+repository, presented under author's name.
 
 From conf/layer.conf :
 
@@ -192,36 +192,57 @@ As generic example:
 
 #### [5.2] Recipes that set S = "${WORKDIR}/git" or S = "${UNPACKDIR}/git"
 
-linux-stable-6.18.57-r0 do_unpack: Recipes that set
-S = "${WORKDIR}/git" or S = "${UNPACKDIR}/git" should remove
-that assignment, as S set by bitbake.conf in oe-core now works.
+	linux-stable-6.18.57-r0 do_unpack: Recipes that set
+	S = "${WORKDIR}/git" or S = "${UNPACKDIR}/git" should remove
+	that assignment, as S set by bitbake.conf in oe-core now works.
 
-S = "${WORKDIR}/git" should be deleted from or commented in the
-kernel recipe!
+	S = "${WORKDIR}/git" should be deleted from or commented in the
+	kernel recipe!
 
-#### [5.3] The rest of the comments from the kernel recipe
+```
+## linux-stable-6.18.57-r0 do_unpack: Recipes that set
+## S = "${WORKDIR}/git" or S = "${UNPACKDIR}/git" should remove
+## that assignment, as S set by bitbake.conf in oe-core now works.
+##
+	## S = "${WORKDIR}/git"
+##
+## BitBake checks out the repository into a directory named
+## after ${BP} under ${UNPACKDIR}. The additional files, such
+## as the .dtsi files, are also unpacked there according to
+## their subdir settings.
+##
+## ${WORKDIR} is the recipe's working area
+## ${UNPACKDIR} is the area for unpacked source files
+## ${S} identifies the source directory used by the build tasks.
+##
+## ${UNPACKDIR} = .../bbb-yocto/layers/openembedded-core/build/tmp/work/ \
+##                beaglebone_yocto-poky-linux-gnueabi/linux-stable/6.18.57/sources
+## ${BP} = linux-stable-6.18.57
+##
+## ${S} = .../beaglebone_yocto-poky-linux-gnueabi/linux-stable/6.18.57/sources/linux-stable-6.18.57
 
-Please, read rest of the comments from the kernel recipe, which
-are continuation of [5.2] :
+	S = "${UNPACKDIR}/${BP}"
 
-	.../bbb-yocto/meta-bbb/recipes-kernel/linux/linux-stable_6.18.bb
+## The command to inspect the actual values at any time is:
+## bitbake -e linux-stable | grep -E '^(WORKDIR|UNPACKDIR|BP|S)='
+```
 
 ### [6] IMPORTANT - New way how repo poky is set
 
-## Please, it is strongly advised to poky users that they
-## should (better say MUST) read the following documentation
-## to understand this initial script!
-## https://docs.yoctoproject.org/dev-manual/poky-manual-setup.html
+	## Please, it is strongly advised to poky users that they
+	## should (better say MUST) read the following documentation
+	## to understand this initial script!
+	## https://docs.yoctoproject.org/dev-manual/poky-manual-setup.html
 
 Included is a helper script for the poky setup:
 
-	.../bbb-yocto/documentation/YOCTO-WRYNOSE/poky_setup.sh
+	.../documentation/yocto-Release-Migration-Guides/6.0_wrynose/poky_setup.script
 
-### Devtool helper how to use devtool to produce new patches
+### [7] Devtool helper how to use devtool to produce new patches
 
 Please, read the following file README_DEVTOOL.md:
 
-	.../bbb-yocto/documentation/YOCTO-WRYNOSE/README_DEVTOOL.md
+	.../documentation/yocto-Release-Migration-Guides/6.0_wrynose/README_DEVTOOL.md
 
 ### [8] Execution of the DISTRO_VERSION 6.0.4
 
@@ -242,16 +263,16 @@ Latest commits are with 6.0.4 wrynose release.
 		DISTRO                 = "poky"
 	**==>>	DISTRO_VERSION         = "6.0.4"
 		TUNE_FEATURES          = "arm vfp cortexa8 neon callconvention-hard"
-		meta                   = "wrynose:884a91e689d545238cfabd7926c93663950ca286"
+		meta                   = "wrynose:ae5a301091f5b0574ea7444aab40b309b6d9f3f2"
 		meta-oe
 		meta-perl
 		meta-python
 		meta-networking        = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
-		meta-bbb               = "wrynose:8d6683d3bea33bf9800c3faec5386d5e46a89881"
+		meta-bbb               = "wrynose:a744739bb31d61316bb4bb290ad6f8aa33f5daa8"
 	[6.11]	meta-qt6               = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
 		meta-socketcan         = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
 		meta-poky
-		meta-yocto-bsp         = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
+		meta-yocto-bsp         = "wrynose:79b6d87030178bed0088ad3b00aa6dfbabac37c4"
 		meta-jumpnow           = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
 		meta-signing-key
 		meta-secure-core-common
@@ -272,7 +293,7 @@ Each Qt release is tagged either as v6.x.y or v6.x.y-lts.
 The following table shows the Yocto releases that are used to
 test each Qt version (x) and any additional Yocto releases that
 are stated in the LAYERSERIES_COMPAT (c).
-
+```
 Yocto \ Qt 	6.11 	6.10 	6.9 	6.8 	6.7 	6.6 	6.5 	6.4 	6.3 	6.2
 -------------------------------------------------------------------------------------------
 wrynose 	x 			x
@@ -290,7 +311,7 @@ gatesgarth 						c 	c 	c 	c 	c
 dunfell							c 	c 	c 	c 	c
 -------------------------------------------------------------------------------------------
 		stable 	closed 	EOS 	LTS 	EOS 	EOS 	ESM 	EOS 	EOS 	EOS
-
+```
 The code in bash script for YOCTO release setup is temporary
 changed such as (for $ReleaseName = wrynose)
 

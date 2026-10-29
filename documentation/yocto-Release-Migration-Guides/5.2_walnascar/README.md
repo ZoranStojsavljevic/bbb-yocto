@@ -1,8 +1,8 @@
 ### Kernel 6.18.57 additional requirements for YOCTO 5.2.4
 
-Kernel 6.18.57 for YOCTO release 5.2.4 (walnascar) for kernel
-6.18.57 requires in all local.conf the following command:
-EXTRA_OECONF:append:pn-strace = " --enable-bundled=yes"
+	Kernel 6.18.57 for YOCTO release 5.2.4 (walnascar) requires in
+	all local.conf* files the following command:
+	EXTRA_OECONF:append:pn-strace = " --enable-bundled=yes"
 
 	## This is a compile-time structure-size mismatch in strace 6.12
 	## involving io_uring, not a direct incompatibility between strace
@@ -24,5 +24,3 @@ EXTRA_OECONF:append:pn-strace = " --enable-bundled=yes"
 	## (Cortex-A8). The kernel version alone doesn't establish why this
 	## structure has the wrong size.
 	EXTRA_OECONF:append:pn-strace = " --enable-bundled=yes"
-
-This requirement is not required for YOCTO 6.0.4 (wrynose).

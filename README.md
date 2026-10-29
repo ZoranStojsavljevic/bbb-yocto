@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: Oct 21th, 2025.)
+### IMPORTANT announcement (latest change: Oct 29th, 2026.)
 
 #### WARRANTY of this repo used
 git@github.com:ZoranStojsavljevic/bbb-yocto.git
@@ -112,16 +112,16 @@ Latest commits with yocto 6.0.4 wrynose release:
 		DISTRO                 = "poky"
 	**==>>	DISTRO_VERSION         = "6.0.4"
 		TUNE_FEATURES          = "arm vfp cortexa8 neon callconvention-hard"
-		meta                   = "wrynose:884a91e689d545238cfabd7926c93663950ca286"
+		meta                   = "wrynose:ae5a301091f5b0574ea7444aab40b309b6d9f3f2"
 		meta-oe
 		meta-perl
 		meta-python
 		meta-networking        = "wrynose:f28a144aa0a0ae05ca2ee91e1aef6aa05f6a12db"
-		meta-bbb               = "wrynose:8d6683d3bea33bf9800c3faec5386d5e46a89881"
+		meta-bbb               = "wrynose:a744739bb31d61316bb4bb290ad6f8aa33f5daa8"
 	[6.11]	meta-qt6               = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
 		meta-socketcan         = "wrynose:32db2e32e907adfa9c08bddd866ffe60cfd7ea0e"
 		meta-poky
-		meta-yocto-bsp         = "wrynose:7c25b11156553145fa6b241a2d4f65d94438f804"
+		meta-yocto-bsp         = "wrynose:79b6d87030178bed0088ad3b00aa6dfbabac37c4"
 		meta-jumpnow           = "wrynose:ea3165ddebfda60ec1c48171eee86345e2df69af"
 		meta-signing-key
 		meta-secure-core-common
@@ -260,23 +260,6 @@ I decided to support ONLY even releases onward.
 Still NEED to understand linux-yocto kernels' recipes env.
 
 	PREFERRED_PROVIDER_virtual/kernel = "linux-yocto"
-
-#### Standalone kernel handling in Yocto
-
-For make menuconfig, please use the following Yocto command:
-
-	$ bitbake -c menuconfig virtual/kernel
-
-For make, please use the following Yocto commands:
-
-	$ bitbake -c compile virtual/kernel
-	$ bitbake virtual/kernel
-
-To delete virtual/kernel, use the following Yocto commands:
-
-	$ bitbake -c clean virtual/kernel
-	$ bitbake -c cleansstate virtual/kernel
-	$ bitbake -c cleanall virtual/kernel
 
 #### The bash script, customized for the own purposes (substitutions for the KAS tool)
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
