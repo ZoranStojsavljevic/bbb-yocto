@@ -10,19 +10,17 @@ The command to be used to run the setup is the following:
 
 	$ cd bbb-yocto
 
-	### For now, the following mandatory command
-	### since Yocto scarthgap release is a MUST!
+	## For now, the following commands are used:
 
-	if <release-name> .GT. nanbield {
-		$ git checkout <release-name>
-		$ source yocto-setup.sh <release-name>
-	} else {
-		$ . yocto-setup.sh <release-name>
-	}
+	$ git checkout <release-name>
+	$ . yocto-setup.sh <release-name>
 
-	### Latest example
-	git checkout walnascar
-	. yocto-setup.sh walnascar
+	## Latest example:
+	$ git checkout wrynose
+	$ . yocto-setup.sh wrynose
+
+Please, use ONLY this form of setup command (NOT a
+./yocto-setup.sh <release-name>)!
 
 ### [2] Git repository: https://github.com/Wind-River/meta-secure-core
 
@@ -109,16 +107,9 @@ path to the source files.
 
 As generic example: S = "${WORKDIR}/path/to/source"
 
-### [6] meta-qt6 repo replacing meta-qt5 one
+### [6] Execution of the DISTRO_VERSION 5.2.4
 
-	## meta-qt6
-	git clone https://code.qt.io/yocto/meta-qt6.git
-	cd meta-qt6
-	git checkout upstream/$ReleaseName
-
-### [7] Execution of the DISTRO_VERSION 5.2.4
-
-bitbake -k core-image-minimal
+	$ bitbake -k core-image-minimal
 
 Important: walnascar's latest bitbake version went to 2.12.1.
 
@@ -140,16 +131,25 @@ NOTE: Resolving any missing task queue dependencies
 	meta
 	meta-poky
 	meta-yocto-bsp       = "walnascar:d0b46a6624ec9c61c47270745dd0b2d5abbe6ac1"
-	meta-jumpnow         = "walnascar:d75272ddf82f1314d95ad2ccb8737d48d42e9d1f"
-	meta-bbb             = "walnascar:977dfd6abc0d6e70fa009c289e3faf2d7720d280"
+	meta-jumpnow         = "walnascar:6845d0f9f19944d9186a0d9627771f83c0b217f0"
+	meta-bbb             = "walnascar:442ec3827e098bf947a2536391d71f792feff32f"
 	meta-oe
-	meta-python
+        meta-python
 	meta-networking      = "walnascar:07330a98cf93806b7a4e0170a541b94962ff3960"
-	meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
-	meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
+[6.11]  meta-qt6             = "6.11:ec98b3ab1c8deeab9412ef6cbfd55729dc567b01"
+        meta-socketcan       = "walnascar:47a57f2f467e8d18cdaa1f2f682b296e37fec2c2"
 ```
 
-### [8] Changing from meta-qt6 dev branch to meta-qt6 6.11 branch
+### [7] meta-qt6 repo
+
+#### [7.1] meta-qt6 repo replacing meta-qt5 one
+
+	## meta-qt6
+	$ git clone https://code.qt.io/yocto/meta-qt6.git
+	$ cd meta-qt6
+	$ git checkout upstream/$ReleaseName
+
+### [7.2] Changing from meta-qt6 dev branch to meta-qt6 6.11 branch
 
 From meta-qt6 repo at: https://code.qt.io/yocto/meta-qt6.git :
 
@@ -161,7 +161,7 @@ Each Qt release is tagged either as v6.x.y or v6.x.y-lts.
 The following table shows the Yocto releases that are used to
 test each Qt version (x) and any additional Yocto releases that
 are stated in the LAYERSERIES_COMPAT (c).
-
+```
 Yocto \ Qt 	6.11 	6.10 	6.9 	6.8 	6.7 	6.6 	6.5 	6.4 	6.3 	6.2
 -------------------------------------------------------------------------------------------
 wrynose 	x 			x
@@ -179,11 +179,9 @@ gatesgarth 						c 	c 	c 	c 	c
 dunfell							c 	c 	c 	c 	c
 -------------------------------------------------------------------------------------------
 		stable 	closed 	EOS 	LTS 	EOS 	EOS 	ESM 	EOS 	EOS 	EOS
-
-This isuue is to be investigated further.
-
+```
 The code in bash script for YOCTO release setup is temporary
 changed such as (for $ReleaseName = walnascar)
 
 	## git checkout upstream/$ReleaseName
-	git checkout 6.11
+	$ git checkout 6.11

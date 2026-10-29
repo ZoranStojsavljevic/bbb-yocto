@@ -1,4 +1,4 @@
-### IMPORTANT announcement (latest change: Oct 21th, 2025.)
+### IMPORTANT announcement (latest change: Oct 29th, 2026.)
 
 #### WARRANTY of this repo used
 git@github.com:ZoranStojsavljevic/bbb-yocto.git
@@ -46,21 +46,17 @@ The command to be used to run the setup is the following:
 
 	$ cd bbb-yocto
 
-	### For now, the following mandatory command
-	### since Yocto scarthgap release is a MUST!
+	## For now, the following commands are used:
 
-	if <release-name> .GT. nanbield {
-		$ git checkout <release-name>
-		$ source yocto-setup.sh <release-name>
-	} else {
-		$ . yocto-setup.sh <release-name>
-	}
+	$ git checkout <release-name>
+	$ . yocto-setup.sh <release-name>
 
-	### Latest example
-	git checkout walnascar
-	. yocto-setup.sh walnascar
+	## Latest example:
+	$ git checkout walnascar
+	$ . yocto-setup.sh walnascar
 
-Please, use ONLY this form of setup command (NOT a ./yocto-setup.sh <release-name>)!
+Please, use ONLY this form of setup command (NOT a
+./yocto-setup.sh <release-name>)!
 
 #### BBLAYERS
 
@@ -112,8 +108,8 @@ Important: walnascar's bitbake version went from 2.12.0 onwards.
 		meta
 		meta-poky
 		meta-yocto-bsp       = "walnascar:d0b46a6624ec9c61c47270745dd0b2d5abbe6ac1"
-		meta-jumpnow         = "walnascar:d75272ddf82f1314d95ad2ccb8737d48d42e9d1f"
-		meta-bbb             = "walnascar:977dfd6abc0d6e70fa009c289e3faf2d7720d280"
+		meta-jumpnow         = "walnascar:6845d0f9f19944d9186a0d9627771f83c0b217f0"
+		meta-bbb             = "walnascar:442ec3827e098bf947a2536391d71f792feff32f"
 		meta-oe
 		meta-python
 		meta-networking      = "walnascar:07330a98cf93806b7a4e0170a541b94962ff3960"
@@ -242,16 +238,6 @@ TO DO: to create the Yocto honister release (very low prio task).
 
 Still a NEED to understand linux-yocto kernels' recipes' env.
 
-#### Standalone kernel handling in Yocto
-
-For make menuconfig, please, use the following Yocto command:
-
-	bitbake -c menuconfig virtual/kernel
-
-For make, please, use the following Yocto command:
-
-	bitbake -c compile virtual/kernel
-
 #### The bash script, customized for the own purposes (substitutions for the KAS tool)
 https://github.com/ZoranStojsavljevic/bbb-yocto/blob/master/yocto-setup.sh
 
@@ -275,8 +261,8 @@ KAS description/documentation:
 
 Repository is located at the following net pointer:
 
-	https://github.com/siemens/kas
-	git clone https://github.com/siemens/kas.git
+	## https://github.com/siemens/kas
+	$ git clone https://github.com/siemens/kas.git
 
 #### The test initramfs BBB image description
 
@@ -296,4 +282,3 @@ defconfig (the booting is done solely from initramfs)!
 
 #### Original referent YOCTO Poky distro is @:
 * [git.yoctoproject.org poky](https://git.yoctoproject.org/git/poky.git)
-
